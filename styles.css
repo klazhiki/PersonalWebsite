@@ -1,0 +1,319 @@
+:root {
+  --bg: #06070f;
+  --panel: #0f1120;
+  --panel-2: #14172b;
+  --text: #e8ecff;
+  --muted: #aab2d8;
+  --primary: #5fe5ff;
+  --secondary: #be7bff;
+  --accent: #2dfd8f;
+  --danger: #ff4d9f;
+  --border: rgba(129, 147, 255, 0.25);
+  --shadow: 0 10px 40px rgba(7, 231, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 15% 20%, #161a34 0%, transparent 35%),
+    radial-gradient(circle at 85% 15%, #2a0f36 0%, transparent 28%),
+    linear-gradient(140deg, #05060d 0%, #070b16 45%, #04040a 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: radial-gradient(circle, #ffffff 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  z-index: 1;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(95, 229, 255, 0.18) 0%, rgba(95, 229, 255, 0) 70%);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: transform 0.05s linear;
+}
+
+.hero,
+.section {
+  position: relative;
+  z-index: 3;
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 1.2rem 0 2.5rem;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(11, 13, 24, 0.75);
+  backdrop-filter: blur(14px);
+}
+
+.brand {
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.nav-actions a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.hero-content {
+  padding: 5.5rem 0 2.2rem;
+}
+
+.eyebrow {
+  color: var(--secondary);
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.76rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  margin: 0.6rem 0;
+}
+
+.subtitle {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.hero-cta {
+  margin-top: 1.4rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.72rem 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  color: #021018;
+  background: linear-gradient(90deg, var(--primary), #77f6c0);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+
+.btn-neon {
+  color: var(--text);
+  background: linear-gradient(90deg, rgba(95, 229, 255, 0.2), rgba(190, 123, 255, 0.25));
+  border: 1px solid rgba(95, 229, 255, 0.45);
+}
+
+.btn-outline {
+  color: var(--primary);
+  background: transparent;
+  border: 1px solid rgba(95, 229, 255, 0.45);
+}
+
+.section {
+  padding: 2rem 0 1.8rem;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  margin: 0;
+}
+
+.section-heading p {
+  color: var(--muted);
+}
+
+.kanban-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.kanban-column {
+  background: linear-gradient(180deg, rgba(22, 25, 43, 0.75), rgba(11, 13, 23, 0.95));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem;
+  min-height: 340px;
+}
+
+.kanban-column h3 {
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+  color: var(--primary);
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+}
+
+.project-card {
+  background: var(--panel-2);
+  border: 1px solid rgba(190, 123, 255, 0.25);
+  border-radius: 14px;
+  padding: 0.9rem;
+  margin-bottom: 0.85rem;
+  transition: transform 0.2s ease, border-color 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(95, 229, 255, 0.65);
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.24rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  background: rgba(45, 253, 143, 0.15);
+  border: 1px solid rgba(45, 253, 143, 0.5);
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+
+.project-card h4 {
+  margin: 0.15rem 0 0.5rem;
+}
+
+.project-card p,
+.project-card li {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.project-card ul {
+  margin: 0.7rem 0 0;
+  padding-left: 1rem;
+}
+
+.pulse {
+  animation: pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(95, 229, 255, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(95, 229, 255, 0);
+  }
+}
+
+.contact-panel {
+  background: rgba(13, 16, 29, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  max-width: 700px;
+}
+
+.contact-form {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+input,
+textarea {
+  background: #0c1020;
+  border: 1px solid rgba(95, 229, 255, 0.26);
+  border-radius: 10px;
+  padding: 0.7rem;
+  color: var(--text);
+  font: inherit;
+}
+
+.resume-modal {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #0b0d1b;
+  color: var(--text);
+  width: min(560px, 90vw);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+}
+
+.resume-modal::backdrop {
+  background: rgba(1, 2, 8, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.resume-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(129, 147, 255, 0.2);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.close-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 930px) {
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    padding-top: 4rem;
+  }
+}

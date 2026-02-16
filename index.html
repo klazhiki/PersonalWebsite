@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ethan Joseph | Engineering Student</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <header class="hero" id="home">
+      <nav class="top-nav">
+        <div class="brand">ETHAN JOSEPH</div>
+        <div class="nav-actions">
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+          <button type="button" id="resumeBtn" class="btn btn-neon">View Resume</button>
+        </div>
+      </nav>
+
+      <div class="hero-content">
+        <p class="eyebrow">Cyberpunk Portfolio</p>
+        <h1>Hi, I'm Ethan Joseph.</h1>
+        <p class="subtitle">
+          Engineering 1 student at McMaster University, building high-impact systems with curiosity,
+          discipline, and bold ideas.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contact">Contact Me</a>
+          <button type="button" id="resumeBtnSecondary" class="btn btn-outline">View Resume</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="projects" class="section projects-section">
+        <div class="section-heading">
+          <h2>Project Kanban</h2>
+          <p>Current workstream and upcoming experiments.</p>
+        </div>
+
+        <div class="kanban-grid">
+          <article class="kanban-column featured">
+            <h3>Now Building</h3>
+            <div class="project-card pulse">
+              <span class="tag">Featured</span>
+              <h4>Autonomous Rover Control Suite</h4>
+              <p>
+                Designing a modular control and telemetry interface for autonomous rover prototypes,
+                focused on reliability, sensor fusion, and operator feedback.
+              </p>
+              <ul>
+                <li>Python + embedded C</li>
+                <li>Live telemetry dashboard</li>
+                <li>Fault detection + fallback modes</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="kanban-column">
+            <h3>In Progress</h3>
+            <div class="project-card">
+              <h4>Smart Energy Monitor</h4>
+              <p>
+                Building an IoT-based monitor for real-time power analytics and anomaly detection in
+                home labs.
+              </p>
+            </div>
+            <div class="project-card">
+              <h4>Design Team Toolkit</h4>
+              <p>
+                Creating reusable CAD and simulation templates to accelerate early-stage prototyping.
+              </p>
+            </div>
+          </article>
+
+          <article class="kanban-column">
+            <h3>Backlog</h3>
+            <div class="project-card">
+              <h4>Campus Navigation Assistant</h4>
+              <p>Accessibility-first indoor routing concept with low-power beacon triangulation.</p>
+            </div>
+            <div class="project-card">
+              <h4>Microgrid Optimization Model</h4>
+              <p>Simulation-driven optimizer for balancing distributed renewable inputs.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="section-heading">
+          <h2>Contact</h2>
+          <p>Open to collaboration, research opportunities, and engineering projects.</p>
+        </div>
+
+        <div class="contact-panel">
+          <a class="btn btn-primary" href="mailto:ethan.joseph@example.com">Email Ethan</a>
+          <p>Or use the quick message form:</p>
+          <form class="contact-form" action="mailto:ethan.joseph@example.com" method="post" enctype="text/plain">
+            <label>
+              Your Name
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              Your Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="4" required></textarea>
+            </label>
+            <button type="submit" class="btn btn-neon">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="resumeModal" class="resume-modal">
+      <div class="resume-head">
+        <h3>Ethan Joseph — Resume Snapshot</h3>
+        <button id="closeResume" class="close-btn" type="button" aria-label="Close resume">✕</button>
+      </div>
+      <div class="resume-body">
+        <p><strong>Education:</strong> Engineering 1, McMaster University</p>
+        <p><strong>Focus Areas:</strong> Robotics, embedded systems, data-driven engineering</p>
+        <p><strong>Skills:</strong> Python, C, MATLAB, CAD, teamwork, rapid prototyping</p>
+        <p><strong>Interests:</strong> Autonomous systems, sustainable infrastructure, human-centered design</p>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
