@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethan Joseph - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            accent: '#cbacf9',
+            dark: '#000319',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#000319] font-inter text-white m-0 p-0">
+  <div class="relative bg-[#000319] rounded-[24px] w-full min-h-screen overflow-clip">
+
+    <!-- Spotlight (top-left glow) -->
+    <div class="absolute h-[608px] left-[-233px] overflow-clip top-0 w-[805px] pointer-events-none">
+      <div class="absolute inset-0">
+        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 307px 390.853px; mask-position: 307px 390.853px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -64.29% 46.23% 40.92% -38.14%;">
+          <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight1.svg" />
+        </div>
+        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 99.915px 380.376px; mask-position: 99.915px 380.376px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -62.56% 20.51% 39.2% -12.41%;">
+          <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight2.svg" />
+        </div>
+        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 20.409px 487px; mask-position: 20.409px 487px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -80.1% 10.63% 56.73% -2.54%;">
+          <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight3.svg" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar" style="background-image: linear-gradient(139.72deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div class="nav-indicator">
+        <img alt="" src="assets/nav-dot.svg" class="w-[7px] h-[7px]" />
+      </div>
+      <div class="flex items-start gap-[32px] font-medium text-[16px] tracking-[-0.48px]">
+        <a href="#hero" class="text-[#c1c2d3] hover:text-white transition-colors leading-[1.1]">Home</a>
+        <a href="#projects" class="text-white leading-[1.1]">Projects</a>
+        <a href="#contact" class="text-[#c1c2d3] hover:text-white transition-colors leading-[1.1]">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative w-full max-w-[1440px] mx-auto">
+      <!-- Grid Pattern Background -->
+      <div class="relative h-[711px] w-full overflow-hidden">
+        <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask" style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+          <!-- Grid lines -->
+          <div class="absolute h-[900px] left-0 top-0 w-full">
+            <img alt="" class="absolute block max-w-none w-full h-full" src="assets/input-form.svg" />
+          </div>
+          <!-- Rotated section container -->
+          <div class="absolute flex h-[900px] items-center justify-center left-0 top-0 w-full">
+            <div class="flex-none" style="transform: rotate(-90deg);">
+              <div class="h-[1440px] relative w-[900px]">
+                <div class="absolute" style="inset: 0 -60% 0 0;">
+                  <img alt="" class="block max-w-none w-full h-full" src="assets/section-input-container.svg" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Small corner elements -->
+          <div class="absolute left-[98.5px] w-[24px] h-[24px] top-[100.5px]">
+            <img alt="" class="absolute block max-w-none w-full h-full" src="assets/container-small.svg" />
+          </div>
+          <!-- Grid overlay blocks -->
+          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[111px] left-[332px] opacity-[0.47] top-[113px] w-[110px]"></div>
+          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] w-[111px] h-[111px] left-[886px] opacity-[0.47] top-[1px]"></div>
+          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[112px] left-[1218px] opacity-[0.47] top-[225px] w-[111px]"></div>
+          <div class="absolute left-[1206px] w-[24px] h-[24px] top-[101px]">
+            <img alt="" class="absolute block max-w-none w-full h-full" src="assets/section-input-dot.svg" />
+          </div>
+        </div>
+
+        <!-- Profile Photo -->
+        <div class="absolute top-[170px]" style="left: 50%; transform: translateX(calc(-50% + 1.5px));">
+          <div class="relative h-[187px] w-[195px]" style="-webkit-mask-image: url('assets/profile-mask.svg'); mask-image: url('assets/profile-mask.svg'); -webkit-mask-size: 175px 168px; mask-size: 175px 168px; -webkit-mask-position: 9px 6px; mask-position: 9px 6px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+            <img alt="Ethan Joseph" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/profile-photo.png" />
+          </div>
+        </div>
+
+        <!-- Name Heading -->
+        <div class="absolute left-1/2 -translate-x-1/2 top-[381px] w-[938px] text-center">
+          <h1 class="font-bold text-[72px] tracking-[-3.6px] leading-none text-white">
+            Ethan <span class="text-[#cbacf9]">Joseph</span>
+          </h1>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="absolute top-[486px] text-[#e4ecff] text-[24px] text-center leading-[1.2] whitespace-nowrap" style="left: 50%; transform: translateX(calc(-50% - 5.5px));">
+          McMaster Computer Engineering Student<br />
+          AI Driven Systems, ML
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="absolute left-1/2 -translate-x-1/2 top-[581px] flex gap-[26px]">
+          <!-- Contact Button -->
+          <a href="mailto:ethanvjv@gmail.com" class="cta-button">
+            <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2] underline decoration-solid">Contact</span>
+            <div class="flex items-center justify-center w-[11px] h-[11px]">
+              <div class="-rotate-45 flex-none">
+                <div class="relative w-[15.556px] h-0">
+                  <div class="absolute" style="inset: -7.36px -6.43%;">
+                    <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <!-- View Resume Button -->
+          <a href="#" class="cta-button">
+            <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2]">View Resume</span>
+            <div class="flex items-center justify-center w-[11px] h-[11px]">
+              <div class="-rotate-45 flex-none">
+                <div class="relative w-[15.556px] h-0">
+                  <div class="absolute" style="inset: -7.36px -6.43%;">
+                    <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="relative w-full max-w-[1440px] mx-auto">
+      <!-- Section Heading -->
+      <div class="text-center mb-[50px]">
+        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
+          A list of <span class="text-[#cbacf9]"> Featured projects</span>
+        </h2>
+      </div>
+
+      <!-- Mid-page pattern decoration -->
+      <div class="absolute inset-0 pointer-events-none pattern-mid" style="-webkit-mask-image: url('assets/pattern-container1.svg'); mask-image: url('assets/pattern-container1.svg'); -webkit-mask-size: 1259.868px 1127px; mask-size: 1259.868px 1127px; -webkit-mask-position: 62.286px -76.088px; mask-position: 62.286px -76.088px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; top: 200px; left: 2.13%; right: 1.43%;">
+        <img alt="" class="block max-w-none w-full h-full" src="assets/pattern-container2.svg" />
+      </div>
+
+      <!-- Project Card 1: Sentinel AI -->
+      <div class="project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative mb-[57px]" style="background-image: linear-gradient(100.65deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <!-- Card Screenshot Area -->
+        <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
+          <!-- Flipped gradient background -->
+          <div class="absolute flex h-[377px] items-center justify-center left-[-126px] top-[-24px] w-[770px]">
+            <div class="flex-none" style="transform: scaleY(-1);">
+              <div class="h-[377px] relative w-[770px]">
+                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/project-card-bg.png" />
+              </div>
+            </div>
+          </div>
+          <!-- Screenshot overlay -->
+          <div class="absolute left-[14px] top-[13px] w-[801px] h-[326px]">
+            <img alt="Sentinel AI Screenshot" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/sentinel-ai-1.png" />
+          </div>
+        </div>
+
+        <!-- Card Content -->
+        <div class="px-[39px] pt-[31px] pb-[43px]">
+          <h3 class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-[24px]">
+            Sentinel AI - Code Auditor
+          </h3>
+
+          <ul class="list-disc text-[#bec1dd] text-[20px] leading-[1.3] pl-[30px] space-y-[4px] mb-[40px] max-w-[747px]">
+            <li>Built a repository-aware security auditor that parses full codebases using Tree-sitter AST analysis and leverages LLM-based reasoning to detect injection, deserialization, and privilege escalation vulnerabilities across Python and TypeScript projects.</li>
+            <li>Engineered a context-sensitive ruling engine that analyzes call chains and data flow paths, reducing false positives by ~35% compared to rule-only scanners (benchmarked against Semgrep defaults on 40+ OSS repos).</li>
+            <li>Implemented automated patch generation with structured diff output and Git branch isolation; achieved ~70% successful fix validation rate via post-scan verification and test re-execution.</li>
+            <li>Designed SARIF export pipeline for GitHub Code Scanning integration, enabling CI-enforced security checks on pull requests with sub-5 second incremental rescans.</li>
+            <li>Optimized prompt structuring and context compression to reduce token usage by ~28% while maintaining detection accuracy across large repositories (&gt;50k LOC).</li>
+          </ul>
+
+          <!-- Stats Row -->
+          <div class="flex gap-[40px] mb-[40px] px-[27px]">
+            <div class="w-[365px]">
+              <p class="font-normal text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-0">False Positive Reduction</p>
+              <p class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white">35 %</p>
+            </div>
+            <div class="w-[365px]">
+              <p class="font-normal text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-0">Fix Validation Rate</p>
+              <p class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white">70%</p>
+            </div>
+          </div>
+
+          <!-- Tech + CTA Row -->
+          <div class="flex items-center justify-between px-[27px]">
+            <!-- Tech Stack Icons -->
+            <div class="flex items-start pr-[4px]">
+              <div class="relative w-[50px] h-[50px] -mr-[4px]">
+                <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                </div>
+                <div class="absolute h-[24px] left-[12px] top-[13px] w-[26.96px]">
+                  <img alt="" class="block max-w-none w-full h-full" src="assets/tech-frame5.svg" />
+                </div>
+              </div>
+              <div class="relative w-[50px] h-[50px] -mr-[4px]">
+                <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                </div>
+                <div class="absolute left-[7px] top-[8px] w-[35px] h-[35px]">
+                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/image17.png" />
+                </div>
+              </div>
+              <div class="relative w-[50px] h-[50px] -mr-[4px]">
+                <img alt="" class="block max-w-none w-full h-full" style="margin: -1.05%;" src="assets/tech-icon.svg" />
+              </div>
+              <div class="relative w-[50px] h-[50px] -mr-[4px]">
+                <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                </div>
+                <div class="absolute left-[9px] top-[9px] w-[33px] h-[33px]">
+                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/image18.png" />
+                </div>
+              </div>
+              <div class="relative w-[50px] h-[50px] -mr-[4px]">
+                <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                </div>
+                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[24px] w-[26.785px] overflow-hidden">
+                  <img alt="" class="absolute h-[160.22%] max-w-none" style="left: -24.26%; top: 0; width: 148.51%;" src="assets/image14.png" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Check Live Site Link -->
+            <a href="https://sentinelauditor.vercel.app/" class="flex gap-[10px] items-center group" target="_blank" rel="noopener">
+              <span class="font-medium text-[20px] text-[#cbacf9] tracking-[-0.48px] leading-[1.2] underline decoration-solid">Check Live Site</span>
+              <div class="flex items-center justify-center w-[11px] h-[11px]">
+                <div class="-rotate-45 flex-none">
+                  <div class="relative w-[15.556px] h-0">
+                    <div class="absolute" style="inset: -7.36px -6.43%;">
+                      <img alt="" class="block max-w-none w-full h-full" src="assets/arrow-purple.svg" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Card 2: ESP32 -->
+      <div class="project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative" style="background-image: linear-gradient(110.46deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <!-- Card Screenshot Area -->
+        <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
+          <!-- Flipped gradient background -->
+          <div class="absolute flex h-[377px] items-center justify-center left-[-126px] top-[-24px] w-[770px]">
+            <div class="flex-none" style="transform: scaleY(-1);">
+              <div class="h-[377px] relative w-[770px]">
+                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/project-card-bg.png" />
+              </div>
+            </div>
+          </div>
+          <!-- Screenshot overlay -->
+          <div class="absolute left-[14px] top-[13px] w-[801px] h-[326px]">
+            <img alt="ESP32 Microcontroller" class="absolute inset-0 max-w-none object-contain pointer-events-none w-full h-full" src="assets/sentinel-ai-2.png" />
+          </div>
+        </div>
+
+        <!-- Card Content -->
+        <div class="px-[39px] pt-[31px] pb-[43px]">
+          <h3 class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-[24px]">
+            In progress - ESP32 Microcontroller Project
+          </h3>
+
+          <ul class="list-disc text-[#bec1dd] text-[20px] leading-[1.3] pl-[30px] space-y-[4px] max-w-[747px]">
+            <li>Focusing on low-level microcontroller related tech</li>
+            <li>C++, Python</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="relative w-full max-w-[1440px] mx-auto bg-[#000319] overflow-clip mt-[60px]">
+      <div class="text-center py-[94px]">
+        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white whitespace-nowrap">
+          Tech <span class="text-[#cbacf9]">Stack</span>
+        </h2>
+      </div>
+    </section>
+
+    <!-- Lets Connect Section -->
+    <section id="contact" class="relative w-full max-w-[1440px] mx-auto pt-[200px] pb-[80px]">
+      <div class="text-center max-w-[720px] mx-auto">
+        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white mb-[24px]">
+          Lets Connect.
+        </h2>
+        <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mb-[40px]">
+          Reach out to me today and let's discuss how I can help you achieve your goals.
+        </p>
+        <a href="mailto:ethanvjv@gmail.com" class="cta-button inline-flex">
+          <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2] underline decoration-solid">Contact Me Now</span>
+          <div class="flex items-center justify-center w-[11px] h-[11px]">
+            <div class="-rotate-45 flex-none">
+              <div class="relative w-[15.556px] h-0">
+                <div class="absolute" style="inset: -7.36px -6.43%;">
+                  <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative w-full max-w-[1440px] mx-auto px-[103px] pb-[60px] pt-[40px]">
+      <div class="flex items-center justify-between">
+        <p class="text-white text-[14.375px] font-normal leading-[24px]">
+          Copyright &copy;2026 Ethan Joseph
+        </p>
+
+        <!-- Social Icons -->
+        <div class="flex items-center gap-[16px]">
+          <!-- LinkedIn -->
+          <a href="#" class="social-icon-btn">
+            <div class="social-icon-border"></div>
+            <div class="social-icon-gradient"></div>
+            <div class="absolute inset-[8px] overflow-clip flex items-center justify-center">
+              <img alt="LinkedIn" class="w-[24px] h-[24px]" src="assets/icon-linkedin.svg" />
+            </div>
+            <div class="social-icon-glow"></div>
+          </a>
+          <!-- Twitter/X -->
+          <a href="#" class="social-icon-btn">
+            <div class="social-icon-border"></div>
+            <div class="social-icon-gradient"></div>
+            <div class="absolute inset-[8px] overflow-clip flex items-center justify-center">
+              <img alt="Twitter" class="w-[24px] h-[24px]" src="assets/icon-twitter.svg" />
+            </div>
+            <div class="social-icon-glow"></div>
+          </a>
+          <!-- GitHub -->
+          <a href="#" class="social-icon-btn">
+            <div class="social-icon-border"></div>
+            <div class="social-icon-gradient"></div>
+            <div class="absolute left-[11px] top-[11px] w-[18px] h-[18px]">
+              <img alt="GitHub" class="block max-w-none w-full h-full" src="assets/icon-github.svg" />
+            </div>
+            <div class="social-icon-glow"></div>
+          </a>
+          <!-- Stack Overflow -->
+          <a href="#" class="social-icon-btn">
+            <div class="social-icon-border"></div>
+            <div class="social-icon-gradient"></div>
+            <div class="absolute inset-[8px] overflow-clip flex items-center justify-center">
+              <img alt="Stack Overflow" class="w-[24px] h-[24px]" src="assets/icon-stack.svg" />
+            </div>
+            <div class="social-icon-glow"></div>
+          </a>
+          <!-- Figma -->
+          <a href="#" class="social-icon-btn">
+            <div class="social-icon-border"></div>
+            <div class="social-icon-gradient"></div>
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[18px] h-[18px]">
+              <img alt="Figma" class="block max-w-none w-full h-full" src="assets/icon-figma.svg" />
+            </div>
+            <div class="social-icon-glow"></div>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
