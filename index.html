@@ -44,14 +44,12 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="nav-bar" style="background-image: linear-gradient(139.72deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
-      <div class="nav-indicator">
-        <img alt="" src="assets/nav-dot.svg" class="w-[7px] h-[7px]" />
-      </div>
+    <nav class="nav-bar" id="navbar">
+      <div class="nav-indicator" id="navIndicator"></div>
       <div class="flex items-start gap-[32px] font-medium text-[16px] tracking-[-0.48px]">
-        <a href="#hero" class="text-[#c1c2d3] hover:text-white transition-colors leading-[1.1]">Home</a>
-        <a href="#projects" class="text-white leading-[1.1]">Projects</a>
-        <a href="#contact" class="text-[#c1c2d3] hover:text-white transition-colors leading-[1.1]">Contact</a>
+        <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+        <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+        <a href="#contact" class="nav-link" data-section="contact">Contact</a>
       </div>
     </nav>
 
@@ -288,11 +286,59 @@
     </section>
 
     <!-- Tech Stack Section -->
-    <section class="relative w-full max-w-[1440px] mx-auto bg-[#000319] overflow-clip mt-[60px]">
-      <div class="text-center py-[94px]">
-        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white whitespace-nowrap">
-          Tech <span class="text-[#cbacf9]">Stack</span>
-        </h2>
+    <section id="techstack" class="relative w-full max-w-[1440px] mx-auto bg-[#000319] overflow-clip mt-[60px] px-[103px] py-[94px]">
+      <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white whitespace-nowrap mb-[48px]">
+        Tech <span class="text-[#cbacf9]">Stack</span>
+      </h2>
+      <div class="flex flex-wrap gap-[14px]">
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.66 15.46L7.27 14.4l.96-.96 2.11 2.11 5.44-5.44.96.96-6.4 6.39z" fill="none"/><text x="4" y="17" font-size="12" font-weight="700" fill="white" font-family="Inter,sans-serif">Py</text></svg>
+          <span>Python</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#3178C6"/><text x="6" y="17" font-size="12" font-weight="700" fill="white" font-family="Inter,sans-serif">TS</text></svg>
+          <span>TypeScript</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#E76F00"/><text x="5.5" y="17.5" font-size="13" font-weight="700" fill="white" font-family="Inter,sans-serif">J</text></svg>
+          <span>Java</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#555D6E"/><text x="6.5" y="17" font-size="12" font-weight="700" fill="white" font-family="Inter,sans-serif">C</text></svg>
+          <span>C</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#336791"/><text x="3" y="17" font-size="11" font-weight="700" fill="white" font-family="Inter,sans-serif">SQL</text></svg>
+          <span>SQL</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#F7DF1E"/><text x="6.5" y="17" font-size="11" font-weight="700" fill="black" font-family="Inter,sans-serif">JS</text></svg>
+          <span>JavaScript</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#68A063"/><text x="5" y="17" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">N.js</text></svg>
+          <span>Node.js</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#4A90D9"/><text x="4" y="16" font-size="8" font-weight="700" fill="white" font-family="Inter,sans-serif">API</text></svg>
+          <span>REST APIs</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#F05032"/><path d="M12 6.5l6.5 6.5-2 2-3-3v6h-3v-6l-3 3-2-2L12 6.5z" fill="white" opacity="0.9"/></svg>
+          <span>Git</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#2088FF"/><text x="4" y="16" font-size="8" font-weight="700" fill="white" font-family="Inter,sans-serif">GH</text></svg>
+          <span>GitHub Actions</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" fill="#4285F4"/><path d="M8 12l2.5 4h3L16 12l-2.5-4h-3L8 12z" fill="white" opacity="0.85"/></svg>
+          <span>Gemini API</span>
+        </div>
+        <div class="tech-pill">
+          <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="10" fill="white"/><path d="M12 5l7 12H5l7-12z" fill="black"/></svg>
+          <span>Vercel</span>
+        </div>
       </div>
     </section>
 
@@ -379,5 +425,67 @@
     </footer>
 
   </div>
+
+  <script>
+    (function() {
+      const sections = ['hero', 'projects', 'contact'];
+      const navLinks = document.querySelectorAll('.nav-link');
+      const indicator = document.getElementById('navIndicator');
+      let currentActive = 'hero';
+
+      function updateActiveNav(sectionId) {
+        if (sectionId === currentActive) return;
+        currentActive = sectionId;
+
+        navLinks.forEach(link => {
+          if (link.dataset.section === sectionId) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+        if (activeLink && indicator) {
+          const navBar = document.getElementById('navbar');
+          const navRect = navBar.getBoundingClientRect();
+          const linkRect = activeLink.getBoundingClientRect();
+          const centerX = linkRect.left - navRect.left + linkRect.width / 2;
+          indicator.style.left = centerX + 'px';
+        }
+      }
+
+      function onScroll() {
+        const scrollY = window.scrollY + window.innerHeight * 0.35;
+        let active = sections[0];
+
+        for (const id of sections) {
+          const el = document.getElementById(id);
+          if (el && el.offsetTop <= scrollY) {
+            active = id;
+          }
+        }
+
+        updateActiveNav(active);
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('load', function() {
+        onScroll();
+        setTimeout(onScroll, 100);
+      });
+    })();
+  </script>
 </body>
 </html>

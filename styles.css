@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 140px;
 }
 
 body {
@@ -30,30 +31,68 @@ li {
   padding-left: 4px;
 }
 
-/* Navigation */
+/* ─── Navigation: Liquid Glass ─── */
 .nav-bar {
   position: fixed;
-  top: 50px;
+  top: 40px;
   left: 50%;
-  transform: translateX(calc(-50% + 0.5px));
-  width: 327px;
-  height: 66px;
-  border: 1px solid rgba(105, 113, 162, 0.16);
-  border-radius: 13px;
+  transform: translateX(-50%);
+  height: 56px;
+  padding: 0 36px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  background: rgba(6, 9, 31, 0.45);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.08);
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.nav-bar:hover {
+  background: rgba(8, 12, 38, 0.6);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+  color: rgba(193, 194, 211, 0.65);
+  transition: color 0.3s ease;
+  leading-trim: both;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-link.active {
+  color: #ffffff;
 }
 
 .nav-indicator {
   position: absolute;
-  left: calc(50% - 72px);
+  bottom: -8px;
+  width: 7px;
+  height: 7px;
+  background: #cbacf9;
+  border-radius: 50%;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.15, 1);
   transform: translateX(-50%);
-  top: 61px;
+  box-shadow: 0 0 8px rgba(203, 172, 249, 0.5);
 }
 
-/* CTA Button */
+/* ─── CTA Button ─── */
 .cta-button {
   display: flex;
   align-items: center;
@@ -72,7 +111,37 @@ li {
   opacity: 0.85;
 }
 
-/* Social Icon Buttons */
+/* ─── Tech Stack Pills ─── */
+.tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 14px;
+  background: rgba(14, 17, 38, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: -0.2px;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  cursor: default;
+}
+
+.tech-pill:hover {
+  background: rgba(22, 26, 49, 0.95);
+  border-color: rgba(203, 172, 249, 0.2);
+  transform: translateY(-1px);
+}
+
+.tech-pill-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+/* ─── Social Icon Buttons ─── */
 .social-icon-btn {
   position: relative;
   width: 40px;
@@ -108,7 +177,7 @@ li {
   opacity: 0.8;
 }
 
-/* Project Cards */
+/* ─── Project Cards ─── */
 .project-card {
   transition: transform 0.2s ease;
 }
@@ -117,34 +186,31 @@ li {
   transform: translateY(-2px);
 }
 
-/* Grid pattern alpha mask */
+/* ─── Mask Composites ─── */
 .grid-pattern-mask {
   -webkit-mask-composite: intersect;
   mask-composite: intersect;
 }
 
-/* Profile mask */
 .profile-mask {
   -webkit-mask-composite: intersect;
   mask-composite: intersect;
 }
 
-/* Spotlight layers */
 .spotlight-layer {
   -webkit-mask-composite: intersect;
   mask-composite: intersect;
 }
 
-/* Pattern mid overlay */
 .pattern-mid {
   -webkit-mask-composite: intersect;
   mask-composite: intersect;
   height: 800px;
 }
 
-/* Scrollbar styling */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -152,15 +218,15 @@ li {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #161a31;
-  border-radius: 4px;
+  background: rgba(22, 26, 49, 0.7);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1e2340;
+  background: rgba(30, 35, 64, 0.9);
 }
 
-/* Selection color */
+/* ─── Selection ─── */
 ::selection {
   background: rgba(203, 172, 249, 0.3);
   color: white;
