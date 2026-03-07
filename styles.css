@@ -94,6 +94,7 @@ li {
 
 /* ─── CTA Button ─── */
 .cta-button {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,12 +104,35 @@ li {
   border: 1px solid rgba(105, 113, 162, 0.4);
   background-image: linear-gradient(to right, #161a31 3.395%, #06091f);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    opacity 0.2s ease;
   cursor: pointer;
 }
 
+.cta-button::before {
+  content: '';
+  position: absolute;
+  inset: -120% 40%;
+  background: linear-gradient(120deg, transparent 25%, rgba(203, 172, 249, 0.22) 50%, transparent 75%);
+  transform: translateX(-24%);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .cta-button:hover {
-  opacity: 0.85;
+  opacity: 0.98;
+  border-color: rgba(203, 172, 249, 0.42);
+  box-shadow: 0 16px 34px rgba(9, 12, 37, 0.56), 0 0 0 1px rgba(203, 172, 249, 0.12);
+  transform: translateY(-2px);
+}
+
+.cta-button:hover::before {
+  transform: translateX(22%);
 }
 
 /* ─── Tech Stack Pills ─── */
@@ -150,6 +174,9 @@ li {
   background: rgba(5, 4, 31, 0.08);
   border-radius: 8px;
   overflow: clip;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .social-icon-border {
@@ -174,16 +201,59 @@ li {
 }
 
 .social-icon-btn:hover {
-  opacity: 0.8;
+  background: rgba(203, 172, 249, 0.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 18px rgba(203, 172, 249, 0.2);
+  transform: translateY(-2px);
 }
 
 /* ─── Project Cards ─── */
 .project-card {
-  transition: transform 0.2s ease;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.32s ease,
+    box-shadow 0.32s ease;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: -30% -70%;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 40%, rgba(203, 172, 249, 0.1) 50%, transparent 60%);
+  transform: translateX(-14%) rotate(3deg);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+
+.project-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .project-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-6px);
+  border-color: rgba(203, 172, 249, 0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(203, 172, 249, 0.12);
+}
+
+.project-card:hover::before {
+  transform: translateX(12%) rotate(3deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cta-button,
+  .social-icon-btn,
+  .project-card,
+  .project-card::before,
+  .cta-button::before {
+    transition: none;
+  }
 }
 
 /* ─── Mask Composites ─── */
