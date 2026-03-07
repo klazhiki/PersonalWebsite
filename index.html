@@ -469,17 +469,6 @@
         updateActiveNav(active);
       }
 
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const target = document.getElementById(targetId);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('load', function() {
         onScroll();
