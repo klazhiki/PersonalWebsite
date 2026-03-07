@@ -431,6 +431,8 @@
       const sections = ['hero', 'projects', 'contact'];
       const navLinks = document.querySelectorAll('.nav-link');
       const indicator = document.getElementById('navIndicator');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const scrollTopOffset = 140;
       let currentActive = 'hero';
 
       function updateActiveNav(sectionId) {
@@ -469,13 +471,100 @@
         updateActiveNav(active);
       }
 
+      const smoothScrollController = (function() {
+        if (prefersReducedMotion) {
+          return {
+            scrollTo(y) {
+              window.scrollTo(0, y);
+            }
+          };
+        }
+
+        let targetY = window.scrollY;
+        let rafId = null;
+        const ease = 0.12;
+
+        function clampScroll(y) {
+          const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+          return Math.max(0, Math.min(y, maxY));
+        }
+
+        function animate() {
+          const currentY = window.scrollY;
+          const nextY = currentY + (targetY - currentY) * ease;
+
+          if (Math.abs(targetY - currentY) < 0.35) {
+            window.scrollTo(0, targetY);
+            rafId = null;
+            return;
+          }
+
+          window.scrollTo(0, nextY);
+          rafId = requestAnimationFrame(animate);
+        }
+
+        function queueAnimation() {
+          if (rafId === null) {
+            rafId = requestAnimationFrame(animate);
+          }
+        }
+
+        window.addEventListener('wheel', (event) => {
+          if (event.ctrlKey || event.defaultPrevented) return;
+          event.preventDefault();
+          targetY = clampScroll(targetY + event.deltaY);
+          queueAnimation();
+        }, { passive: false });
+
+        window.addEventListener('keydown', (event) => {
+          const pageStep = window.innerHeight * 0.9;
+          let delta = 0;
+
+          if (event.key === 'ArrowDown') delta = 84;
+          else if (event.key === 'ArrowUp') delta = -84;
+          else if (event.key === 'PageDown' || event.key === ' ') delta = pageStep;
+          else if (event.key === 'PageUp') delta = -pageStep;
+          else if (event.key === 'Home') {
+            event.preventDefault();
+            targetY = 0;
+            queueAnimation();
+            return;
+          } else if (event.key === 'End') {
+            event.preventDefault();
+            targetY = clampScroll(document.documentElement.scrollHeight);
+            queueAnimation();
+            return;
+          }
+
+          if (delta !== 0) {
+            event.preventDefault();
+            targetY = clampScroll(targetY + delta);
+            queueAnimation();
+          }
+        }, { passive: false });
+
+        window.addEventListener('scroll', () => {
+          if (rafId === null) {
+            targetY = window.scrollY;
+          }
+        }, { passive: true });
+
+        return {
+          scrollTo(y) {
+            targetY = clampScroll(y);
+            queueAnimation();
+          }
+        };
+      })();
+
       navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           const targetId = this.getAttribute('href').substring(1);
           const target = document.getElementById(targetId);
           if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+            const targetY = target.getBoundingClientRect().top + window.scrollY - scrollTopOffset;
+            smoothScrollController.scrollTo(targetY);
           }
         });
       });
