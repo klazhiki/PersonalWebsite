@@ -348,6 +348,110 @@ li {
   background: rgba(30, 35, 64, 0.9);
 }
 
+/* ─── Tic Tac Toe ─── */
+.ttt-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ttt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  aspect-ratio: 1;
+}
+
+.ttt-cell {
+  background: rgba(10, 13, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.ttt-cell:hover:not([disabled]) {
+  background: rgba(16, 20, 44, 0.9);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: scale(1.04);
+}
+
+.ttt-cell[disabled] {
+  cursor: default;
+}
+
+.ttt-cell.x {
+  color: #cbacf9;
+  text-shadow: 0 0 18px rgba(203, 172, 249, 0.4);
+}
+
+.ttt-cell.o {
+  color: #4a90d9;
+  text-shadow: 0 0 18px rgba(74, 144, 217, 0.4);
+}
+
+.ttt-cell.win-cell {
+  background: rgba(203, 172, 249, 0.12);
+  border-color: rgba(203, 172, 249, 0.5);
+  animation: ttt-pulse 0.6s ease;
+}
+
+.ttt-cell.lose-cell {
+  background: rgba(240, 80, 50, 0.1);
+  border-color: rgba(240, 80, 50, 0.45);
+}
+
+@keyframes ttt-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.ttt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ttt-x-color {
+  background: rgba(203, 172, 249, 0.18);
+  color: #cbacf9;
+}
+
+.ttt-o-color {
+  background: rgba(74, 144, 217, 0.18);
+  color: #4a90d9;
+}
+
+.ttt-reset-btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(105, 113, 162, 0.35);
+  background: linear-gradient(to right, #161a31, #06091f);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.ttt-reset-btn:hover {
+  border-color: rgba(203, 172, 249, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
 /* ─── Selection ─── */
 ::selection {
   background: rgba(203, 172, 249, 0.3);

@@ -322,6 +322,60 @@
       </div>
     </section>
 
+    <!-- Tic Tac Toe Section -->
+    <section id="tictactoe" class="relative w-full max-w-[1440px] mx-auto mt-[100px]">
+      <div class="text-center mb-[40px]">
+        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
+          Take a <span class="text-[#cbacf9]">Break</span>
+        </h2>
+        <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mt-[16px]">Try to beat the computer at Tic Tac Toe.</p>
+      </div>
+
+      <div class="ttt-card mx-auto w-[420px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[40px] px-[40px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div class="flex items-center justify-between mb-[28px] px-[4px]">
+          <div class="flex items-center gap-[12px]">
+            <span class="ttt-badge ttt-x-color">X</span>
+            <span class="text-[14px] text-[#c1c2d3]">You</span>
+          </div>
+          <div id="tttStatus" class="text-[15px] font-medium text-white tracking-[-0.3px]">Your turn</div>
+          <div class="flex items-center gap-[12px]">
+            <span class="text-[14px] text-[#c1c2d3]">CPU</span>
+            <span class="ttt-badge ttt-o-color">O</span>
+          </div>
+        </div>
+
+        <div id="tttBoard" class="ttt-grid">
+          <button class="ttt-cell" data-i="0"></button>
+          <button class="ttt-cell" data-i="1"></button>
+          <button class="ttt-cell" data-i="2"></button>
+          <button class="ttt-cell" data-i="3"></button>
+          <button class="ttt-cell" data-i="4"></button>
+          <button class="ttt-cell" data-i="5"></button>
+          <button class="ttt-cell" data-i="6"></button>
+          <button class="ttt-cell" data-i="7"></button>
+          <button class="ttt-cell" data-i="8"></button>
+        </div>
+
+        <div class="flex items-center justify-between mt-[28px] px-[4px]">
+          <div class="flex gap-[24px]">
+            <div class="text-center">
+              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Wins</p>
+              <p id="tttWins" class="text-[20px] font-bold text-[#cbacf9]">0</p>
+            </div>
+            <div class="text-center">
+              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Draws</p>
+              <p id="tttDraws" class="text-[20px] font-bold text-white">0</p>
+            </div>
+            <div class="text-center">
+              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Losses</p>
+              <p id="tttLosses" class="text-[20px] font-bold text-[#f05032]">0</p>
+            </div>
+          </div>
+          <button id="tttReset" class="ttt-reset-btn">New Game</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Lets Connect Section -->
     <section id="contact" class="relative w-full max-w-[1440px] mx-auto pt-[200px] pb-[80px]">
       <div class="text-center max-w-[720px] mx-auto">
@@ -554,6 +608,120 @@
         onScroll();
         setTimeout(onScroll, 100);
       });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      const WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      const cells = document.querySelectorAll('.ttt-cell');
+      const status = document.getElementById('tttStatus');
+      const resetBtn = document.getElementById('tttReset');
+      const winsEl = document.getElementById('tttWins');
+      const drawsEl = document.getElementById('tttDraws');
+      const lossesEl = document.getElementById('tttLosses');
+
+      let board, gameOver, score = { w: 0, d: 0, l: 0 };
+
+      function reset() {
+        board = Array(9).fill(null);
+        gameOver = false;
+        status.textContent = 'Your turn';
+        cells.forEach(c => {
+          c.textContent = '';
+          c.className = 'ttt-cell';
+          c.disabled = false;
+        });
+      }
+
+      function checkWin(b, p) {
+        return WINS.find(w => w.every(i => b[i] === p)) || null;
+      }
+
+      function isFull(b) {
+        return b.every(c => c !== null);
+      }
+
+      function minimax(b, isMax, depth) {
+        const wO = checkWin(b, 'O');
+        if (wO) return 10 - depth;
+        const wX = checkWin(b, 'X');
+        if (wX) return depth - 10;
+        if (isFull(b)) return 0;
+
+        let best = isMax ? -Infinity : Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (b[i] !== null) continue;
+          b[i] = isMax ? 'O' : 'X';
+          const val = minimax(b, !isMax, depth + 1);
+          b[i] = null;
+          best = isMax ? Math.max(best, val) : Math.min(best, val);
+        }
+        return best;
+      }
+
+      function cpuMove() {
+        let bestScore = -Infinity, bestIdx = -1;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] !== null) continue;
+          board[i] = 'O';
+          const s = minimax(board, false, 0);
+          board[i] = null;
+          if (s > bestScore) { bestScore = s; bestIdx = i; }
+        }
+        if (bestIdx !== -1) place(bestIdx, 'O');
+      }
+
+      function place(i, p) {
+        board[i] = p;
+        cells[i].textContent = p;
+        cells[i].classList.add(p.toLowerCase());
+        cells[i].disabled = true;
+      }
+
+      function endGame(result, winLine) {
+        gameOver = true;
+        cells.forEach(c => c.disabled = true);
+        if (result === 'win') {
+          score.w++;
+          winsEl.textContent = score.w;
+          status.textContent = 'You win!';
+          winLine.forEach(i => cells[i].classList.add('win-cell'));
+        } else if (result === 'lose') {
+          score.l++;
+          lossesEl.textContent = score.l;
+          status.textContent = 'CPU wins';
+          winLine.forEach(i => cells[i].classList.add('lose-cell'));
+        } else {
+          score.d++;
+          drawsEl.textContent = score.d;
+          status.textContent = 'Draw';
+        }
+      }
+
+      cells.forEach(cell => {
+        cell.addEventListener('click', function() {
+          const i = +this.dataset.i;
+          if (board[i] || gameOver) return;
+
+          place(i, 'X');
+          const xWin = checkWin(board, 'X');
+          if (xWin) return endGame('win', xWin);
+          if (isFull(board)) return endGame('draw');
+
+          status.textContent = 'Thinking...';
+          setTimeout(() => {
+            cpuMove();
+            const oWin = checkWin(board, 'O');
+            if (oWin) return endGame('lose', oWin);
+            if (isFull(board)) return endGame('draw');
+            status.textContent = 'Your turn';
+          }, 250);
+        });
+      });
+
+      resetBtn.addEventListener('click', reset);
+      reset();
     })();
   </script>
 </body>
