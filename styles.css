@@ -348,6 +348,79 @@ li {
   background: rgba(30, 35, 64, 0.9);
 }
 
+/* ─── Cookie Clicker ─── */
+.cookie-clicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 3;
+  user-select: none;
+}
+
+.cookie-count {
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: -0.5px;
+  text-align: center;
+  min-width: 40px;
+}
+
+.cookie-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 13, 32, 0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cookie-btn:hover {
+  border-color: rgba(203, 172, 249, 0.25);
+  box-shadow: 0 0 24px rgba(203, 172, 249, 0.1);
+  transform: scale(1.08);
+}
+
+.cookie-btn:active {
+  transform: scale(0.92);
+}
+
+.cookie-emoji {
+  font-size: 40px;
+  line-height: 1;
+  display: block;
+  transition: transform 0.1s ease;
+  pointer-events: none;
+}
+
+.cookie-label {
+  font-size: 11px;
+  color: rgba(193, 194, 211, 0.5);
+  letter-spacing: -0.2px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cookie-pop {
+  position: absolute;
+  pointer-events: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #cbacf9;
+  opacity: 0;
+  animation: cookie-float 0.7s ease-out forwards;
+}
+
+@keyframes cookie-float {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(0.7); }
+}
+
 /* ─── Tic Tac Toe ─── */
 .ttt-card {
   backdrop-filter: blur(12px);

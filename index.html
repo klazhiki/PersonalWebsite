@@ -135,6 +135,15 @@
           </a>
         </div>
 
+        <!-- Cookie Clicker -->
+        <div class="cookie-clicker absolute right-[80px] top-[340px]">
+          <div class="cookie-count" id="cookieCount">0</div>
+          <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
+            <span class="cookie-emoji" id="cookieEmoji">🍪</span>
+          </button>
+          <p class="cookie-label">Click for cookies</p>
+        </div>
+
       </div>
 
       <!-- Tech Stack Marquee (outside overflow-hidden to prevent clipping) -->
@@ -607,6 +616,30 @@
       window.addEventListener('load', function() {
         onScroll();
         setTimeout(onScroll, 100);
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      const btn = document.getElementById('cookieBtn');
+      const countEl = document.getElementById('cookieCount');
+      const clicker = document.querySelector('.cookie-clicker');
+      let count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
+      countEl.textContent = count;
+
+      btn.addEventListener('click', function(e) {
+        count++;
+        countEl.textContent = count;
+        localStorage.setItem('cookieCount', count);
+
+        const pop = document.createElement('span');
+        pop.className = 'cookie-pop';
+        pop.textContent = '+1';
+        pop.style.left = (Math.random() * 40 + 20) + 'px';
+        pop.style.top = '20px';
+        clicker.appendChild(pop);
+        setTimeout(() => pop.remove(), 700);
       });
     })();
   </script>
