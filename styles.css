@@ -135,20 +135,128 @@ li {
 }
 
 /* ─── Tech Stack Pills ─── */
+.tech-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.tech-marquee::before,
+.tech-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tech-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, #000319, rgba(0, 3, 25, 0));
+}
+
+.tech-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, #000319, rgba(0, 3, 25, 0));
+}
+
+.tech-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: tech-marquee-scroll 30s linear infinite;
+}
+
+.tech-marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-right: 14px;
+  flex-shrink: 0;
+}
+
 .tech-pill {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px 10px 14px;
+  padding: 8px 18px;
   background: rgba(14, 17, 38, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  font-size: 15px;
+  border-radius: 999px;
+  font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.88);
   letter-spacing: -0.2px;
+  white-space: nowrap;
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   cursor: default;
+}
+
+.tech-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.tech-python {
+  background: #3776ab;
+}
+
+.tech-typescript {
+  background: #3178c6;
+}
+
+.tech-java {
+  background: #e76f00;
+}
+
+.tech-c {
+  background: #5b5f73;
+}
+
+.tech-sql {
+  background: #336791;
+}
+
+.tech-javascript {
+  background: #f7df1e;
+  color: #101010;
+}
+
+.tech-node {
+  background: #68a063;
+}
+
+.tech-api {
+  background: #4a90d9;
+}
+
+.tech-git {
+  background: #f05032;
+}
+
+.tech-gha {
+  background: #2088ff;
+}
+
+.tech-gemini {
+  background: #4285f4;
+}
+
+.tech-vercel {
+  background: #ffffff;
+  color: #111111;
 }
 
 .tech-pill:hover {
@@ -162,6 +270,15 @@ li {
   height: 26px;
   flex-shrink: 0;
   border-radius: 6px;
+}
+
+@keyframes tech-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ─── Social Icon Buttons ─── */
@@ -250,8 +367,10 @@ li {
   .social-icon-btn,
   .project-card,
   .project-card::before,
-  .cta-button::before {
+  .cta-button::before,
+  .tech-marquee-track {
     transition: none;
+    animation: none;
   }
 }
 
