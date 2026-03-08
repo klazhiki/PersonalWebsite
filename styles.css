@@ -194,82 +194,16 @@ li {
   cursor: default;
 }
 
-.tech-pill-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 6px;
-  border-radius: 6px;
-  font-size: 10px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: #ffffff;
-}
-
-.tech-python {
-  background: #3776ab;
-}
-
-.tech-typescript {
-  background: #3178c6;
-}
-
-.tech-java {
-  background: #e76f00;
-}
-
-.tech-c {
-  background: #5b5f73;
-}
-
-.tech-sql {
-  background: #336791;
-}
-
-.tech-javascript {
-  background: #f7df1e;
-  color: #101010;
-}
-
-.tech-node {
-  background: #68a063;
-}
-
-.tech-api {
-  background: #4a90d9;
-}
-
-.tech-git {
-  background: #f05032;
-}
-
-.tech-gha {
-  background: #2088ff;
-}
-
-.tech-gemini {
-  background: #4285f4;
-}
-
-.tech-vercel {
-  background: #ffffff;
-  color: #111111;
+.tech-pill-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .tech-pill:hover {
   background: rgba(22, 26, 49, 0.95);
   border-color: rgba(203, 172, 249, 0.2);
   transform: translateY(-1px);
-}
-
-.tech-pill-icon {
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
-  border-radius: 6px;
 }
 
 @keyframes tech-marquee-scroll {
