@@ -748,5 +748,39 @@
       reset();
     })();
   </script>
+
+  <script>
+    (function() {
+      var track = document.querySelector('.tech-marquee-track');
+      var group = document.querySelector('.tech-marquee-group');
+      if (!track || !group) return;
+
+      function startMarquee() {
+        var w = group.offsetWidth + 14;
+        track.style.animation = 'none';
+        track.offsetHeight;
+        track.style.animation = 'tech-marquee-scroll 35s linear infinite';
+
+        var sheet = document.styleSheets[document.styleSheets.length - 1];
+        var rules = sheet.cssRules;
+        for (var i = 0; i < rules.length; i++) {
+          if (rules[i].name === 'tech-marquee-scroll') {
+            sheet.deleteRule(i);
+            break;
+          }
+        }
+        sheet.insertRule(
+          '@keyframes tech-marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-' + w + 'px); } }',
+          rules.length
+        );
+      }
+
+      if (document.readyState === 'complete') {
+        startMarquee();
+      } else {
+        window.addEventListener('load', startMarquee);
+      }
+    })();
+  </script>
 </body>
 </html>
