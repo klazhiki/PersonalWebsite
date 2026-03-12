@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: auto;
+  zoom: 0.9;
 }
 
 body {
@@ -120,59 +121,54 @@ li {
 /* ─── Animated Border Glow ─── */
 .cta-glow {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   border-color: transparent;
+  z-index: 0;
+}
+
+.cta-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    transparent 0deg,
+    rgba(203, 172, 249, 0.55) 60deg,
+    transparent 120deg,
+    transparent 180deg,
+    rgba(203, 172, 249, 0.35) 240deg,
+    transparent 300deg
+  );
+  animation: glow-spin 4s linear infinite;
+  z-index: -2;
 }
 
 .cta-glow::after {
   content: '';
   position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--glow-angle, 0deg),
-    transparent 0%,
-    rgba(203, 172, 249, 0.5) 10%,
-    rgba(203, 172, 249, 0.15) 20%,
-    transparent 30%,
-    transparent 70%,
-    rgba(203, 172, 249, 0.15) 80%,
-    rgba(203, 172, 249, 0.5) 90%,
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  animation: glow-spin 4s linear infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-
-@property --glow-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+  inset: 1px;
+  border-radius: 13px;
+  background: linear-gradient(to right, #161a31 3.395%, #06091f);
+  z-index: -1;
 }
 
 @keyframes glow-spin {
   to {
-    --glow-angle: 360deg;
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-.cta-glow:hover::after {
+.cta-glow:hover::before {
   background: conic-gradient(
-    from var(--glow-angle, 0deg),
-    transparent 0%,
-    rgba(203, 172, 249, 0.7) 10%,
-    rgba(203, 172, 249, 0.25) 20%,
-    transparent 30%,
-    transparent 70%,
-    rgba(203, 172, 249, 0.25) 80%,
-    rgba(203, 172, 249, 0.7) 90%,
-    transparent 100%
+    transparent 0deg,
+    rgba(203, 172, 249, 0.8) 60deg,
+    transparent 120deg,
+    transparent 180deg,
+    rgba(203, 172, 249, 0.5) 240deg,
+    transparent 300deg
   );
 }
 
