@@ -108,30 +108,12 @@
         <!-- CTA Buttons -->
         <div class="absolute left-1/2 -translate-x-1/2 top-[581px] flex gap-[26px]">
           <!-- Contact Button -->
-          <a href="mailto:ethanvjv@gmail.com" class="cta-button">
-            <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2] underline decoration-solid">Contact</span>
-            <div class="flex items-center justify-center w-[11px] h-[11px]">
-              <div class="-rotate-45 flex-none">
-                <div class="relative w-[15.556px] h-0">
-                  <div class="absolute" style="inset: -7.36px -6.43%;">
-                    <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <a href="mailto:ethanvjv@gmail.com" class="cta-button cta-glow">
+            <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2]">Contact</span>
           </a>
           <!-- View Resume Button -->
-          <a href="Ethan_Joseph_Resume.pdf" target="_blank" rel="noopener" class="cta-button">
+          <a href="Ethan_Joseph_Resume.pdf" target="_blank" rel="noopener" class="cta-button cta-glow">
             <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2]">View Resume</span>
-            <div class="flex items-center justify-center w-[11px] h-[11px]">
-              <div class="-rotate-45 flex-none">
-                <div class="relative w-[15.556px] h-0">
-                  <div class="absolute" style="inset: -7.36px -6.43%;">
-                    <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
-                  </div>
-                </div>
-              </div>
-            </div>
           </a>
         </div>
 
@@ -394,17 +376,8 @@
         <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mb-[40px]">
           Reach out to me today and let's discuss how I can help you achieve your goals.
         </p>
-        <a href="mailto:ethanvjv@gmail.com" class="cta-button inline-flex">
-          <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2] underline decoration-solid">Contact Me Now</span>
-          <div class="flex items-center justify-center w-[11px] h-[11px]">
-            <div class="-rotate-45 flex-none">
-              <div class="relative w-[15.556px] h-0">
-                <div class="absolute" style="inset: -7.36px -6.43%;">
-                  <img alt="" class="block max-w-none w-full h-full" src="assets/arrow.svg" />
-                </div>
-              </div>
-            </div>
-          </div>
+        <a href="mailto:ethanvjv@gmail.com" class="cta-button cta-glow inline-flex">
+          <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2]">Contact Me Now</span>
         </a>
       </div>
     </section>
@@ -476,7 +449,18 @@
       const indicator = document.getElementById('navIndicator');
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const scrollTopOffset = 140;
-      let currentActive = 'hero';
+      let currentActive = null;
+
+      function moveIndicatorTo(sectionId) {
+        const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+        if (activeLink && indicator) {
+          const navBar = document.getElementById('navbar');
+          const navRect = navBar.getBoundingClientRect();
+          const linkRect = activeLink.getBoundingClientRect();
+          const centerX = linkRect.left - navRect.left + linkRect.width / 2;
+          indicator.style.left = centerX + 'px';
+        }
+      }
 
       function updateActiveNav(sectionId) {
         if (sectionId === currentActive) return;
@@ -490,14 +474,7 @@
           }
         });
 
-        const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
-        if (activeLink && indicator) {
-          const navBar = document.getElementById('navbar');
-          const navRect = navBar.getBoundingClientRect();
-          const linkRect = activeLink.getBoundingClientRect();
-          const centerX = linkRect.left - navRect.left + linkRect.width / 2;
-          indicator.style.left = centerX + 'px';
-        }
+        moveIndicatorTo(sectionId);
       }
 
       function onScroll() {
@@ -613,10 +590,24 @@
       });
 
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('load', function() {
-        onScroll();
-        setTimeout(onScroll, 100);
-      });
+
+      function initNav() {
+        indicator.style.transition = 'none';
+        updateActiveNav('hero');
+        moveIndicatorTo('hero');
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            indicator.style.transition = '';
+            onScroll();
+          });
+        });
+      }
+
+      if (document.readyState === 'complete') {
+        initNav();
+      } else {
+        window.addEventListener('load', initNav);
+      }
     })();
   </script>
 
