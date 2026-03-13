@@ -323,6 +323,29 @@
       </div>
 
       <div class="ttt-card mx-auto w-[420px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[40px] px-[40px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+
+        <!-- ELO Rating Display -->
+        <div class="flex items-center justify-between mb-[20px] px-[4px]">
+          <div class="flex items-center gap-[8px]">
+            <span class="text-[12px] text-[#c1c2d3] uppercase tracking-[1px]">Skill Rating</span>
+          </div>
+          <div class="flex items-center gap-[10px]">
+            <span id="tttRankBadge" class="ttt-rank-badge">Bronze</span>
+            <span id="tttElo" class="text-[22px] font-bold text-[#cbacf9] tracking-[-0.5px]">800</span>
+          </div>
+        </div>
+
+        <!-- ELO Progress Bar -->
+        <div class="mb-[20px]">
+          <div class="w-full h-[4px] rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
+            <div id="tttEloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
+          </div>
+          <div class="flex justify-between mt-[4px]">
+            <span id="tttDifficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
+            <span id="tttEloDelta" class="text-[11px] font-medium" style="color: transparent;">+0</span>
+          </div>
+        </div>
+
         <div class="flex items-center justify-between mb-[28px] px-[4px]">
           <div class="flex items-center gap-[12px]">
             <span class="ttt-badge ttt-x-color">X</span>
@@ -659,40 +682,137 @@
       const winsEl = document.getElementById('tttWins');
       const drawsEl = document.getElementById('tttDraws');
       const lossesEl = document.getElementById('tttLosses');
+      const eloEl = document.getElementById('tttElo');
+      const eloBarEl = document.getElementById('tttEloBar');
+      const rankBadgeEl = document.getElementById('tttRankBadge');
+      const difficultyEl = document.getElementById('tttDifficulty');
+      const eloDeltaEl = document.getElementById('tttEloDelta');
 
-      let board, gameOver, score = { w: 0, d: 0, l: 0 };
+      const RANKS = [
+        { name: 'Bronze',   min: 0,    color: '#cd7f32' },
+        { name: 'Silver',   min: 900,  color: '#c0c0c0' },
+        { name: 'Gold',     min: 1100, color: '#ffd700' },
+        { name: 'Platinum', min: 1300, color: '#00e5ff' },
+        { name: 'Diamond',  min: 1500, color: '#b388ff' },
+        { name: 'Master',   min: 1800, color: '#ff4081' },
+      ];
+
+      var saved = JSON.parse(localStorage.getItem('tttEloData') || 'null');
+      var elo = saved ? saved.elo : 800;
+      var score = saved ? saved.score : { w: 0, d: 0, l: 0 };
+      var board, gameOver;
+
+      function getRank(rating) {
+        for (var i = RANKS.length - 1; i >= 0; i--) {
+          if (rating >= RANKS[i].min) return RANKS[i];
+        }
+        return RANKS[0];
+      }
+
+      function getNextRank(rating) {
+        for (var i = 0; i < RANKS.length; i++) {
+          if (RANKS[i].min > rating) return RANKS[i];
+        }
+        return null;
+      }
+
+      function getMistakeRate() {
+        if (elo < 900) return 0.55;
+        if (elo < 1100) return 0.35;
+        if (elo < 1300) return 0.2;
+        if (elo < 1500) return 0.1;
+        if (elo < 1800) return 0.04;
+        return 0;
+      }
+
+      function getDifficultyLabel() {
+        if (elo < 900) return 'Easy';
+        if (elo < 1100) return 'Medium';
+        if (elo < 1300) return 'Hard';
+        if (elo < 1500) return 'Expert';
+        if (elo < 1800) return 'Master';
+        return 'Impossible';
+      }
+
+      function calcEloDelta(result) {
+        var cpuRating = 800 + (1 - getMistakeRate()) * 1200;
+        var expected = 1 / (1 + Math.pow(10, (cpuRating - elo) / 400));
+        var actual = result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
+        var K = elo < 1000 ? 40 : elo < 1400 ? 32 : 24;
+        return Math.round(K * (actual - expected));
+      }
+
+      function saveData() {
+        localStorage.setItem('tttEloData', JSON.stringify({ elo: elo, score: score }));
+      }
+
+      function updateUI() {
+        eloEl.textContent = elo;
+        winsEl.textContent = score.w;
+        drawsEl.textContent = score.d;
+        lossesEl.textContent = score.l;
+
+        var rank = getRank(elo);
+        rankBadgeEl.textContent = rank.name;
+        rankBadgeEl.style.background = rank.color + '22';
+        rankBadgeEl.style.color = rank.color;
+        rankBadgeEl.style.borderColor = rank.color + '44';
+
+        difficultyEl.textContent = 'Difficulty: ' + getDifficultyLabel();
+
+        var next = getNextRank(elo);
+        if (next) {
+          var prev = getRank(elo);
+          var progress = ((elo - prev.min) / (next.min - prev.min)) * 100;
+          eloBarEl.style.width = Math.max(2, Math.min(100, progress)) + '%';
+        } else {
+          eloBarEl.style.width = '100%';
+        }
+      }
+
+      function showDelta(delta) {
+        eloDeltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
+        eloDeltaEl.style.color = delta > 0 ? '#cbacf9' : delta < 0 ? '#f05032' : '#c1c2d3';
+        eloDeltaEl.style.transition = 'none';
+        eloDeltaEl.style.opacity = '1';
+        setTimeout(function() {
+          eloDeltaEl.style.transition = 'opacity 1.5s ease';
+          eloDeltaEl.style.opacity = '0';
+        }, 1500);
+      }
 
       function reset() {
         board = Array(9).fill(null);
         gameOver = false;
         status.textContent = 'Your turn';
-        cells.forEach(c => {
+        cells.forEach(function(c) {
           c.textContent = '';
           c.className = 'ttt-cell';
           c.disabled = false;
         });
+        updateUI();
       }
 
       function checkWin(b, p) {
-        return WINS.find(w => w.every(i => b[i] === p)) || null;
+        return WINS.find(function(w) { return w.every(function(i) { return b[i] === p; }); }) || null;
       }
 
       function isFull(b) {
-        return b.every(c => c !== null);
+        return b.every(function(c) { return c !== null; });
       }
 
       function minimax(b, isMax, depth) {
-        const wO = checkWin(b, 'O');
+        var wO = checkWin(b, 'O');
         if (wO) return 10 - depth;
-        const wX = checkWin(b, 'X');
+        var wX = checkWin(b, 'X');
         if (wX) return depth - 10;
         if (isFull(b)) return 0;
 
-        let best = isMax ? -Infinity : Infinity;
-        for (let i = 0; i < 9; i++) {
+        var best = isMax ? -Infinity : Infinity;
+        for (var i = 0; i < 9; i++) {
           if (b[i] !== null) continue;
           b[i] = isMax ? 'O' : 'X';
-          const val = minimax(b, !isMax, depth + 1);
+          var val = minimax(b, !isMax, depth + 1);
           b[i] = null;
           best = isMax ? Math.max(best, val) : Math.min(best, val);
         }
@@ -700,13 +820,24 @@
       }
 
       function cpuMove() {
-        let bestScore = -Infinity, bestIdx = -1;
-        for (let i = 0; i < 9; i++) {
-          if (board[i] !== null) continue;
-          board[i] = 'O';
-          const s = minimax(board, false, 0);
-          board[i] = null;
-          if (s > bestScore) { bestScore = s; bestIdx = i; }
+        var mistakeRate = getMistakeRate();
+        var empty = [];
+        for (var i = 0; i < 9; i++) { if (board[i] === null) empty.push(i); }
+        if (empty.length === 0) return;
+
+        if (Math.random() < mistakeRate) {
+          var idx = empty[Math.floor(Math.random() * empty.length)];
+          place(idx, 'O');
+          return;
+        }
+
+        var bestScore = -Infinity, bestIdx = -1;
+        for (var j = 0; j < 9; j++) {
+          if (board[j] !== null) continue;
+          board[j] = 'O';
+          var s = minimax(board, false, 0);
+          board[j] = null;
+          if (s > bestScore) { bestScore = s; bestIdx = j; }
         }
         if (bestIdx !== -1) place(bestIdx, 'O');
       }
@@ -720,38 +851,43 @@
 
       function endGame(result, winLine) {
         gameOver = true;
-        cells.forEach(c => c.disabled = true);
+        cells.forEach(function(c) { c.disabled = true; });
+
+        var delta = calcEloDelta(result);
+        elo = Math.max(100, elo + delta);
+
         if (result === 'win') {
           score.w++;
-          winsEl.textContent = score.w;
           status.textContent = 'You win!';
-          winLine.forEach(i => cells[i].classList.add('win-cell'));
+          if (winLine) winLine.forEach(function(i) { cells[i].classList.add('win-cell'); });
         } else if (result === 'lose') {
           score.l++;
-          lossesEl.textContent = score.l;
           status.textContent = 'CPU wins';
-          winLine.forEach(i => cells[i].classList.add('lose-cell'));
+          if (winLine) winLine.forEach(function(i) { cells[i].classList.add('lose-cell'); });
         } else {
           score.d++;
-          drawsEl.textContent = score.d;
           status.textContent = 'Draw';
         }
+
+        showDelta(delta);
+        saveData();
+        updateUI();
       }
 
-      cells.forEach(cell => {
+      cells.forEach(function(cell) {
         cell.addEventListener('click', function() {
-          const i = +this.dataset.i;
+          var i = +this.dataset.i;
           if (board[i] || gameOver) return;
 
           place(i, 'X');
-          const xWin = checkWin(board, 'X');
+          var xWin = checkWin(board, 'X');
           if (xWin) return endGame('win', xWin);
           if (isFull(board)) return endGame('draw');
 
           status.textContent = 'Thinking...';
-          setTimeout(() => {
+          setTimeout(function() {
             cpuMove();
-            const oWin = checkWin(board, 'O');
+            var oWin = checkWin(board, 'O');
             if (oWin) return endGame('lose', oWin);
             if (isFull(board)) return endGame('draw');
             status.textContent = 'Your turn';
