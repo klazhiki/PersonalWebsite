@@ -493,9 +493,13 @@
       function moveIndicatorTo(sectionId) {
         var activeLink = document.querySelector('.nav-link[data-section="' + sectionId + '"]');
         if (!activeLink || !indicator || !navbar) return;
-        var navRect = navbar.getBoundingClientRect();
-        var linkRect = activeLink.getBoundingClientRect();
-        var centerX = linkRect.left - navRect.left + linkRect.width / 2;
+        var offsetX = 0;
+        var el = activeLink;
+        while (el && el !== navbar) {
+          offsetX += el.offsetLeft;
+          el = el.offsetParent;
+        }
+        var centerX = offsetX + activeLink.offsetWidth / 2;
         indicator.style.left = centerX + 'px';
       }
 
