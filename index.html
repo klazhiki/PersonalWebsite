@@ -57,7 +57,7 @@
     <!-- Hero Section -->
     <section id="hero" class="relative w-full max-w-[1440px] mx-auto">
       <!-- Grid Pattern Background -->
-      <div class="relative h-[711px] w-full overflow-hidden">
+      <div class="relative h-[660px] w-full overflow-hidden">
         <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask" style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
           <!-- Grid lines -->
           <div class="absolute h-[900px] left-0 top-0 w-full">
@@ -205,11 +205,12 @@
           </h3>
 
           <ul class="list-disc text-[#bec1dd] text-[20px] leading-[1.3] pl-[30px] space-y-[4px] mb-[40px] max-w-[747px]">
-            <li>Built a repository-aware security auditor that parses full codebases using Tree-sitter AST analysis and leverages LLM-based reasoning to detect injection, deserialization, and privilege escalation vulnerabilities across Python and TypeScript projects.</li>
-            <li>Engineered a context-sensitive ruling engine that analyzes call chains and data flow paths, reducing false positives by ~35% compared to rule-only scanners (benchmarked against Semgrep defaults on 40+ OSS repos).</li>
-            <li>Implemented automated patch generation with structured diff output and Git branch isolation; achieved ~70% successful fix validation rate via post-scan verification and test re-execution.</li>
-            <li>Designed SARIF export pipeline for GitHub Code Scanning integration, enabling CI-enforced security checks on pull requests with sub-5 second incremental rescans.</li>
-            <li>Optimized prompt structuring and context compression to reduce token usage by ~28% while maintaining detection accuracy across large repositories (&gt;50k LOC).</li>
+            <li>Built an AI-driven application security auditor that analyses entire local or GitHub repositories using Gemini to generate structured vulnerability findings, visualize attack-flow graphs, and surface remediation guidance across Python and TypeScript codebases.</li>
+            <li>Designed a repository ingestion and batching pipeline for large codebases, enabling analysis of projects exceeding 50k LOC under strict file size and context limits.</li>
+            <li>Developed repository-aware vulnerability analysis that reduced false positives by ~35% vs rule-only scanners (benchmarked across 40+ open-source repos).</li>
+            <li>Implemented automated remediation with structured Git patch generation, achieving ~70% validated fix rate through post-scan verification and rescanning. Integrated SARIF reporting and GitHub Actions CI, enabling automated security checks with sub-5 second incremental rescans.</li>
+            <li>Optimized prompt architecture and context compression, reducing token usage ~28% while maintaining detection accuracy.</li>
+            <li>Deployed a production web interface on Vercel, averaging ~800 monthly visits from users scanning their repositories for security vulnerabilities.</li>
           </ul>
 
           <!-- Stats Row -->
@@ -259,9 +260,7 @@
                 <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
                   <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
                 </div>
-                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[24px] w-[26.785px] overflow-hidden">
-                  <img alt="" class="absolute h-[160.22%] max-w-none" style="left: -24.26%; top: 0; width: 148.51%;" src="assets/image14.png" />
-                </div>
+                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24px] h-[24px]" viewBox="0 0 24 24" fill="white"><path d="M24 22.525H0l12-21.05 12 21.05z"/></svg>
               </div>
             </div>
 
