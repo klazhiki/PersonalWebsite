@@ -102,7 +102,7 @@
 
         <!-- Subtitle -->
         <p class="absolute top-[486px] text-[#e4ecff] text-[24px] text-center leading-[1.2] whitespace-nowrap" style="left: 50%; transform: translateX(calc(-50% - 5.5px));">
-          McMaster Computer Engineering Student<br />
+          McMaster Engineering 1 Student<br />
           AI Driven Systems, ML
         </p>
 
@@ -425,7 +425,7 @@
               </div>
               <div class="text-left">
                 <p class="text-white font-medium text-[15px] leading-[1.3]">Ethan Joseph</p>
-                <p class="text-[#c1c2d3] text-[13px] leading-[1.3] mt-[2px]">McMaster Computer Engineering</p>
+                <p class="text-[#c1c2d3] text-[13px] leading-[1.3] mt-[2px]">McMaster Engineering 1</p>
                 <p class="text-[#cbacf9] text-[12px] leading-[1.3] mt-[4px]">View LinkedIn Profile &rarr;</p>
               </div>
             </a>
@@ -482,146 +482,113 @@
 
   <script>
     (function() {
-      const sections = ['hero', 'projects', 'contact'];
-      const navLinks = document.querySelectorAll('.nav-link');
-      const indicator = document.getElementById('navIndicator');
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const scrollTopOffset = 140;
-      let currentActive = null;
+      var sections = ['hero', 'projects', 'contact'];
+      var navLinks = document.querySelectorAll('.nav-link');
+      var indicator = document.getElementById('navIndicator');
+      var navbar = document.getElementById('navbar');
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var scrollTopOffset = 140;
+      var currentActive = null;
 
       function moveIndicatorTo(sectionId) {
-        const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
-        if (activeLink && indicator) {
-          const navBar = document.getElementById('navbar');
-          const navRect = navBar.getBoundingClientRect();
-          const linkRect = activeLink.getBoundingClientRect();
-          const centerX = linkRect.left - navRect.left + linkRect.width / 2;
-          indicator.style.left = centerX + 'px';
-        }
+        var activeLink = document.querySelector('.nav-link[data-section="' + sectionId + '"]');
+        if (!activeLink || !indicator || !navbar) return;
+        var navRect = navbar.getBoundingClientRect();
+        var linkRect = activeLink.getBoundingClientRect();
+        var centerX = linkRect.left - navRect.left + linkRect.width / 2;
+        indicator.style.left = centerX + 'px';
       }
 
       function updateActiveNav(sectionId) {
         if (sectionId === currentActive) return;
         currentActive = sectionId;
-
-        navLinks.forEach(link => {
+        navLinks.forEach(function(link) {
           if (link.dataset.section === sectionId) {
             link.classList.add('active');
           } else {
             link.classList.remove('active');
           }
         });
-
         moveIndicatorTo(sectionId);
       }
 
       function onScroll() {
-        const scrollY = window.scrollY + window.innerHeight * 0.35;
-        let active = sections[0];
-
-        for (const id of sections) {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop <= scrollY) {
-            active = id;
+        var trigger = window.innerHeight * 0.4;
+        var active = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          var el = document.getElementById(sections[i]);
+          if (!el) continue;
+          var rect = el.getBoundingClientRect();
+          if (rect.top <= trigger) {
+            active = sections[i];
           }
         }
-
         updateActiveNav(active);
       }
 
-      const smoothScrollController = (function() {
+      var smoothScrollController = (function() {
         if (prefersReducedMotion) {
-          return {
-            scrollTo(y) {
-              window.scrollTo(0, y);
-            }
-          };
+          return { scrollTo: function(y) { window.scrollTo(0, y); } };
         }
 
-        let targetY = window.scrollY;
-        let rafId = null;
-        const ease = 0.12;
+        var targetY = window.scrollY;
+        var rafId = null;
+        var ease = 0.12;
 
         function clampScroll(y) {
-          const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+          var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
           return Math.max(0, Math.min(y, maxY));
         }
 
         function animate() {
-          const currentY = window.scrollY;
-          const nextY = currentY + (targetY - currentY) * ease;
-
+          var currentY = window.scrollY;
+          var nextY = currentY + (targetY - currentY) * ease;
           if (Math.abs(targetY - currentY) < 0.35) {
             window.scrollTo(0, targetY);
             rafId = null;
             return;
           }
-
           window.scrollTo(0, nextY);
           rafId = requestAnimationFrame(animate);
         }
 
         function queueAnimation() {
-          if (rafId === null) {
-            rafId = requestAnimationFrame(animate);
-          }
+          if (rafId === null) rafId = requestAnimationFrame(animate);
         }
 
-        window.addEventListener('wheel', (event) => {
+        window.addEventListener('wheel', function(event) {
           if (event.ctrlKey || event.defaultPrevented) return;
           event.preventDefault();
           targetY = clampScroll(targetY + event.deltaY);
           queueAnimation();
         }, { passive: false });
 
-        window.addEventListener('keydown', (event) => {
-          const pageStep = window.innerHeight * 0.9;
-          let delta = 0;
-
+        window.addEventListener('keydown', function(event) {
+          var pageStep = window.innerHeight * 0.9;
+          var delta = 0;
           if (event.key === 'ArrowDown') delta = 84;
           else if (event.key === 'ArrowUp') delta = -84;
           else if (event.key === 'PageDown' || event.key === ' ') delta = pageStep;
           else if (event.key === 'PageUp') delta = -pageStep;
-          else if (event.key === 'Home') {
-            event.preventDefault();
-            targetY = 0;
-            queueAnimation();
-            return;
-          } else if (event.key === 'End') {
-            event.preventDefault();
-            targetY = clampScroll(document.documentElement.scrollHeight);
-            queueAnimation();
-            return;
-          }
-
-          if (delta !== 0) {
-            event.preventDefault();
-            targetY = clampScroll(targetY + delta);
-            queueAnimation();
-          }
+          else if (event.key === 'Home') { event.preventDefault(); targetY = 0; queueAnimation(); return; }
+          else if (event.key === 'End') { event.preventDefault(); targetY = clampScroll(document.documentElement.scrollHeight); queueAnimation(); return; }
+          if (delta !== 0) { event.preventDefault(); targetY = clampScroll(targetY + delta); queueAnimation(); }
         }, { passive: false });
 
-        window.addEventListener('scroll', () => {
-          if (rafId === null) {
-            targetY = window.scrollY;
-          }
+        window.addEventListener('scroll', function() {
+          if (rafId === null) targetY = window.scrollY;
         }, { passive: true });
 
-        return {
-          scrollTo(y) {
-            targetY = clampScroll(y);
-            queueAnimation();
-          }
-        };
+        return { scrollTo: function(y) { targetY = clampScroll(y); queueAnimation(); } };
       })();
 
-      navLinks.forEach(link => {
+      navLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const target = document.getElementById(targetId);
+          var targetId = this.getAttribute('href').substring(1);
+          var target = document.getElementById(targetId);
           if (target) {
-            const targetY = target.getBoundingClientRect().top + window.scrollY - scrollTopOffset;
+            var targetY = target.getBoundingClientRect().top + window.scrollY - scrollTopOffset;
             smoothScrollController.scrollTo(targetY);
           }
         });
@@ -629,10 +596,16 @@
 
       window.addEventListener('scroll', onScroll, { passive: true });
 
+      window.addEventListener('resize', function() {
+        if (currentActive) moveIndicatorTo(currentActive);
+      });
+
       function initNav() {
         indicator.style.transition = 'none';
+        currentActive = null;
         updateActiveNav('hero');
         moveIndicatorTo('hero');
+        void indicator.offsetWidth;
         requestAnimationFrame(function() {
           requestAnimationFrame(function() {
             indicator.style.transition = '';
