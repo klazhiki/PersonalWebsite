@@ -682,6 +682,7 @@
       var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
       var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+      window.__cookieSb = sb;
 
       var btn = document.getElementById('cookieBtn');
       var countEl = document.getElementById('cookieCount');
@@ -692,44 +693,41 @@
       var nameInput = document.getElementById('cookieNameInput');
       var nameSave = document.getElementById('cookieNameSave');
       var nameError = document.getElementById('cookieNameError');
-      
 
       var count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
-      var ipHash = localStorage.getItem('cookieIpHash') || '';
-      var myUsername = localStorage.getItem('cookieUsername') || '';
-      var promptShown = localStorage.getItem('cookiePromptDone') === '1';
+      var ipHash = '';
+      var myUsername = '';
+      var promptShown = false;
       var syncTimer = null;
       var lbData = [];
+      var playerReady = false;
 
       countEl.textContent = count;
 
-      async function getIpHash() {
-        if (ipHash) return ipHash;
+      async function resolveIpHash() {
         try {
           var resp = await fetch('https://api.ipify.org?format=json');
           var data = await resp.json();
-          var ip = data.ip;
-          var enc = new TextEncoder().encode(ip + '_cookie_salt_2026');
+          var enc = new TextEncoder().encode(data.ip + '_cookie_salt_2026');
           var hashBuf = await crypto.subtle.digest('SHA-256', enc);
           var arr = Array.from(new Uint8Array(hashBuf));
           ipHash = arr.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-          localStorage.setItem('cookieIpHash', ipHash);
-          return ipHash;
         } catch (e) {
-          var fallback = 'local_' + Math.random().toString(36).slice(2, 14);
-          ipHash = fallback;
-          localStorage.setItem('cookieIpHash', fallback);
-          return fallback;
+          ipHash = localStorage.getItem('cookieIpHash') || 'local_' + Math.random().toString(36).slice(2, 14);
         }
+        localStorage.setItem('cookieIpHash', ipHash);
+        window.__ipHash = ipHash;
+        return ipHash;
       }
 
       async function initPlayer() {
-        var hash = await getIpHash();
+        await resolveIpHash();
         try {
-          var { data, error } = await sb.rpc('get_or_create_player', { p_ip_hash: hash });
+          var { data, error } = await sb.rpc('get_or_create_player', { p_ip_hash: ipHash });
           if (error) { console.error('init error', error); return; }
           myUsername = data.username;
           localStorage.setItem('cookieUsername', myUsername);
+          window.__username = myUsername;
           if (data.cookies > count) {
             count = data.cookies;
             countEl.textContent = count;
@@ -738,6 +736,10 @@
             syncCookies();
           }
           showUsername();
+          playerReady = true;
+          if (myUsername && !myUsername.startsWith('Guest')) {
+            promptShown = true;
+          }
         } catch (e) { console.error('init exception', e); }
       }
 
@@ -812,7 +814,6 @@
       function showPrompt() {
         if (promptShown) return;
         promptShown = true;
-        localStorage.setItem('cookiePromptDone', '1');
         promptEl.classList.add('visible');
       }
 
@@ -840,11 +841,12 @@
           if (data && data.error) { nameError.textContent = data.error; return; }
           myUsername = data.username;
           localStorage.setItem('cookieUsername', myUsername);
+          window.__username = myUsername;
           showUsername();
           promptEl.classList.remove('visible');
           fetchLeaderboard();
           var tttPromptEl = document.getElementById('tttNamePrompt');
-          if (tttPromptEl) { tttPromptEl.classList.remove('visible'); localStorage.setItem('tttPromptDone', '1'); }
+          if (tttPromptEl) tttPromptEl.classList.remove('visible');
           sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
         } catch (e) {
           nameSave.disabled = false;
@@ -867,7 +869,7 @@
 
         syncCookies();
 
-        if (count >= 1 && !promptShown && myUsername.startsWith('Guest')) {
+        if (playerReady && !promptShown && myUsername.startsWith('Guest')) {
           showPrompt();
         }
       });
@@ -916,11 +918,12 @@
       var elo = saved ? saved.elo : 800;
       var score = saved ? saved.score : { w: 0, d: 0, l: 0 };
       var board, gameOver;
-      var ipHash = localStorage.getItem('cookieIpHash') || '';
-      var myUsername = localStorage.getItem('cookieUsername') || '';
-      var tttPromptShown = localStorage.getItem('tttPromptDone') === '1';
+      var ipHash = '';
+      var myUsername = '';
+      var tttPromptShown = false;
       var tttLBData = [];
       var hasPlayed = false;
+      var tttPlayerReady = false;
 
       function getRank(rating) {
         for (var i = RANKS.length - 1; i >= 0; i--) {
@@ -1058,20 +1061,17 @@
       }
 
       async function initTTTPlayer() {
-        ipHash = localStorage.getItem('cookieIpHash') || '';
-        myUsername = localStorage.getItem('cookieUsername') || '';
-        if (!ipHash) {
-          await new Promise(function(resolve) {
-            var check = setInterval(function() {
-              ipHash = localStorage.getItem('cookieIpHash') || '';
-              myUsername = localStorage.getItem('cookieUsername') || '';
-              if (ipHash) { clearInterval(check); resolve(); }
-            }, 200);
-          });
-        }
+        await new Promise(function(resolve) {
+          var check = setInterval(function() {
+            if (window.__ipHash) { clearInterval(check); resolve(); }
+          }, 100);
+        });
+        ipHash = window.__ipHash;
+        myUsername = window.__username || '';
         try {
           var { data, error } = await sb.rpc('ttt_get_or_create', { p_ip_hash: ipHash, p_username: myUsername || 'Guest0000' });
           if (!error && data) {
+            myUsername = data.username;
             if (data.elo > elo) {
               elo = data.elo;
               score = { w: data.wins, d: data.draws, l: data.losses };
@@ -1079,6 +1079,10 @@
             } else {
               syncToSupabase();
             }
+            if (myUsername && !myUsername.startsWith('Guest')) {
+              tttPromptShown = true;
+            }
+            tttPlayerReady = true;
             updateUI();
           }
         } catch (e) { console.error('ttt init error', e); }
@@ -1086,14 +1090,12 @@
 
       function maybeShowTTTPrompt() {
         if (tttPromptShown) return;
-        myUsername = localStorage.getItem('cookieUsername') || '';
+        myUsername = window.__username || localStorage.getItem('cookieUsername') || '';
         if (myUsername && !myUsername.startsWith('Guest')) {
           tttPromptShown = true;
-          localStorage.setItem('tttPromptDone', '1');
           return;
         }
         tttPromptShown = true;
-        localStorage.setItem('tttPromptDone', '1');
         tttNamePrompt.classList.add('visible');
       }
 
@@ -1121,10 +1123,11 @@
           await sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val });
           myUsername = val;
           localStorage.setItem('cookieUsername', myUsername);
+          window.__username = myUsername;
           var cookieUsernameEl = document.getElementById('cookieUsername');
           if (cookieUsernameEl) { cookieUsernameEl.textContent = myUsername; cookieUsernameEl.style.opacity = '1'; }
           var cookiePromptEl = document.getElementById('cookieNamePrompt');
-          if (cookiePromptEl) { cookiePromptEl.classList.remove('visible'); localStorage.setItem('cookiePromptDone', '1'); }
+          if (cookiePromptEl) cookiePromptEl.classList.remove('visible');
           tttNamePrompt.classList.remove('visible');
           tttNameSave.disabled = false;
           fetchTTTLeaderboard();
@@ -1225,7 +1228,7 @@
         cell.addEventListener('click', function() {
           var i = +this.dataset.i;
           if (board[i] || gameOver) return;
-          if (!hasPlayed) {
+          if (!hasPlayed && tttPlayerReady) {
             hasPlayed = true;
             maybeShowTTTPrompt();
           }
