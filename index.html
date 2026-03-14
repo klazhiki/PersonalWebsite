@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -118,13 +119,40 @@
           </a>
         </div>
 
-        <!-- Cookie Clicker -->
-        <div class="cookie-clicker absolute right-[80px] top-[340px]">
-          <div class="cookie-count" id="cookieCount">0</div>
-          <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
-            <span class="cookie-emoji" id="cookieEmoji">🍪</span>
-          </button>
-          <p class="cookie-label">Click for cookies</p>
+        <!-- Cookie Clicker + Leaderboard -->
+        <div class="cookie-section absolute right-[80px] top-[260px]" style="display: flex; gap: 20px; align-items: flex-start;">
+
+          <!-- Leaderboard -->
+          <div class="cookie-lb" id="cookieLB">
+            <div class="cookie-lb-header">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+              <span>Leaderboard</span>
+            </div>
+            <div class="cookie-lb-list" id="cookieLBList">
+              <div class="cookie-lb-empty">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Cookie Clicker -->
+          <div class="cookie-clicker" style="position: relative;">
+            <div class="cookie-count" id="cookieCount">0</div>
+            <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
+              <span class="cookie-emoji" id="cookieEmoji">🍪</span>
+            </button>
+            <p class="cookie-label">Click for cookies</p>
+            <p class="cookie-username" id="cookieUsername" style="opacity: 0;"></p>
+
+            <!-- Username prompt (hidden initially) -->
+            <div class="cookie-name-prompt" id="cookieNamePrompt">
+              <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
+              <div style="display: flex; gap: 6px;">
+                <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+                <button id="cookieNameSave" class="cookie-name-save">✓</button>
+              </div>
+              <p class="cookie-name-error" id="cookieNameError"></p>
+              <button class="cookie-name-dismiss" id="cookieNameDismiss">skip</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -628,25 +656,203 @@
 
   <script>
     (function() {
-      const btn = document.getElementById('cookieBtn');
-      const countEl = document.getElementById('cookieCount');
-      const clicker = document.querySelector('.cookie-clicker');
-      let count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
+      var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
+      var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
+      var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+      var btn = document.getElementById('cookieBtn');
+      var countEl = document.getElementById('cookieCount');
+      var clicker = document.querySelector('.cookie-clicker');
+      var lbList = document.getElementById('cookieLBList');
+      var usernameEl = document.getElementById('cookieUsername');
+      var promptEl = document.getElementById('cookieNamePrompt');
+      var nameInput = document.getElementById('cookieNameInput');
+      var nameSave = document.getElementById('cookieNameSave');
+      var nameError = document.getElementById('cookieNameError');
+      var nameDismiss = document.getElementById('cookieNameDismiss');
+
+      var count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
+      var ipHash = localStorage.getItem('cookieIpHash') || '';
+      var myUsername = localStorage.getItem('cookieUsername') || '';
+      var promptShown = localStorage.getItem('cookiePromptDone') === '1';
+      var syncTimer = null;
+      var lbData = [];
+
       countEl.textContent = count;
+
+      async function getIpHash() {
+        if (ipHash) return ipHash;
+        try {
+          var resp = await fetch('https://api.ipify.org?format=json');
+          var data = await resp.json();
+          var ip = data.ip;
+          var enc = new TextEncoder().encode(ip + '_cookie_salt_2026');
+          var hashBuf = await crypto.subtle.digest('SHA-256', enc);
+          var arr = Array.from(new Uint8Array(hashBuf));
+          ipHash = arr.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+          localStorage.setItem('cookieIpHash', ipHash);
+          return ipHash;
+        } catch (e) {
+          var fallback = 'local_' + Math.random().toString(36).slice(2, 14);
+          ipHash = fallback;
+          localStorage.setItem('cookieIpHash', fallback);
+          return fallback;
+        }
+      }
+
+      async function initPlayer() {
+        var hash = await getIpHash();
+        try {
+          var { data, error } = await sb.rpc('get_or_create_player', { p_ip_hash: hash });
+          if (error) { console.error('init error', error); return; }
+          myUsername = data.username;
+          localStorage.setItem('cookieUsername', myUsername);
+          if (data.cookies > count) {
+            count = data.cookies;
+            countEl.textContent = count;
+            localStorage.setItem('cookieCount', count);
+          } else if (count > 0) {
+            syncCookies();
+          }
+          showUsername();
+        } catch (e) { console.error('init exception', e); }
+      }
+
+      function showUsername() {
+        if (myUsername) {
+          usernameEl.textContent = myUsername;
+          usernameEl.style.opacity = '1';
+        }
+      }
+
+      function syncCookies() {
+        if (!ipHash) return;
+        clearTimeout(syncTimer);
+        syncTimer = setTimeout(function() {
+          sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: count }).then(function() {});
+        }, 800);
+      }
+
+      function renderLeaderboard() {
+        if (lbData.length === 0) {
+          lbList.innerHTML = '<div class="cookie-lb-empty">No cookies yet</div>';
+          return;
+        }
+        var html = '';
+        for (var i = 0; i < lbData.length && i < 10; i++) {
+          var row = lbData[i];
+          var isMe = row.ip_hash === ipHash;
+          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '">' +
+            '<span class="cookie-lb-rank">' + (i + 1) + '</span>' +
+            '<span class="cookie-lb-name">' + escHtml(row.username) + '</span>' +
+            '<span class="cookie-lb-score">' + formatNum(row.cookies) + '</span>' +
+            '</div>';
+        }
+        lbList.innerHTML = html;
+      }
+
+      function escHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function formatNum(n) {
+        if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+        if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+        return String(n);
+      }
+
+      async function fetchLeaderboard() {
+        try {
+          var { data, error } = await sb
+            .from('cookie_leaderboard')
+            .select('username, cookies, ip_hash')
+            .order('cookies', { ascending: false })
+            .limit(10);
+          if (!error && data) {
+            lbData = data;
+            renderLeaderboard();
+          }
+        } catch (e) { console.error('lb fetch error', e); }
+      }
+
+      function setupRealtime() {
+        sb.channel('cookie-lb-changes')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'cookie_leaderboard' }, function() {
+            fetchLeaderboard();
+          })
+          .subscribe();
+      }
+
+      function showPrompt() {
+        if (promptShown) return;
+        promptShown = true;
+        localStorage.setItem('cookiePromptDone', '1');
+        promptEl.classList.add('visible');
+      }
+
+      nameDismiss.addEventListener('click', function() {
+        promptEl.classList.remove('visible');
+      });
+
+      nameSave.addEventListener('click', submitUsername);
+      nameInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') submitUsername();
+      });
+
+      async function submitUsername() {
+        var val = nameInput.value.trim();
+        nameError.textContent = '';
+        if (val.length < 2 || val.length > 16) {
+          nameError.textContent = '2-16 characters required';
+          return;
+        }
+        if (!/^[a-zA-Z0-9_]+$/.test(val)) {
+          nameError.textContent = 'Letters, numbers, _ only';
+          return;
+        }
+        try {
+          nameSave.disabled = true;
+          var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
+          nameSave.disabled = false;
+          if (error) { nameError.textContent = 'Server error'; return; }
+          if (data && data.error) { nameError.textContent = data.error; return; }
+          myUsername = data.username;
+          localStorage.setItem('cookieUsername', myUsername);
+          showUsername();
+          promptEl.classList.remove('visible');
+          fetchLeaderboard();
+        } catch (e) {
+          nameSave.disabled = false;
+          nameError.textContent = 'Network error';
+        }
+      }
 
       btn.addEventListener('click', function(e) {
         count++;
         countEl.textContent = count;
         localStorage.setItem('cookieCount', count);
 
-        const pop = document.createElement('span');
+        var pop = document.createElement('span');
         pop.className = 'cookie-pop';
         pop.textContent = '+1';
         pop.style.left = (Math.random() * 40 + 20) + 'px';
         pop.style.top = '20px';
         clicker.appendChild(pop);
-        setTimeout(() => pop.remove(), 700);
+        setTimeout(function() { pop.remove(); }, 700);
+
+        syncCookies();
+
+        if (count === 3 && !promptShown && myUsername.startsWith('Guest')) {
+          showPrompt();
+        }
       });
+
+      initPlayer();
+      fetchLeaderboard();
+      setupRealtime();
+      setInterval(fetchLeaderboard, 15000);
     })();
   </script>
 

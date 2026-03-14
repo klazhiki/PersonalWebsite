@@ -390,6 +390,195 @@ li {
   background: rgba(30, 35, 64, 0.9);
 }
 
+/* ─── Cookie Leaderboard ─── */
+.cookie-lb {
+  width: 160px;
+  border-radius: 14px;
+  border: 1px solid rgba(54, 55, 73, 0.35);
+  background: rgba(4, 7, 29, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 12px 8px;
+  z-index: 3;
+}
+
+.cookie-lb-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #cbacf9;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 6px;
+}
+
+.cookie-lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cookie-lb-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3.5px 0;
+  font-size: 11px;
+  transition: background 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
+  border-radius: 4px;
+}
+
+.cookie-lb-row.is-you {
+  color: #cbacf9;
+  font-weight: 600;
+}
+
+.cookie-lb-rank {
+  width: 16px;
+  text-align: center;
+  font-weight: 700;
+  color: rgba(193, 194, 211, 0.45);
+  font-size: 9px;
+  flex-shrink: 0;
+}
+
+.cookie-lb-row:nth-child(1) .cookie-lb-rank { color: #ffd700; }
+.cookie-lb-row:nth-child(2) .cookie-lb-rank { color: #c0c0c0; }
+.cookie-lb-row:nth-child(3) .cookie-lb-rank { color: #cd7f32; }
+
+.cookie-lb-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #c1c2d3;
+}
+
+.cookie-lb-row.is-you .cookie-lb-name { color: #cbacf9; }
+
+.cookie-lb-score {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-lb-row.is-you .cookie-lb-score { color: #cbacf9; }
+
+.cookie-lb-empty {
+  text-align: center;
+  font-size: 10px;
+  color: rgba(193, 194, 211, 0.35);
+  padding: 8px 0;
+}
+
+/* ─── Cookie Username Display ─── */
+.cookie-username {
+  font-size: 10px;
+  color: rgba(203, 172, 249, 0.6);
+  text-align: center;
+  margin-top: 2px;
+  transition: opacity 0.4s ease;
+}
+
+/* ─── Cookie Name Prompt ─── */
+.cookie-name-prompt {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.95);
+  width: 170px;
+  background: rgba(4, 7, 29, 0.92);
+  border: 1px solid rgba(203, 172, 249, 0.2);
+  border-radius: 12px;
+  padding: 10px 12px 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.15, 1);
+  z-index: 10;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.cookie-name-prompt.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(8px) scale(1);
+}
+
+.cookie-name-prompt-label {
+  font-size: 11px;
+  color: #c1c2d3;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.cookie-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(105, 113, 162, 0.3);
+  background: rgba(22, 26, 49, 0.8);
+  color: white;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.cookie-name-input:focus {
+  border-color: rgba(203, 172, 249, 0.5);
+}
+
+.cookie-name-save {
+  padding: 4px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(203, 172, 249, 0.3);
+  background: rgba(203, 172, 249, 0.12);
+  color: #cbacf9;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cookie-name-save:hover {
+  background: rgba(203, 172, 249, 0.22);
+  border-color: rgba(203, 172, 249, 0.5);
+}
+
+.cookie-name-error {
+  font-size: 10px;
+  color: #f05032;
+  margin-top: 4px;
+  text-align: center;
+  min-height: 14px;
+}
+
+.cookie-name-dismiss {
+  display: block;
+  margin: 2px auto 0;
+  background: none;
+  border: none;
+  color: rgba(193, 194, 211, 0.4);
+  font-size: 10px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.cookie-name-dismiss:hover {
+  color: rgba(193, 194, 211, 0.7);
+}
+
 /* ─── Cookie Clicker ─── */
 .cookie-clicker {
   display: flex;
@@ -666,10 +855,20 @@ li {
     max-width: 260px;
   }
 
-  /* Cookie clicker — below CTAs */
-  .cookie-clicker {
+  /* Cookie section — stack on mobile */
+  .cookie-section {
+    position: static !important;
+    flex-direction: column-reverse !important;
+    align-items: center !important;
+    gap: 12px !important;
     order: 5;
     margin-top: 6px;
+  }
+  .cookie-lb {
+    width: 200px;
+  }
+  .cookie-clicker {
+    position: relative !important;
   }
   .cookie-btn {
     width: 64px;
