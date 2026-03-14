@@ -425,25 +425,29 @@ li {
 .cookie-lb-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 3.5px 0;
+  gap: 0;
+  padding: 4px 4px;
   font-size: 11px;
   transition: background 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
-  border-radius: 4px;
+  border-radius: 5px;
+}
+
+.cookie-lb-row:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .cookie-lb-row.is-you {
-  color: #cbacf9;
-  font-weight: 600;
+  background: rgba(203, 172, 249, 0.06);
 }
 
 .cookie-lb-rank {
-  width: 16px;
+  width: 20px;
   text-align: center;
   font-weight: 700;
-  color: rgba(193, 194, 211, 0.45);
-  font-size: 9px;
+  color: rgba(193, 194, 211, 0.4);
+  font-size: 10px;
   flex-shrink: 0;
+  margin-right: 6px;
 }
 
 .cookie-lb-row:nth-child(1) .cookie-lb-rank { color: #ffd700; }
@@ -456,16 +460,27 @@ li {
   overflow: hidden;
   text-overflow: ellipsis;
   color: #c1c2d3;
+  font-weight: 500;
 }
 
-.cookie-lb-row.is-you .cookie-lb-name { color: #cbacf9; }
+.cookie-lb-row.is-you .cookie-lb-name { color: #cbacf9; font-weight: 600; }
+
+.cookie-lb-sep {
+  width: 1px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
 
 .cookie-lb-score {
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.75);
   font-variant-numeric: tabular-nums;
   font-size: 10px;
   flex-shrink: 0;
+  min-width: 24px;
+  text-align: right;
 }
 
 .cookie-lb-row.is-you .cookie-lb-score { color: #cbacf9; }
@@ -522,19 +537,24 @@ li {
 .cookie-name-input {
   flex: 1;
   min-width: 0;
-  padding: 5px 8px;
+  padding: 6px 9px;
   border-radius: 7px;
-  border: 1px solid rgba(105, 113, 162, 0.3);
-  background: rgba(22, 26, 49, 0.8);
-  color: white;
+  border: 1px solid rgba(105, 113, 162, 0.4);
+  background: rgba(12, 15, 36, 0.95);
+  color: #f0f0f5;
   font-size: 12px;
   font-family: 'Inter', sans-serif;
   outline: none;
   transition: border-color 0.25s ease;
 }
 
+.cookie-name-input::placeholder {
+  color: rgba(193, 194, 211, 0.4);
+}
+
 .cookie-name-input:focus {
-  border-color: rgba(203, 172, 249, 0.5);
+  border-color: rgba(203, 172, 249, 0.6);
+  background: rgba(16, 19, 42, 0.95);
 }
 
 .cookie-name-save {
@@ -563,21 +583,6 @@ li {
   min-height: 14px;
 }
 
-.cookie-name-dismiss {
-  display: block;
-  margin: 2px auto 0;
-  background: none;
-  border: none;
-  color: rgba(193, 194, 211, 0.4);
-  font-size: 10px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s ease;
-}
-
-.cookie-name-dismiss:hover {
-  color: rgba(193, 194, 211, 0.7);
-}
 
 /* ─── Cookie Clicker ─── */
 .cookie-clicker {

@@ -120,7 +120,7 @@
         </div>
 
         <!-- Cookie Clicker + Leaderboard -->
-        <div class="cookie-section absolute right-[80px] top-[260px]" style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="cookie-section absolute right-[100px] top-[310px]" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
 
           <!-- Leaderboard -->
           <div class="cookie-lb" id="cookieLB">
@@ -150,7 +150,6 @@
                 <button id="cookieNameSave" class="cookie-name-save">✓</button>
               </div>
               <p class="cookie-name-error" id="cookieNameError"></p>
-              <button class="cookie-name-dismiss" id="cookieNameDismiss">skip</button>
             </div>
           </div>
         </div>
@@ -669,7 +668,7 @@
       var nameInput = document.getElementById('cookieNameInput');
       var nameSave = document.getElementById('cookieNameSave');
       var nameError = document.getElementById('cookieNameError');
-      var nameDismiss = document.getElementById('cookieNameDismiss');
+      
 
       var count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
       var ipHash = localStorage.getItem('cookieIpHash') || '';
@@ -743,8 +742,9 @@
           var row = lbData[i];
           var isMe = row.ip_hash === ipHash;
           html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '">' +
-            '<span class="cookie-lb-rank">' + (i + 1) + '</span>' +
+            '<span class="cookie-lb-rank">#' + (i + 1) + '</span>' +
             '<span class="cookie-lb-name">' + escHtml(row.username) + '</span>' +
+            '<span class="cookie-lb-sep"></span>' +
             '<span class="cookie-lb-score">' + formatNum(row.cookies) + '</span>' +
             '</div>';
         }
@@ -791,10 +791,6 @@
         localStorage.setItem('cookiePromptDone', '1');
         promptEl.classList.add('visible');
       }
-
-      nameDismiss.addEventListener('click', function() {
-        promptEl.classList.remove('visible');
-      });
 
       nameSave.addEventListener('click', submitUsername);
       nameInput.addEventListener('keydown', function(e) {
@@ -844,7 +840,7 @@
 
         syncCookies();
 
-        if (count === 3 && !promptShown && myUsername.startsWith('Guest')) {
+        if (count >= 1 && !promptShown && myUsername.startsWith('Guest')) {
           showPrompt();
         }
       });
