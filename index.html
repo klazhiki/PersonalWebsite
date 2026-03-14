@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
@@ -344,75 +344,99 @@
     <section id="tictactoe" class="relative w-full max-w-[1440px] mx-auto mt-[100px]">
       <div class="text-center mb-[40px]">
         <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
-          Take a <span class="text-[#cbacf9]">Break</span>
+          <span class="ttt-ranked-text">Ranked</span> Tic Tac Toe
         </h2>
-        <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mt-[16px]">Try to beat the computer at Tic Tac Toe.</p>
+        <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mt-[16px]">Ultimate bragging rights.</p>
       </div>
 
-      <div class="ttt-card mx-auto w-[420px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[40px] px-[40px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div class="flex justify-center items-start gap-[24px]">
+        <!-- Game Card -->
+        <div class="ttt-card w-[420px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[40px] px-[40px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
 
-        <!-- ELO Rating Display -->
-        <div class="flex items-center justify-between mb-[20px] px-[4px]">
-          <div class="flex items-center gap-[8px]">
-            <span class="text-[12px] text-[#c1c2d3] uppercase tracking-[1px]">Skill Rating</span>
-          </div>
-          <div class="flex items-center gap-[10px]">
-            <span id="tttRankBadge" class="ttt-rank-badge">Bronze</span>
-            <span id="tttElo" class="text-[22px] font-bold text-[#cbacf9] tracking-[-0.5px]">800</span>
-          </div>
-        </div>
-
-        <!-- ELO Progress Bar -->
-        <div class="mb-[20px]">
-          <div class="w-full h-[4px] rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
-            <div id="tttEloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
-          </div>
-          <div class="flex justify-between mt-[4px]">
-            <span id="tttDifficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
-            <span id="tttEloDelta" class="text-[11px] font-medium" style="color: transparent;">+0</span>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between mb-[28px] px-[4px]">
-          <div class="flex items-center gap-[12px]">
-            <span class="ttt-badge ttt-x-color">X</span>
-            <span class="text-[14px] text-[#c1c2d3]">You</span>
-          </div>
-          <div id="tttStatus" class="text-[15px] font-medium text-white tracking-[-0.3px]">Your turn</div>
-          <div class="flex items-center gap-[12px]">
-            <span class="text-[14px] text-[#c1c2d3]">CPU</span>
-            <span class="ttt-badge ttt-o-color">O</span>
-          </div>
-        </div>
-
-        <div id="tttBoard" class="ttt-grid">
-          <button class="ttt-cell" data-i="0"></button>
-          <button class="ttt-cell" data-i="1"></button>
-          <button class="ttt-cell" data-i="2"></button>
-          <button class="ttt-cell" data-i="3"></button>
-          <button class="ttt-cell" data-i="4"></button>
-          <button class="ttt-cell" data-i="5"></button>
-          <button class="ttt-cell" data-i="6"></button>
-          <button class="ttt-cell" data-i="7"></button>
-          <button class="ttt-cell" data-i="8"></button>
-        </div>
-
-        <div class="flex items-center justify-between mt-[28px] px-[4px]">
-          <div class="flex gap-[24px]">
-            <div class="text-center">
-              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Wins</p>
-              <p id="tttWins" class="text-[20px] font-bold text-[#cbacf9]">0</p>
+          <!-- ELO Rating Display -->
+          <div class="flex items-center justify-between mb-[20px] px-[4px]">
+            <div class="flex items-center gap-[8px]">
+              <span class="text-[12px] text-[#c1c2d3] uppercase tracking-[1px]">Skill Rating</span>
             </div>
-            <div class="text-center">
-              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Draws</p>
-              <p id="tttDraws" class="text-[20px] font-bold text-white">0</p>
-            </div>
-            <div class="text-center">
-              <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Losses</p>
-              <p id="tttLosses" class="text-[20px] font-bold text-[#f05032]">0</p>
+            <div class="flex items-center gap-[10px]">
+              <span id="tttRankBadge" class="ttt-rank-badge">Bronze</span>
+              <span id="tttElo" class="text-[22px] font-bold text-[#cbacf9] tracking-[-0.5px]">800</span>
             </div>
           </div>
-          <button id="tttReset" class="ttt-reset-btn">New Game</button>
+
+          <!-- ELO Progress Bar -->
+          <div class="mb-[20px]">
+            <div class="w-full h-[4px] rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
+              <div id="tttEloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
+            </div>
+            <div class="flex justify-between mt-[4px]">
+              <span id="tttDifficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
+              <span id="tttEloDelta" class="text-[11px] font-medium" style="color: transparent;">+0</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-[28px] px-[4px]">
+            <div class="flex items-center gap-[12px]">
+              <span class="ttt-badge ttt-x-color">X</span>
+              <span class="text-[14px] text-[#c1c2d3]">You</span>
+            </div>
+            <div id="tttStatus" class="text-[15px] font-medium text-white tracking-[-0.3px]">Your turn</div>
+            <div class="flex items-center gap-[12px]">
+              <span class="text-[14px] text-[#c1c2d3]">CPU</span>
+              <span class="ttt-badge ttt-o-color">O</span>
+            </div>
+          </div>
+
+          <div id="tttBoard" class="ttt-grid">
+            <button class="ttt-cell" data-i="0"></button>
+            <button class="ttt-cell" data-i="1"></button>
+            <button class="ttt-cell" data-i="2"></button>
+            <button class="ttt-cell" data-i="3"></button>
+            <button class="ttt-cell" data-i="4"></button>
+            <button class="ttt-cell" data-i="5"></button>
+            <button class="ttt-cell" data-i="6"></button>
+            <button class="ttt-cell" data-i="7"></button>
+            <button class="ttt-cell" data-i="8"></button>
+          </div>
+
+          <div class="flex items-center justify-between mt-[28px] px-[4px]">
+            <div class="flex gap-[24px]">
+              <div class="text-center">
+                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Wins</p>
+                <p id="tttWins" class="text-[20px] font-bold text-[#cbacf9]">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Draws</p>
+                <p id="tttDraws" class="text-[20px] font-bold text-white">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Losses</p>
+                <p id="tttLosses" class="text-[20px] font-bold text-[#f05032]">0</p>
+              </div>
+            </div>
+            <button id="tttReset" class="ttt-reset-btn">New Game</button>
+          </div>
+        </div>
+
+        <!-- TTT Leaderboard -->
+        <div class="ttt-lb" id="tttLB">
+          <div class="ttt-lb-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            <span>ELO Leaderboard</span>
+          </div>
+          <div class="ttt-lb-list" id="tttLBList">
+            <div class="cookie-lb-empty">Loading...</div>
+          </div>
+
+          <!-- Username prompt for TTT (if not set from cookie) -->
+          <div class="ttt-name-prompt" id="tttNamePrompt">
+            <p class="cookie-name-prompt-label">Set your name for the leaderboard</p>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="tttNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+              <button id="tttNameSave" class="cookie-name-save">✓</button>
+            </div>
+            <p class="cookie-name-error" id="tttNameError"></p>
+          </div>
         </div>
       </div>
     </section>
@@ -819,6 +843,9 @@
           showUsername();
           promptEl.classList.remove('visible');
           fetchLeaderboard();
+          var tttPromptEl = document.getElementById('tttNamePrompt');
+          if (tttPromptEl) { tttPromptEl.classList.remove('visible'); localStorage.setItem('tttPromptDone', '1'); }
+          sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
         } catch (e) {
           nameSave.disabled = false;
           nameError.textContent = 'Network error';
@@ -854,20 +881,29 @@
 
   <script>
     (function() {
-      const WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-      const cells = document.querySelectorAll('.ttt-cell');
-      const status = document.getElementById('tttStatus');
-      const resetBtn = document.getElementById('tttReset');
-      const winsEl = document.getElementById('tttWins');
-      const drawsEl = document.getElementById('tttDraws');
-      const lossesEl = document.getElementById('tttLosses');
-      const eloEl = document.getElementById('tttElo');
-      const eloBarEl = document.getElementById('tttEloBar');
-      const rankBadgeEl = document.getElementById('tttRankBadge');
-      const difficultyEl = document.getElementById('tttDifficulty');
-      const eloDeltaEl = document.getElementById('tttEloDelta');
+      var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
+      var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
+      var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-      const RANKS = [
+      var WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      var cells = document.querySelectorAll('.ttt-cell');
+      var status = document.getElementById('tttStatus');
+      var resetBtn = document.getElementById('tttReset');
+      var winsEl = document.getElementById('tttWins');
+      var drawsEl = document.getElementById('tttDraws');
+      var lossesEl = document.getElementById('tttLosses');
+      var eloEl = document.getElementById('tttElo');
+      var eloBarEl = document.getElementById('tttEloBar');
+      var rankBadgeEl = document.getElementById('tttRankBadge');
+      var difficultyEl = document.getElementById('tttDifficulty');
+      var eloDeltaEl = document.getElementById('tttEloDelta');
+      var tttLBList = document.getElementById('tttLBList');
+      var tttNamePrompt = document.getElementById('tttNamePrompt');
+      var tttNameInput = document.getElementById('tttNameInput');
+      var tttNameSave = document.getElementById('tttNameSave');
+      var tttNameError = document.getElementById('tttNameError');
+
+      var RANKS = [
         { name: 'Bronze',   min: 0,    color: '#cd7f32' },
         { name: 'Silver',   min: 900,  color: '#c0c0c0' },
         { name: 'Gold',     min: 1100, color: '#ffd700' },
@@ -880,6 +916,11 @@
       var elo = saved ? saved.elo : 800;
       var score = saved ? saved.score : { w: 0, d: 0, l: 0 };
       var board, gameOver;
+      var ipHash = localStorage.getItem('cookieIpHash') || '';
+      var myUsername = localStorage.getItem('cookieUsername') || '';
+      var tttPromptShown = localStorage.getItem('tttPromptDone') === '1';
+      var tttLBData = [];
+      var hasPlayed = false;
 
       function getRank(rating) {
         for (var i = RANKS.length - 1; i >= 0; i--) {
@@ -923,6 +964,15 @@
 
       function saveData() {
         localStorage.setItem('tttEloData', JSON.stringify({ elo: elo, score: score }));
+        syncToSupabase();
+      }
+
+      function syncToSupabase() {
+        if (!ipHash) return;
+        sb.rpc('ttt_update_stats', {
+          p_ip_hash: ipHash, p_elo: elo,
+          p_wins: score.w, p_losses: score.l, p_draws: score.d
+        }).then(function() {});
       }
 
       function updateUI() {
@@ -960,6 +1010,130 @@
         }, 1500);
       }
 
+      function escHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function renderTTTLeaderboard() {
+        if (tttLBData.length === 0) {
+          tttLBList.innerHTML = '<div class="cookie-lb-empty">No ranked games yet</div>';
+          return;
+        }
+        var html = '';
+        for (var i = 0; i < tttLBData.length && i < 10; i++) {
+          var row = tttLBData[i];
+          var isMe = row.ip_hash === ipHash;
+          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '">' +
+            '<span class="cookie-lb-rank">#' + (i + 1) + '</span>' +
+            '<span class="cookie-lb-name">' + escHtml(row.username) + '</span>' +
+            '<span class="cookie-lb-sep"></span>' +
+            '<span class="cookie-lb-score">' + row.elo + '</span>' +
+            '</div>';
+        }
+        tttLBList.innerHTML = html;
+      }
+
+      async function fetchTTTLeaderboard() {
+        try {
+          var { data, error } = await sb
+            .from('ttt_leaderboard')
+            .select('username, elo, ip_hash')
+            .order('elo', { ascending: false })
+            .limit(10);
+          if (!error && data) {
+            tttLBData = data;
+            renderTTTLeaderboard();
+          }
+        } catch (e) { console.error('ttt lb error', e); }
+      }
+
+      function setupTTTRealtime() {
+        sb.channel('ttt-lb-changes')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'ttt_leaderboard' }, function() {
+            fetchTTTLeaderboard();
+          })
+          .subscribe();
+      }
+
+      async function initTTTPlayer() {
+        ipHash = localStorage.getItem('cookieIpHash') || '';
+        myUsername = localStorage.getItem('cookieUsername') || '';
+        if (!ipHash) {
+          await new Promise(function(resolve) {
+            var check = setInterval(function() {
+              ipHash = localStorage.getItem('cookieIpHash') || '';
+              myUsername = localStorage.getItem('cookieUsername') || '';
+              if (ipHash) { clearInterval(check); resolve(); }
+            }, 200);
+          });
+        }
+        try {
+          var { data, error } = await sb.rpc('ttt_get_or_create', { p_ip_hash: ipHash, p_username: myUsername || 'Guest0000' });
+          if (!error && data) {
+            if (data.elo > elo) {
+              elo = data.elo;
+              score = { w: data.wins, d: data.draws, l: data.losses };
+              localStorage.setItem('tttEloData', JSON.stringify({ elo: elo, score: score }));
+            } else {
+              syncToSupabase();
+            }
+            updateUI();
+          }
+        } catch (e) { console.error('ttt init error', e); }
+      }
+
+      function maybeShowTTTPrompt() {
+        if (tttPromptShown) return;
+        myUsername = localStorage.getItem('cookieUsername') || '';
+        if (myUsername && !myUsername.startsWith('Guest')) {
+          tttPromptShown = true;
+          localStorage.setItem('tttPromptDone', '1');
+          return;
+        }
+        tttPromptShown = true;
+        localStorage.setItem('tttPromptDone', '1');
+        tttNamePrompt.classList.add('visible');
+      }
+
+      tttNameSave.addEventListener('click', submitTTTName);
+      tttNameInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') submitTTTName();
+      });
+
+      async function submitTTTName() {
+        var val = tttNameInput.value.trim();
+        tttNameError.textContent = '';
+        if (val.length < 2 || val.length > 16) {
+          tttNameError.textContent = '2-16 characters required';
+          return;
+        }
+        if (!/^[a-zA-Z0-9_]+$/.test(val)) {
+          tttNameError.textContent = 'Letters, numbers, _ only';
+          return;
+        }
+        try {
+          tttNameSave.disabled = true;
+          var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
+          if (error) { tttNameError.textContent = 'Server error'; tttNameSave.disabled = false; return; }
+          if (data && data.error) { tttNameError.textContent = data.error; tttNameSave.disabled = false; return; }
+          await sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val });
+          myUsername = val;
+          localStorage.setItem('cookieUsername', myUsername);
+          var cookieUsernameEl = document.getElementById('cookieUsername');
+          if (cookieUsernameEl) { cookieUsernameEl.textContent = myUsername; cookieUsernameEl.style.opacity = '1'; }
+          var cookiePromptEl = document.getElementById('cookieNamePrompt');
+          if (cookiePromptEl) { cookiePromptEl.classList.remove('visible'); localStorage.setItem('cookiePromptDone', '1'); }
+          tttNamePrompt.classList.remove('visible');
+          tttNameSave.disabled = false;
+          fetchTTTLeaderboard();
+        } catch (e) {
+          tttNameSave.disabled = false;
+          tttNameError.textContent = 'Network error';
+        }
+      }
+
       function reset() {
         board = Array(9).fill(null);
         gameOver = false;
@@ -986,7 +1160,6 @@
         var wX = checkWin(b, 'X');
         if (wX) return depth - 10;
         if (isFull(b)) return 0;
-
         var best = isMax ? -Infinity : Infinity;
         for (var i = 0; i < 9; i++) {
           if (b[i] !== null) continue;
@@ -1003,13 +1176,11 @@
         var empty = [];
         for (var i = 0; i < 9; i++) { if (board[i] === null) empty.push(i); }
         if (empty.length === 0) return;
-
         if (Math.random() < mistakeRate) {
           var idx = empty[Math.floor(Math.random() * empty.length)];
           place(idx, 'O');
           return;
         }
-
         var bestScore = -Infinity, bestIdx = -1;
         for (var j = 0; j < 9; j++) {
           if (board[j] !== null) continue;
@@ -1031,10 +1202,8 @@
       function endGame(result, winLine) {
         gameOver = true;
         cells.forEach(function(c) { c.disabled = true; });
-
         var delta = calcEloDelta(result);
         elo = Math.max(100, elo + delta);
-
         if (result === 'win') {
           score.w++;
           status.textContent = 'You win!';
@@ -1047,7 +1216,6 @@
           score.d++;
           status.textContent = 'Draw';
         }
-
         showDelta(delta);
         saveData();
         updateUI();
@@ -1057,12 +1225,14 @@
         cell.addEventListener('click', function() {
           var i = +this.dataset.i;
           if (board[i] || gameOver) return;
-
+          if (!hasPlayed) {
+            hasPlayed = true;
+            maybeShowTTTPrompt();
+          }
           place(i, 'X');
           var xWin = checkWin(board, 'X');
           if (xWin) return endGame('win', xWin);
           if (isFull(board)) return endGame('draw');
-
           status.textContent = 'Thinking...';
           setTimeout(function() {
             cpuMove();
@@ -1076,6 +1246,10 @@
 
       resetBtn.addEventListener('click', reset);
       reset();
+      initTTTPlayer();
+      fetchTTTLeaderboard();
+      setupTTTRealtime();
+      setInterval(fetchTTTLeaderboard, 15000);
     })();
   </script>
 

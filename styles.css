@@ -761,6 +761,87 @@ li {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* ─── Ranked Text ─── */
+.ttt-ranked-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  color: #cbacf9;
+  letter-spacing: -1px;
+}
+
+/* ─── TTT Leaderboard ─── */
+.ttt-lb {
+  width: 210px;
+  border-radius: 18px;
+  border: 1px solid rgba(54, 55, 73, 0.35);
+  background: rgba(4, 7, 29, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 16px 12px;
+  position: relative;
+}
+
+.ttt-lb-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #cbacf9;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 6px;
+}
+
+.ttt-lb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ttt-lb-list .cookie-lb-row {
+  padding: 5px 5px;
+  font-size: 12px;
+}
+
+.ttt-lb-list .cookie-lb-rank {
+  width: 22px;
+  font-size: 10px;
+  margin-right: 6px;
+}
+
+.ttt-lb-list .cookie-lb-name {
+  font-size: 12px;
+}
+
+.ttt-lb-list .cookie-lb-score {
+  font-size: 11px;
+  min-width: 28px;
+}
+
+/* TTT name prompt inside leaderboard */
+.ttt-name-prompt {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.15, 1), opacity 0.35s ease, margin-top 0.35s ease, padding-top 0.35s ease;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.ttt-name-prompt.visible {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
 /* ─── ELO Rank Badge ─── */
 .ttt-rank-badge {
   display: inline-block;
