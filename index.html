@@ -340,103 +340,123 @@
       </div>
     </section>
 
-    <!-- Tic Tac Toe Section -->
-    <section id="tictactoe" class="relative w-full max-w-[1440px] mx-auto mt-[100px]">
+    <!-- Ranked Connect 4 Section -->
+    <section id="connect4" class="relative w-full max-w-[1440px] mx-auto mt-[100px]">
       <div class="text-center mb-[40px]">
         <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
-          <span class="ttt-ranked-text">Ranked</span> Tic Tac Toe
+          <span class="ttt-ranked-text">Ranked</span> Connect 4
         </h2>
         <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mt-[16px]">Ultimate bragging rights.</p>
       </div>
 
       <div class="flex justify-center items-start gap-[24px]">
         <!-- Game Card -->
-        <div class="ttt-card w-[420px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[40px] px-[40px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div class="c4-card rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[32px] px-[32px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
 
           <!-- ELO Rating Display -->
-          <div class="flex items-center justify-between mb-[20px] px-[4px]">
+          <div class="flex items-center justify-between mb-[16px] px-[4px]">
             <div class="flex items-center gap-[8px]">
               <span class="text-[12px] text-[#c1c2d3] uppercase tracking-[1px]">Skill Rating</span>
             </div>
             <div class="flex items-center gap-[10px]">
-              <span id="tttRankBadge" class="ttt-rank-badge">Bronze</span>
-              <span id="tttElo" class="text-[22px] font-bold text-[#cbacf9] tracking-[-0.5px]">800</span>
+              <span id="c4RankBadge" class="ttt-rank-badge">Bronze</span>
+              <span id="c4Elo" class="text-[22px] font-bold text-[#cbacf9] tracking-[-0.5px]">800</span>
             </div>
           </div>
 
           <!-- ELO Progress Bar -->
-          <div class="mb-[20px]">
+          <div class="mb-[16px]">
             <div class="w-full h-[4px] rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
-              <div id="tttEloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
+              <div id="c4EloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
             </div>
             <div class="flex justify-between mt-[4px]">
-              <span id="tttDifficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
-              <span id="tttEloDelta" class="text-[11px] font-medium" style="color: transparent;">+0</span>
+              <span id="c4Difficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
+              <span id="c4EloDelta" class="text-[11px] font-medium" style="color: transparent;">+0</span>
             </div>
           </div>
 
-          <div class="flex items-center justify-between mb-[28px] px-[4px]">
-            <div class="flex items-center gap-[12px]">
-              <span class="ttt-badge ttt-x-color">X</span>
-              <span class="text-[14px] text-[#c1c2d3]">You</span>
+          <!-- Player labels -->
+          <div class="flex items-center justify-between mb-[14px] px-[4px]">
+            <div class="flex items-center gap-[8px]">
+              <span class="c4-dot c4-you-dot"></span>
+              <span class="text-[13px] text-[#c1c2d3]">You</span>
             </div>
-            <div id="tttStatus" class="text-[15px] font-medium text-white tracking-[-0.3px]">Your turn</div>
-            <div class="flex items-center gap-[12px]">
-              <span class="text-[14px] text-[#c1c2d3]">CPU</span>
-              <span class="ttt-badge ttt-o-color">O</span>
+            <div id="c4Status" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
+            <div class="flex items-center gap-[8px]">
+              <span class="text-[13px] text-[#c1c2d3]">CPU</span>
+              <span class="c4-dot c4-cpu-dot"></span>
             </div>
           </div>
 
-          <div id="tttBoard" class="ttt-grid">
-            <button class="ttt-cell" data-i="0"></button>
-            <button class="ttt-cell" data-i="1"></button>
-            <button class="ttt-cell" data-i="2"></button>
-            <button class="ttt-cell" data-i="3"></button>
-            <button class="ttt-cell" data-i="4"></button>
-            <button class="ttt-cell" data-i="5"></button>
-            <button class="ttt-cell" data-i="6"></button>
-            <button class="ttt-cell" data-i="7"></button>
-            <button class="ttt-cell" data-i="8"></button>
+          <!-- Board -->
+          <div class="c4-board" id="c4Board">
+            <div class="c4-col" data-col="0"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="1"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="2"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="3"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="4"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="5"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="6"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
           </div>
 
-          <div class="flex items-center justify-between mt-[28px] px-[4px]">
-            <div class="flex gap-[24px]">
-              <div class="text-center">
-                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Wins</p>
-                <p id="tttWins" class="text-[20px] font-bold text-[#cbacf9]">0</p>
-              </div>
-              <div class="text-center">
-                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Draws</p>
-                <p id="tttDraws" class="text-[20px] font-bold text-white">0</p>
-              </div>
-              <div class="text-center">
-                <p class="text-[12px] text-[#c1c2d3] mb-[2px]">Losses</p>
-                <p id="tttLosses" class="text-[20px] font-bold text-[#f05032]">0</p>
-              </div>
+          <!-- Score + Reset -->
+          <div class="flex items-center justify-between mt-[20px] px-[4px]">
+            <div class="flex gap-[20px]">
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="c4Wins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="c4Draws" class="text-[18px] font-bold text-white">0</p></div>
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="c4Losses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
             </div>
-            <button id="tttReset" class="ttt-reset-btn">New Game</button>
+            <button id="c4Reset" class="ttt-reset-btn">New Game</button>
           </div>
         </div>
 
-        <!-- TTT Leaderboard -->
-        <div class="ttt-lb" id="tttLB">
+        <!-- C4 Leaderboard -->
+        <div class="ttt-lb" id="c4LB">
           <div class="ttt-lb-header">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
             <span>ELO Leaderboard</span>
           </div>
-          <div class="ttt-lb-list" id="tttLBList">
+          <div class="ttt-lb-list" id="c4LBList">
             <div class="cookie-lb-empty">Loading...</div>
           </div>
-
-          <!-- Username prompt for TTT (if not set from cookie) -->
-          <div class="ttt-name-prompt" id="tttNamePrompt">
+          <div class="ttt-name-prompt" id="c4NamePrompt">
             <p class="cookie-name-prompt-label">Set your name for the leaderboard</p>
             <div style="display: flex; gap: 6px;">
-              <input type="text" id="tttNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
-              <button id="tttNameSave" class="cookie-name-save">✓</button>
+              <input type="text" id="c4NameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+              <button id="c4NameSave" class="cookie-name-save">✓</button>
             </div>
-            <p class="cookie-name-error" id="tttNameError"></p>
+            <p class="cookie-name-error" id="c4NameError"></p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tic Tac Toe (Unranked) -->
+    <section id="tictactoe" class="relative w-full max-w-[1440px] mx-auto mt-[80px]">
+      <div class="text-center mb-[30px]">
+        <h2 class="font-bold text-[36px] tracking-[-1.5px] leading-none text-white">
+          Take a <span class="text-[#cbacf9]">Break</span>
+        </h2>
+        <p class="text-[#c1c2d3] text-[14px] leading-[1.4] tracking-[-0.16px] mt-[12px]">Classic Tic Tac Toe vs CPU.</p>
+      </div>
+      <div class="ttt-card mx-auto w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div class="flex items-center justify-between mb-[20px] px-[4px]">
+          <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span class="text-[13px] text-[#c1c2d3]">You</span></div>
+          <div id="tttStatus" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
+          <div class="flex items-center gap-[10px]"><span class="text-[13px] text-[#c1c2d3]">CPU</span><span class="ttt-badge ttt-o-color">O</span></div>
+        </div>
+        <div id="tttBoard" class="ttt-grid">
+          <button class="ttt-cell" data-i="0"></button><button class="ttt-cell" data-i="1"></button><button class="ttt-cell" data-i="2"></button>
+          <button class="ttt-cell" data-i="3"></button><button class="ttt-cell" data-i="4"></button><button class="ttt-cell" data-i="5"></button>
+          <button class="ttt-cell" data-i="6"></button><button class="ttt-cell" data-i="7"></button><button class="ttt-cell" data-i="8"></button>
+        </div>
+        <div class="flex items-center justify-between mt-[20px] px-[4px]">
+          <div class="flex gap-[20px]">
+            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="tttWins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
+            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="tttDraws" class="text-[18px] font-bold text-white">0</p></div>
+            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="tttLosses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
+          </div>
+          <button id="tttReset" class="ttt-reset-btn">New Game</button>
         </div>
       </div>
     </section>
@@ -848,6 +868,9 @@
           var tttPromptEl = document.getElementById('tttNamePrompt');
           if (tttPromptEl) tttPromptEl.classList.remove('visible');
           sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
+          sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
+          var c4PromptEl = document.getElementById('c4NamePrompt');
+          if (c4PromptEl) c4PromptEl.classList.remove('visible');
         } catch (e) {
           nameSave.disabled = false;
           nameError.textContent = 'Network error';
@@ -881,378 +904,350 @@
     })();
   </script>
 
+  <!-- Connect 4 Ranked Script -->
   <script>
     (function() {
       var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
       var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+      var ROWS = 6, COLS = 7;
+      var board, gameOver = false, ipHash = '', myUsername = '', c4PromptShown = false, c4PlayerReady = false, hasPlayed = false;
+      var eloEl = document.getElementById('c4Elo');
+      var eloBarEl = document.getElementById('c4EloBar');
+      var rankBadgeEl = document.getElementById('c4RankBadge');
+      var difficultyEl = document.getElementById('c4Difficulty');
+      var eloDeltaEl = document.getElementById('c4EloDelta');
+      var statusEl = document.getElementById('c4Status');
+      var winsEl = document.getElementById('c4Wins');
+      var drawsEl = document.getElementById('c4Draws');
+      var lossesEl = document.getElementById('c4Losses');
+      var resetBtn = document.getElementById('c4Reset');
+      var boardEl = document.getElementById('c4Board');
+      var cols = boardEl.querySelectorAll('.c4-col');
+      var c4LBList = document.getElementById('c4LBList');
+      var c4NamePrompt = document.getElementById('c4NamePrompt');
+      var c4NameInput = document.getElementById('c4NameInput');
+      var c4NameSave = document.getElementById('c4NameSave');
+      var c4NameError = document.getElementById('c4NameError');
 
+      var RANKS = [
+        { name: 'Bronze', min: 0, color: '#cd7f32' },
+        { name: 'Silver', min: 900, color: '#c0c0c0' },
+        { name: 'Gold', min: 1100, color: '#ffd700' },
+        { name: 'Platinum', min: 1300, color: '#00e5ff' },
+        { name: 'Diamond', min: 1500, color: '#b388ff' },
+        { name: 'Master', min: 1800, color: '#ff4081' },
+      ];
+      var saved = JSON.parse(localStorage.getItem('c4EloData') || 'null');
+      var elo = saved ? saved.elo : 800;
+      var score = saved ? saved.score : { w: 0, d: 0, l: 0 };
+      var c4LBData = [];
+
+      function getRank(r) { for (var i = RANKS.length - 1; i >= 0; i--) { if (r >= RANKS[i].min) return RANKS[i]; } return RANKS[0]; }
+      function getNextRank(r) { for (var i = 0; i < RANKS.length; i++) { if (RANKS[i].min > r) return RANKS[i]; } return null; }
+
+      function getDepth() {
+        if (elo < 850) return 1;
+        if (elo < 950) return 2;
+        if (elo < 1050) return 3;
+        if (elo < 1200) return 4;
+        if (elo < 1400) return 5;
+        if (elo < 1600) return 6;
+        return 7;
+      }
+      function getMistakeRate() {
+        if (elo < 850) return 0.5;
+        if (elo < 950) return 0.3;
+        if (elo < 1050) return 0.15;
+        if (elo < 1200) return 0.08;
+        if (elo < 1400) return 0.03;
+        return 0;
+      }
+      function getDifficultyLabel() {
+        if (elo < 850) return 'Easy';
+        if (elo < 950) return 'Medium';
+        if (elo < 1050) return 'Hard';
+        if (elo < 1200) return 'Expert';
+        if (elo < 1400) return 'Master';
+        return 'Impossible';
+      }
+      function calcEloDelta(result) {
+        var cpuRating = 800 + (1 - getMistakeRate()) * 1200;
+        var expected = 1 / (1 + Math.pow(10, (cpuRating - elo) / 400));
+        var actual = result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
+        var K = elo < 900 ? 48 : elo < 1100 ? 40 : elo < 1400 ? 32 : 24;
+        return Math.round(K * (actual - expected));
+      }
+      function saveData() {
+        localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
+        if (ipHash) sb.rpc('c4_update_stats', { p_ip_hash: ipHash, p_elo: elo, p_wins: score.w, p_losses: score.l, p_draws: score.d }).then(function(){});
+      }
+      function updateUI() {
+        eloEl.textContent = elo; winsEl.textContent = score.w; drawsEl.textContent = score.d; lossesEl.textContent = score.l;
+        var rank = getRank(elo);
+        rankBadgeEl.textContent = rank.name; rankBadgeEl.style.background = rank.color + '22'; rankBadgeEl.style.color = rank.color; rankBadgeEl.style.borderColor = rank.color + '44';
+        difficultyEl.textContent = 'Difficulty: ' + getDifficultyLabel();
+        var next = getNextRank(elo);
+        if (next) { var prev = getRank(elo); eloBarEl.style.width = Math.max(2, Math.min(100, ((elo - prev.min) / (next.min - prev.min)) * 100)) + '%'; }
+        else { eloBarEl.style.width = '100%'; }
+      }
+      function showDelta(d) {
+        eloDeltaEl.textContent = (d >= 0 ? '+' : '') + d;
+        eloDeltaEl.style.color = d > 0 ? '#cbacf9' : d < 0 ? '#f05032' : '#c1c2d3';
+        eloDeltaEl.style.transition = 'none'; eloDeltaEl.style.opacity = '1';
+        setTimeout(function() { eloDeltaEl.style.transition = 'opacity 1.5s ease'; eloDeltaEl.style.opacity = '0'; }, 1500);
+      }
+      function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+      function makeBoard() { var b = []; for (var r = 0; r < ROWS; r++) { b[r] = []; for (var c = 0; c < COLS; c++) b[r][c] = 0; } return b; }
+      function getRow(b, col) { for (var r = ROWS - 1; r >= 0; r--) { if (b[r][col] === 0) return r; } return -1; }
+      function isFull(b) { for (var c = 0; c < COLS; c++) { if (b[0][c] === 0) return false; } return true; }
+
+      function checkWin(b, p) {
+        for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
+          if (c + 3 < COLS && b[r][c] === p && b[r][c+1] === p && b[r][c+2] === p && b[r][c+3] === p) return [[r,c],[r,c+1],[r,c+2],[r,c+3]];
+          if (r + 3 < ROWS && b[r][c] === p && b[r+1][c] === p && b[r+2][c] === p && b[r+3][c] === p) return [[r,c],[r+1,c],[r+2,c],[r+3,c]];
+          if (r + 3 < ROWS && c + 3 < COLS && b[r][c] === p && b[r+1][c+1] === p && b[r+2][c+2] === p && b[r+3][c+3] === p) return [[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]];
+          if (r + 3 < ROWS && c - 3 >= 0 && b[r][c] === p && b[r+1][c-1] === p && b[r+2][c-2] === p && b[r+3][c-3] === p) return [[r,c],[r+1,c-1],[r+2,c-2],[r+3,c-3]];
+        }
+        return null;
+      }
+
+      function evaluate(b) {
+        function scoreWindow(cells) {
+          var me = 0, opp = 0, empty = 0;
+          cells.forEach(function(v) { if (v === 2) me++; else if (v === 1) opp++; else empty++; });
+          if (me === 4) return 10000; if (me === 3 && empty === 1) return 50; if (me === 2 && empty === 2) return 5;
+          if (opp === 4) return -10000; if (opp === 3 && empty === 1) return -80;
+          return 0;
+        }
+        var s = 0;
+        for (var c = 0; c < COLS; c++) s += (b[ROWS-1][c] === 2 ? 3 : 0);
+        for (var r = 0; r < ROWS; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r][c+1], b[r][c+2], b[r][c+3]]);
+        for (var c = 0; c < COLS; c++) for (var r = 0; r <= ROWS - 4; r++) s += scoreWindow([b[r][c], b[r+1][c], b[r+2][c], b[r+3][c]]);
+        for (var r = 0; r <= ROWS - 4; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r+1][c+1], b[r+2][c+2], b[r+3][c+3]]);
+        for (var r = 0; r <= ROWS - 4; r++) for (var c = 3; c < COLS; c++) s += scoreWindow([b[r][c], b[r+1][c-1], b[r+2][c-2], b[r+3][c-3]]);
+        return s;
+      }
+
+      function minimax(b, depth, alpha, beta, isMax) {
+        var w1 = checkWin(b, 1), w2 = checkWin(b, 2);
+        if (w2) return 100000 + depth; if (w1) return -100000 - depth;
+        if (isFull(b) || depth === 0) return evaluate(b);
+        var order = [3,2,4,1,5,0,6];
+        if (isMax) {
+          var v = -Infinity;
+          for (var i = 0; i < order.length; i++) { var c = order[i]; var r = getRow(b, c); if (r < 0) continue; b[r][c] = 2; v = Math.max(v, minimax(b, depth - 1, alpha, beta, false)); b[r][c] = 0; alpha = Math.max(alpha, v); if (alpha >= beta) break; }
+          return v;
+        } else {
+          var v = Infinity;
+          for (var i = 0; i < order.length; i++) { var c = order[i]; var r = getRow(b, c); if (r < 0) continue; b[r][c] = 1; v = Math.min(v, minimax(b, depth - 1, alpha, beta, true)); b[r][c] = 0; beta = Math.min(beta, v); if (alpha >= beta) break; }
+          return v;
+        }
+      }
+
+      function cpuMove() {
+        if (Math.random() < getMistakeRate()) {
+          var valid = []; for (var c = 0; c < COLS; c++) if (getRow(board, c) >= 0) valid.push(c);
+          return valid[Math.floor(Math.random() * valid.length)];
+        }
+        var bestCol = 3, bestVal = -Infinity, depth = getDepth(), order = [3,2,4,1,5,0,6];
+        for (var i = 0; i < order.length; i++) {
+          var c = order[i], r = getRow(board, c);
+          if (r < 0) continue;
+          board[r][c] = 2;
+          var v = minimax(board, depth - 1, -Infinity, Infinity, false);
+          board[r][c] = 0;
+          if (v > bestVal) { bestVal = v; bestCol = c; }
+        }
+        return bestCol;
+      }
+
+      function dropPiece(col, player, cb) {
+        var r = getRow(board, col);
+        if (r < 0) return;
+        board[r][col] = player;
+        var slot = cols[col].querySelectorAll('.c4-slot')[r];
+        slot.classList.add('filled');
+        var piece = document.createElement('div');
+        piece.className = 'c4-piece ' + (player === 1 ? 'you' : 'cpu');
+        slot.appendChild(piece);
+        setTimeout(cb, 300);
+      }
+
+      function highlightWin(cells) {
+        cells.forEach(function(pos) {
+          var slot = cols[pos[1]].querySelectorAll('.c4-slot')[pos[0]];
+          var piece = slot.querySelector('.c4-piece');
+          if (piece) piece.classList.add('win-piece');
+        });
+      }
+
+      function endGame(result, winCells) {
+        gameOver = true;
+        cols.forEach(function(c) { c.classList.add('disabled'); });
+        var delta = calcEloDelta(result);
+        elo = Math.max(100, elo + delta);
+        if (result === 'win') { score.w++; statusEl.textContent = 'You win!'; if (winCells) highlightWin(winCells); }
+        else if (result === 'lose') { score.l++; statusEl.textContent = 'CPU wins!'; if (winCells) highlightWin(winCells); }
+        else { score.d++; statusEl.textContent = 'Draw!'; }
+        showDelta(delta); saveData(); updateUI();
+      }
+
+      function resetGame() {
+        board = makeBoard(); gameOver = false; statusEl.textContent = 'Your turn';
+        cols.forEach(function(col) {
+          col.classList.remove('disabled');
+          col.querySelectorAll('.c4-slot').forEach(function(s) { s.classList.remove('filled'); s.innerHTML = ''; });
+        });
+        updateUI();
+      }
+
+      cols.forEach(function(col) {
+        col.addEventListener('click', function() {
+          if (gameOver) return;
+          var c = +this.dataset.col;
+          if (getRow(board, c) < 0) return;
+          if (!hasPlayed && c4PlayerReady) { hasPlayed = true; maybeShowPrompt(); }
+          cols.forEach(function(cl) { cl.classList.add('disabled'); });
+          dropPiece(c, 1, function() {
+            var w = checkWin(board, 1);
+            if (w) return endGame('win', w);
+            if (isFull(board)) return endGame('draw');
+            statusEl.textContent = 'Thinking...';
+            setTimeout(function() {
+              var cpuCol = cpuMove();
+              dropPiece(cpuCol, 2, function() {
+                var w2 = checkWin(board, 2);
+                if (w2) return endGame('lose', w2);
+                if (isFull(board)) return endGame('draw');
+                statusEl.textContent = 'Your turn';
+                cols.forEach(function(cl) { cl.classList.remove('disabled'); });
+              });
+            }, 200);
+          });
+        });
+      });
+
+      resetBtn.addEventListener('click', resetGame);
+
+      function renderLB() {
+        if (c4LBData.length === 0) { c4LBList.innerHTML = '<div class="cookie-lb-empty">No ranked games yet</div>'; return; }
+        var html = '';
+        for (var i = 0; i < c4LBData.length && i < 10; i++) {
+          var row = c4LBData[i], isMe = row.ip_hash === ipHash;
+          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '"><span class="cookie-lb-rank">#' + (i+1) + '</span><span class="cookie-lb-name">' + escHtml(row.username) + '</span><span class="cookie-lb-sep"></span><span class="cookie-lb-score">' + row.elo + '</span></div>';
+        }
+        c4LBList.innerHTML = html;
+      }
+      async function fetchLB() {
+        try {
+          var { data, error } = await sb.from('c4_leaderboard').select('username, elo, ip_hash').order('elo', { ascending: false }).limit(10);
+          if (!error && data) { c4LBData = data; renderLB(); }
+        } catch(e) {}
+      }
+      function setupRealtime() {
+        sb.channel('c4-lb-changes').on('postgres_changes', { event: '*', schema: 'public', table: 'c4_leaderboard' }, function() { fetchLB(); }).subscribe();
+      }
+
+      async function initPlayer() {
+        await new Promise(function(resolve) { var ck = setInterval(function() { if (window.__ipHash) { clearInterval(ck); resolve(); } }, 100); });
+        ipHash = window.__ipHash; myUsername = window.__username || '';
+        try {
+          var { data, error } = await sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: myUsername || 'Guest0000' });
+          if (!error && data) {
+            myUsername = data.username;
+            if (data.elo !== 800 || data.wins > 0) { elo = data.elo; score = { w: data.wins, d: data.draws, l: data.losses }; localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score })); }
+            else { saveData(); }
+            if (myUsername && !myUsername.startsWith('Guest')) c4PromptShown = true;
+            c4PlayerReady = true; updateUI();
+          }
+        } catch(e) { console.error('c4 init', e); }
+      }
+
+      function maybeShowPrompt() {
+        if (c4PromptShown) return;
+        myUsername = window.__username || '';
+        if (myUsername && !myUsername.startsWith('Guest')) { c4PromptShown = true; return; }
+        c4PromptShown = true; c4NamePrompt.classList.add('visible');
+      }
+
+      c4NameSave.addEventListener('click', submitName);
+      c4NameInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitName(); });
+
+      async function submitName() {
+        var val = c4NameInput.value.trim(); c4NameError.textContent = '';
+        if (val.length < 2 || val.length > 16) { c4NameError.textContent = '2-16 characters'; return; }
+        if (!/^[a-zA-Z0-9_]+$/.test(val)) { c4NameError.textContent = 'Letters, numbers, _ only'; return; }
+        try {
+          c4NameSave.disabled = true;
+          var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
+          c4NameSave.disabled = false;
+          if (error) { c4NameError.textContent = 'Server error'; return; }
+          if (data && data.error) { c4NameError.textContent = data.error; return; }
+          await sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val });
+          myUsername = val; localStorage.setItem('cookieUsername', myUsername); window.__username = myUsername;
+          var cue = document.getElementById('cookieUsername'); if (cue) { cue.textContent = myUsername; cue.style.opacity = '1'; }
+          var cpe = document.getElementById('cookieNamePrompt'); if (cpe) cpe.classList.remove('visible');
+          c4NamePrompt.classList.remove('visible'); fetchLB();
+        } catch(e) { c4NameSave.disabled = false; c4NameError.textContent = 'Network error'; }
+      }
+
+      resetGame();
+      initPlayer();
+      fetchLB();
+      setupRealtime();
+      setInterval(fetchLB, 15000);
+    })();
+  </script>
+
+  <!-- Tic Tac Toe Unranked Script -->
+  <script>
+    (function() {
       var WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-      var cells = document.querySelectorAll('.ttt-cell');
+      var cells = document.querySelectorAll('#tttBoard .ttt-cell');
       var status = document.getElementById('tttStatus');
       var resetBtn = document.getElementById('tttReset');
       var winsEl = document.getElementById('tttWins');
       var drawsEl = document.getElementById('tttDraws');
       var lossesEl = document.getElementById('tttLosses');
-      var eloEl = document.getElementById('tttElo');
-      var eloBarEl = document.getElementById('tttEloBar');
-      var rankBadgeEl = document.getElementById('tttRankBadge');
-      var difficultyEl = document.getElementById('tttDifficulty');
-      var eloDeltaEl = document.getElementById('tttEloDelta');
-      var tttLBList = document.getElementById('tttLBList');
-      var tttNamePrompt = document.getElementById('tttNamePrompt');
-      var tttNameInput = document.getElementById('tttNameInput');
-      var tttNameSave = document.getElementById('tttNameSave');
-      var tttNameError = document.getElementById('tttNameError');
-
-      var RANKS = [
-        { name: 'Bronze',   min: 0,    color: '#cd7f32' },
-        { name: 'Silver',   min: 900,  color: '#c0c0c0' },
-        { name: 'Gold',     min: 1100, color: '#ffd700' },
-        { name: 'Platinum', min: 1300, color: '#00e5ff' },
-        { name: 'Diamond',  min: 1500, color: '#b388ff' },
-        { name: 'Master',   min: 1800, color: '#ff4081' },
-      ];
-
-      var saved = JSON.parse(localStorage.getItem('tttEloData') || 'null');
-      var elo = saved ? saved.elo : 800;
-      var score = saved ? saved.score : { w: 0, d: 0, l: 0 };
-      var board, gameOver;
-      var ipHash = '';
-      var myUsername = '';
-      var tttPromptShown = false;
-      var tttLBData = [];
-      var hasPlayed = false;
-      var tttPlayerReady = false;
-
-      function getRank(rating) {
-        for (var i = RANKS.length - 1; i >= 0; i--) {
-          if (rating >= RANKS[i].min) return RANKS[i];
-        }
-        return RANKS[0];
-      }
-
-      function getNextRank(rating) {
-        for (var i = 0; i < RANKS.length; i++) {
-          if (RANKS[i].min > rating) return RANKS[i];
-        }
-        return null;
-      }
-
-      function getMistakeRate() {
-        if (elo < 900) return 0.55;
-        if (elo < 1100) return 0.35;
-        if (elo < 1300) return 0.2;
-        if (elo < 1500) return 0.1;
-        if (elo < 1800) return 0.04;
-        return 0;
-      }
-
-      function getDifficultyLabel() {
-        if (elo < 900) return 'Easy';
-        if (elo < 1100) return 'Medium';
-        if (elo < 1300) return 'Hard';
-        if (elo < 1500) return 'Expert';
-        if (elo < 1800) return 'Master';
-        return 'Impossible';
-      }
-
-      function calcEloDelta(result) {
-        var cpuRating = 800 + (1 - getMistakeRate()) * 1200;
-        var expected = 1 / (1 + Math.pow(10, (cpuRating - elo) / 400));
-        var actual = result === 'win' ? 1 : result === 'draw' ? 0.5 : 0;
-        var K = elo < 1000 ? 40 : elo < 1400 ? 32 : 24;
-        return Math.round(K * (actual - expected));
-      }
-
-      function saveData() {
-        localStorage.setItem('tttEloData', JSON.stringify({ elo: elo, score: score }));
-        syncToSupabase();
-      }
-
-      function syncToSupabase() {
-        if (!ipHash) return;
-        sb.rpc('ttt_update_stats', {
-          p_ip_hash: ipHash, p_elo: elo,
-          p_wins: score.w, p_losses: score.l, p_draws: score.d
-        }).then(function() {});
-      }
-
-      function updateUI() {
-        eloEl.textContent = elo;
-        winsEl.textContent = score.w;
-        drawsEl.textContent = score.d;
-        lossesEl.textContent = score.l;
-
-        var rank = getRank(elo);
-        rankBadgeEl.textContent = rank.name;
-        rankBadgeEl.style.background = rank.color + '22';
-        rankBadgeEl.style.color = rank.color;
-        rankBadgeEl.style.borderColor = rank.color + '44';
-
-        difficultyEl.textContent = 'Difficulty: ' + getDifficultyLabel();
-
-        var next = getNextRank(elo);
-        if (next) {
-          var prev = getRank(elo);
-          var progress = ((elo - prev.min) / (next.min - prev.min)) * 100;
-          eloBarEl.style.width = Math.max(2, Math.min(100, progress)) + '%';
-        } else {
-          eloBarEl.style.width = '100%';
-        }
-      }
-
-      function showDelta(delta) {
-        eloDeltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
-        eloDeltaEl.style.color = delta > 0 ? '#cbacf9' : delta < 0 ? '#f05032' : '#c1c2d3';
-        eloDeltaEl.style.transition = 'none';
-        eloDeltaEl.style.opacity = '1';
-        setTimeout(function() {
-          eloDeltaEl.style.transition = 'opacity 1.5s ease';
-          eloDeltaEl.style.opacity = '0';
-        }, 1500);
-      }
-
-      function escHtml(s) {
-        var d = document.createElement('div');
-        d.textContent = s;
-        return d.innerHTML;
-      }
-
-      function renderTTTLeaderboard() {
-        if (tttLBData.length === 0) {
-          tttLBList.innerHTML = '<div class="cookie-lb-empty">No ranked games yet</div>';
-          return;
-        }
-        var html = '';
-        for (var i = 0; i < tttLBData.length && i < 10; i++) {
-          var row = tttLBData[i];
-          var isMe = row.ip_hash === ipHash;
-          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '">' +
-            '<span class="cookie-lb-rank">#' + (i + 1) + '</span>' +
-            '<span class="cookie-lb-name">' + escHtml(row.username) + '</span>' +
-            '<span class="cookie-lb-sep"></span>' +
-            '<span class="cookie-lb-score">' + row.elo + '</span>' +
-            '</div>';
-        }
-        tttLBList.innerHTML = html;
-      }
-
-      async function fetchTTTLeaderboard() {
-        try {
-          var { data, error } = await sb
-            .from('ttt_leaderboard')
-            .select('username, elo, ip_hash')
-            .order('elo', { ascending: false })
-            .limit(10);
-          if (!error && data) {
-            tttLBData = data;
-            renderTTTLeaderboard();
-          }
-        } catch (e) { console.error('ttt lb error', e); }
-      }
-
-      function setupTTTRealtime() {
-        sb.channel('ttt-lb-changes')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'ttt_leaderboard' }, function() {
-            fetchTTTLeaderboard();
-          })
-          .subscribe();
-      }
-
-      async function initTTTPlayer() {
-        await new Promise(function(resolve) {
-          var check = setInterval(function() {
-            if (window.__ipHash) { clearInterval(check); resolve(); }
-          }, 100);
-        });
-        ipHash = window.__ipHash;
-        myUsername = window.__username || '';
-        try {
-          var { data, error } = await sb.rpc('ttt_get_or_create', { p_ip_hash: ipHash, p_username: myUsername || 'Guest0000' });
-          if (!error && data) {
-            myUsername = data.username;
-            if (data.elo > elo) {
-              elo = data.elo;
-              score = { w: data.wins, d: data.draws, l: data.losses };
-              localStorage.setItem('tttEloData', JSON.stringify({ elo: elo, score: score }));
-            } else {
-              syncToSupabase();
-            }
-            if (myUsername && !myUsername.startsWith('Guest')) {
-              tttPromptShown = true;
-            }
-            tttPlayerReady = true;
-            updateUI();
-          }
-        } catch (e) { console.error('ttt init error', e); }
-      }
-
-      function maybeShowTTTPrompt() {
-        if (tttPromptShown) return;
-        myUsername = window.__username || localStorage.getItem('cookieUsername') || '';
-        if (myUsername && !myUsername.startsWith('Guest')) {
-          tttPromptShown = true;
-          return;
-        }
-        tttPromptShown = true;
-        tttNamePrompt.classList.add('visible');
-      }
-
-      tttNameSave.addEventListener('click', submitTTTName);
-      tttNameInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') submitTTTName();
-      });
-
-      async function submitTTTName() {
-        var val = tttNameInput.value.trim();
-        tttNameError.textContent = '';
-        if (val.length < 2 || val.length > 16) {
-          tttNameError.textContent = '2-16 characters required';
-          return;
-        }
-        if (!/^[a-zA-Z0-9_]+$/.test(val)) {
-          tttNameError.textContent = 'Letters, numbers, _ only';
-          return;
-        }
-        try {
-          tttNameSave.disabled = true;
-          var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
-          if (error) { tttNameError.textContent = 'Server error'; tttNameSave.disabled = false; return; }
-          if (data && data.error) { tttNameError.textContent = data.error; tttNameSave.disabled = false; return; }
-          await sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val });
-          myUsername = val;
-          localStorage.setItem('cookieUsername', myUsername);
-          window.__username = myUsername;
-          var cookieUsernameEl = document.getElementById('cookieUsername');
-          if (cookieUsernameEl) { cookieUsernameEl.textContent = myUsername; cookieUsernameEl.style.opacity = '1'; }
-          var cookiePromptEl = document.getElementById('cookieNamePrompt');
-          if (cookiePromptEl) cookiePromptEl.classList.remove('visible');
-          tttNamePrompt.classList.remove('visible');
-          tttNameSave.disabled = false;
-          fetchTTTLeaderboard();
-        } catch (e) {
-          tttNameSave.disabled = false;
-          tttNameError.textContent = 'Network error';
-        }
-      }
+      var board, gameOver, score = { w: 0, d: 0, l: 0 };
 
       function reset() {
-        board = Array(9).fill(null);
-        gameOver = false;
-        status.textContent = 'Your turn';
-        cells.forEach(function(c) {
-          c.textContent = '';
-          c.className = 'ttt-cell';
-          c.disabled = false;
-        });
-        updateUI();
+        board = Array(9).fill(null); gameOver = false; status.textContent = 'Your turn';
+        cells.forEach(function(c) { c.textContent = ''; c.className = 'ttt-cell'; c.disabled = false; });
       }
-
-      function checkWin(b, p) {
-        return WINS.find(function(w) { return w.every(function(i) { return b[i] === p; }); }) || null;
-      }
-
-      function isFull(b) {
-        return b.every(function(c) { return c !== null; });
-      }
-
+      function checkWin(b, p) { return WINS.find(function(w) { return w.every(function(i) { return b[i] === p; }); }) || null; }
+      function isFull(b) { return b.every(function(c) { return c !== null; }); }
       function minimax(b, isMax, depth) {
-        var wO = checkWin(b, 'O');
-        if (wO) return 10 - depth;
-        var wX = checkWin(b, 'X');
-        if (wX) return depth - 10;
-        if (isFull(b)) return 0;
+        if (checkWin(b, 'O')) return 10 - depth; if (checkWin(b, 'X')) return depth - 10; if (isFull(b)) return 0;
         var best = isMax ? -Infinity : Infinity;
-        for (var i = 0; i < 9; i++) {
-          if (b[i] !== null) continue;
-          b[i] = isMax ? 'O' : 'X';
-          var val = minimax(b, !isMax, depth + 1);
-          b[i] = null;
-          best = isMax ? Math.max(best, val) : Math.min(best, val);
-        }
+        for (var i = 0; i < 9; i++) { if (b[i] !== null) continue; b[i] = isMax ? 'O' : 'X'; var v = minimax(b, !isMax, depth + 1); b[i] = null; best = isMax ? Math.max(best, v) : Math.min(best, v); }
         return best;
       }
-
       function cpuMove() {
-        var mistakeRate = getMistakeRate();
-        var empty = [];
-        for (var i = 0; i < 9; i++) { if (board[i] === null) empty.push(i); }
-        if (empty.length === 0) return;
-        if (Math.random() < mistakeRate) {
-          var idx = empty[Math.floor(Math.random() * empty.length)];
-          place(idx, 'O');
-          return;
-        }
-        var bestScore = -Infinity, bestIdx = -1;
-        for (var j = 0; j < 9; j++) {
-          if (board[j] !== null) continue;
-          board[j] = 'O';
-          var s = minimax(board, false, 0);
-          board[j] = null;
-          if (s > bestScore) { bestScore = s; bestIdx = j; }
-        }
-        if (bestIdx !== -1) place(bestIdx, 'O');
+        if (Math.random() < 0.3) { var e = []; for (var i = 0; i < 9; i++) if (!board[i]) e.push(i); place(e[Math.floor(Math.random() * e.length)], 'O'); return; }
+        var bs = -Infinity, bi = -1;
+        for (var i = 0; i < 9; i++) { if (board[i]) continue; board[i] = 'O'; var s = minimax(board, false, 0); board[i] = null; if (s > bs) { bs = s; bi = i; } }
+        if (bi !== -1) place(bi, 'O');
       }
-
-      function place(i, p) {
-        board[i] = p;
-        cells[i].textContent = p;
-        cells[i].classList.add(p.toLowerCase());
-        cells[i].disabled = true;
+      function place(i, p) { board[i] = p; cells[i].textContent = p; cells[i].classList.add(p.toLowerCase()); cells[i].disabled = true; }
+      function endGame(result, wl) {
+        gameOver = true; cells.forEach(function(c) { c.disabled = true; });
+        if (result === 'win') { score.w++; winsEl.textContent = score.w; status.textContent = 'You win!'; if (wl) wl.forEach(function(i) { cells[i].classList.add('win-cell'); }); }
+        else if (result === 'lose') { score.l++; lossesEl.textContent = score.l; status.textContent = 'CPU wins'; if (wl) wl.forEach(function(i) { cells[i].classList.add('lose-cell'); }); }
+        else { score.d++; drawsEl.textContent = score.d; status.textContent = 'Draw'; }
       }
-
-      function endGame(result, winLine) {
-        gameOver = true;
-        cells.forEach(function(c) { c.disabled = true; });
-        var delta = calcEloDelta(result);
-        elo = Math.max(100, elo + delta);
-        if (result === 'win') {
-          score.w++;
-          status.textContent = 'You win!';
-          if (winLine) winLine.forEach(function(i) { cells[i].classList.add('win-cell'); });
-        } else if (result === 'lose') {
-          score.l++;
-          status.textContent = 'CPU wins';
-          if (winLine) winLine.forEach(function(i) { cells[i].classList.add('lose-cell'); });
-        } else {
-          score.d++;
-          status.textContent = 'Draw';
-        }
-        showDelta(delta);
-        saveData();
-        updateUI();
-      }
-
       cells.forEach(function(cell) {
         cell.addEventListener('click', function() {
-          var i = +this.dataset.i;
-          if (board[i] || gameOver) return;
-          if (!hasPlayed && tttPlayerReady) {
-            hasPlayed = true;
-            maybeShowTTTPrompt();
-          }
-          place(i, 'X');
-          var xWin = checkWin(board, 'X');
-          if (xWin) return endGame('win', xWin);
-          if (isFull(board)) return endGame('draw');
+          var i = +this.dataset.i; if (board[i] || gameOver) return;
+          place(i, 'X'); var xw = checkWin(board, 'X'); if (xw) return endGame('win', xw); if (isFull(board)) return endGame('draw');
           status.textContent = 'Thinking...';
-          setTimeout(function() {
-            cpuMove();
-            var oWin = checkWin(board, 'O');
-            if (oWin) return endGame('lose', oWin);
-            if (isFull(board)) return endGame('draw');
-            status.textContent = 'Your turn';
-          }, 250);
+          setTimeout(function() { cpuMove(); var ow = checkWin(board, 'O'); if (ow) return endGame('lose', ow); if (isFull(board)) return endGame('draw'); status.textContent = 'Your turn'; }, 200);
         });
       });
-
       resetBtn.addEventListener('click', reset);
       reset();
-      initTTTPlayer();
-      fetchTTTLeaderboard();
-      setupTTTRealtime();
-      setInterval(fetchTTTLeaderboard, 15000);
     })();
   </script>
 
