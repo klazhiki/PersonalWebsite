@@ -119,38 +119,52 @@
           </a>
         </div>
 
-        <!-- Cookie Clicker + Leaderboard -->
-        <div class="cookie-section absolute right-[100px] top-[310px]" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <!-- Cookie Clicker + Leaderboard + Shop -->
+        <div class="cookie-area absolute right-[40px] top-[260px]">
 
-          <!-- Leaderboard -->
-          <div class="cookie-lb" id="cookieLB">
-            <div class="cookie-lb-header">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-              <span>Leaderboard</span>
+          <!-- Cookie + Leaderboard Column -->
+          <div class="cookie-section" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+
+            <!-- Leaderboard -->
+            <div class="cookie-lb" id="cookieLB">
+              <div class="cookie-lb-header">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                <span>Leaderboard</span>
+              </div>
+              <div class="cookie-lb-list" id="cookieLBList">
+                <div class="cookie-lb-empty">Loading...</div>
+              </div>
             </div>
-            <div class="cookie-lb-list" id="cookieLBList">
-              <div class="cookie-lb-empty">Loading...</div>
+
+            <!-- Cookie Clicker -->
+            <div class="cookie-clicker" style="position: relative;">
+              <div class="cookie-count" id="cookieCount">0</div>
+              <div class="cookie-cps-display" id="cookieCPSDisplay" style="opacity: 0;">0 per second</div>
+              <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
+                <span class="cookie-emoji" id="cookieEmoji">🍪</span>
+              </button>
+              <p class="cookie-label">Click for cookies</p>
+              <p class="cookie-username" id="cookieUsername" style="opacity: 0;"></p>
+
+              <!-- Username prompt (hidden initially) -->
+              <div class="cookie-name-prompt" id="cookieNamePrompt">
+                <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
+                <div style="display: flex; gap: 6px;">
+                  <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+                  <button id="cookieNameSave" class="cookie-name-save">✓</button>
+                </div>
+                <p class="cookie-name-error" id="cookieNameError"></p>
+              </div>
             </div>
           </div>
 
-          <!-- Cookie Clicker -->
-          <div class="cookie-clicker" style="position: relative;">
-            <div class="cookie-count" id="cookieCount">0</div>
-            <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
-              <span class="cookie-emoji" id="cookieEmoji">🍪</span>
-            </button>
-            <p class="cookie-label">Click for cookies</p>
-            <p class="cookie-username" id="cookieUsername" style="opacity: 0;"></p>
-
-            <!-- Username prompt (hidden initially) -->
-            <div class="cookie-name-prompt" id="cookieNamePrompt">
-              <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
-              <div style="display: flex; gap: 6px;">
-                <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
-                <button id="cookieNameSave" class="cookie-name-save">✓</button>
-              </div>
-              <p class="cookie-name-error" id="cookieNameError"></p>
+          <!-- Upgrades Shop Panel (right side) -->
+          <div class="cookie-shop visible" id="cookieShop">
+            <div class="cookie-shop-header">
+              <span class="cookie-shop-title">🏪 Shop</span>
+              <span class="cookie-cps" id="cookieCPSHeader">0/s</span>
             </div>
+            <div class="cookie-shop-list" id="cookieShopList"></div>
           </div>
         </div>
 
@@ -977,6 +991,188 @@
       fetchLeaderboard();
       setupRealtime();
       setInterval(fetchLeaderboard, 15000);
+
+      // Expose cookie functions for the shop system
+      window.__cookieAPI = {
+        getCount: function() { return count; },
+        setCount: function(n) { count = n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
+        addCookies: function(n) { count += n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
+        syncCookies: syncCookies,
+        formatNum: formatNum
+      };
+    })();
+  </script>
+
+  <!-- Cookie Shop (Upgrades) Script -->
+  <script>
+    (function() {
+      var BUILDINGS = [
+        { id: 'cursor',    name: 'Cursor',        icon: '👆', baseCPS: 0.1,    baseCost: 15 },
+        { id: 'grandma',   name: 'Grandma',       icon: '👵', baseCPS: 1,      baseCost: 100 },
+        { id: 'farm',      name: 'Cookie Farm',   icon: '🌾', baseCPS: 8,      baseCost: 1100 },
+        { id: 'mine',      name: 'Cookie Mine',   icon: '⛏️', baseCPS: 47,     baseCost: 12000 },
+        { id: 'factory',   name: 'Factory',       icon: '🏭', baseCPS: 260,    baseCost: 130000 },
+        { id: 'bank',      name: 'Cookie Bank',   icon: '🏦', baseCPS: 1400,   baseCost: 1400000 },
+        { id: 'temple',    name: 'Temple',        icon: '🏛️', baseCPS: 7800,   baseCost: 20000000 },
+        { id: 'portal',    name: 'Portal',        icon: '🌀', baseCPS: 44000,  baseCost: 330000000 },
+      ];
+      var COST_MULT = 1.15;
+
+      var shopEl = document.getElementById('cookieShop');
+      var shopListEl = document.getElementById('cookieShopList');
+      var cpsHeaderEl = document.getElementById('cookieCPSHeader');
+      var cpsDisplayEl = document.getElementById('cookieCPSDisplay');
+      var countEl = document.getElementById('cookieCount');
+
+      // Load saved state
+      var saved = JSON.parse(localStorage.getItem('cookieShopData') || 'null');
+      var owned = {};
+      BUILDINGS.forEach(function(b) { owned[b.id] = (saved && saved[b.id]) ? saved[b.id] : 0; });
+
+      var shopVisible = false;
+      var totalCPS = 0;
+      var fractionalCookies = 0;
+      var lastTick = Date.now();
+
+      function getCost(b) {
+        return Math.floor(b.baseCost * Math.pow(COST_MULT, owned[b.id]));
+      }
+
+      function calcCPS() {
+        var t = 0;
+        BUILDINGS.forEach(function(b) { t += b.baseCPS * owned[b.id]; });
+        totalCPS = t;
+        return t;
+      }
+
+      function formatNum(n) {
+        if (n >= 1e12) return (n / 1e12).toFixed(1) + 'T';
+        if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+        return String(Math.floor(n));
+      }
+
+      function formatCPS(n) {
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+        if (n >= 10) return Math.floor(n).toString();
+        if (n >= 1) return n.toFixed(1);
+        if (n > 0) return n.toFixed(1);
+        return '0';
+      }
+
+      function saveShop() {
+        var data = {};
+        BUILDINGS.forEach(function(b) { data[b.id] = owned[b.id]; });
+        localStorage.setItem('cookieShopData', JSON.stringify(data));
+      }
+
+      function buyBuilding(b) {
+        var api = window.__cookieAPI;
+        if (!api) return;
+        var cost = getCost(b);
+        if (api.getCount() < cost) return;
+        api.addCookies(-cost);
+        owned[b.id]++;
+        calcCPS();
+        saveShop();
+        renderShop();
+        updateCPSDisplay();
+
+        // Sync to DB
+        if (window.__username && !window.__username.startsWith('Guest')) {
+          api.syncCookies();
+        }
+      }
+
+      function renderShop() {
+        var api = window.__cookieAPI;
+        if (!api) return;
+        var currentCount = api.getCount();
+        var html = '';
+        BUILDINGS.forEach(function(b) {
+          var cost = getCost(b);
+          var canAfford = currentCount >= cost;
+          var count = owned[b.id];
+          var cps = b.baseCPS * count;
+          html += '<div class="cookie-shop-item' + (canAfford ? '' : ' locked') + '" data-id="' + b.id + '">' +
+            '<div class="cookie-shop-icon">' + b.icon + '</div>' +
+            '<div class="cookie-shop-info">' +
+              '<div class="cookie-shop-name"><span>' + b.name + '</span><span class="cookie-shop-owned">' + (count > 0 ? count : '') + '</span></div>' +
+              '<div class="cookie-shop-detail"><span class="cookie-shop-cps-val">' + (count > 0 ? formatCPS(cps) + '/s' : formatCPS(b.baseCPS) + '/s each') + '</span><span class="cookie-shop-cost">' + formatNum(cost) + '</span></div>' +
+            '</div>' +
+          '</div>';
+        });
+        shopListEl.innerHTML = html;
+
+        // Attach click handlers
+        var items = shopListEl.querySelectorAll('.cookie-shop-item');
+        items.forEach(function(item) {
+          item.addEventListener('click', function() {
+            var id = this.dataset.id;
+            var b = BUILDINGS.find(function(x) { return x.id === id; });
+            if (b && !this.classList.contains('locked')) {
+              buyBuilding(b);
+              // Pulse animation
+              this.classList.remove('just-bought');
+              void this.offsetWidth;
+              this.classList.add('just-bought');
+            }
+          });
+        });
+      }
+
+      function updateCPSDisplay() {
+        var cps = calcCPS();
+        cpsHeaderEl.textContent = formatCPS(cps) + '/s';
+        if (cps > 0) {
+          cpsDisplayEl.textContent = formatCPS(cps) + ' per second';
+          cpsDisplayEl.style.opacity = '1';
+        }
+      }
+
+      // Game loop — runs idle production every 100ms
+      function gameTick() {
+        var now = Date.now();
+        var dt = (now - lastTick) / 1000;
+        lastTick = now;
+
+        if (totalCPS > 0) {
+          var api = window.__cookieAPI;
+          if (!api) return;
+          fractionalCookies += totalCPS * dt;
+          if (fractionalCookies >= 1) {
+            var whole = Math.floor(fractionalCookies);
+            fractionalCookies -= whole;
+            api.addCookies(whole);
+          }
+          countEl.textContent = api.formatNum(api.getCount());
+        }
+
+        // Re-render affordability every 500ms
+        if (now % 500 < 110) renderShop();
+      }
+
+      // Sync idle cookies to DB every 5 seconds if producing
+      setInterval(function() {
+        if (totalCPS > 0 && window.__username && !window.__username.startsWith('Guest')) {
+          var api = window.__cookieAPI;
+          if (api) api.syncCookies();
+        }
+      }, 5000);
+
+      // Re-render shop on cookie click (to update affordability)
+      var cookieBtn = document.getElementById('cookieBtn');
+      cookieBtn.addEventListener('click', function() {
+        setTimeout(renderShop, 50);
+      });
+
+      // Init
+      calcCPS();
+      renderShop();
+      updateCPSDisplay();
+      setInterval(gameTick, 100);
     })();
   </script>
 

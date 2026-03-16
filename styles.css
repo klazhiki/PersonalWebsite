@@ -659,6 +659,182 @@ li {
   100% { opacity: 0; transform: translateY(-50px) scale(0.7); }
 }
 
+/* ─── Cookie Shop (Upgrades Panel) ─── */
+.cookie-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 3;
+}
+
+.cookie-shop {
+  width: 210px;
+  border-radius: 14px;
+  border: 1px solid rgba(54, 55, 73, 0.35);
+  background: rgba(4, 7, 29, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 10px 10px 8px;
+  z-index: 3;
+  opacity: 0;
+  transform: translateX(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cookie-shop.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cookie-shop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 6px;
+}
+
+.cookie-shop-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #cbacf9;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.cookie-cps {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(203, 172, 249, 0.65);
+  font-variant-numeric: tabular-nums;
+}
+
+.cookie-shop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(203, 172, 249, 0.15) transparent;
+}
+
+.cookie-shop-list::-webkit-scrollbar { width: 4px; }
+.cookie-shop-list::-webkit-scrollbar-track { background: transparent; }
+.cookie-shop-list::-webkit-scrollbar-thumb { background: rgba(203, 172, 249, 0.15); border-radius: 2px; }
+
+.cookie-shop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 7px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.cookie-shop-item:hover:not(.locked) {
+  background: rgba(203, 172, 249, 0.06);
+  border-color: rgba(203, 172, 249, 0.18);
+  transform: translateX(-2px);
+}
+
+.cookie-shop-item:active:not(.locked) {
+  transform: scale(0.97);
+}
+
+.cookie-shop-item.locked {
+  opacity: 0.35;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.cookie-shop-item.just-bought {
+  animation: shop-pulse 0.4s ease;
+}
+
+@keyframes shop-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(203, 172, 249, 0.4); }
+  50% { box-shadow: 0 0 12px 2px rgba(203, 172, 249, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(203, 172, 249, 0); }
+}
+
+.cookie-shop-icon {
+  font-size: 18px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cookie-shop-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cookie-shop-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cookie-shop-owned {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(203, 172, 249, 0.5);
+  min-width: 14px;
+  text-align: right;
+}
+
+.cookie-shop-detail {
+  font-size: 9px;
+  color: rgba(193, 194, 211, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cookie-shop-cps-val {
+  color: rgba(203, 172, 249, 0.45);
+}
+
+.cookie-shop-cost {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.cookie-shop-item:not(.locked) .cookie-shop-cost {
+  color: rgba(203, 172, 249, 0.7);
+}
+
+/* ─── Cookie Count with CPS ─── */
+.cookie-cps-display {
+  font-size: 10px;
+  color: rgba(203, 172, 249, 0.5);
+  text-align: center;
+  margin-top: -2px;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.4s ease;
+}
+
 /* ─── Connect 4 ─── */
 .c4-card {
   width: 420px;
@@ -1037,13 +1213,22 @@ li {
   }
 
   /* Cookie section — stack on mobile */
-  .cookie-section {
+  .cookie-area {
     position: static !important;
     flex-direction: column-reverse !important;
     align-items: center !important;
     gap: 12px !important;
     order: 5;
     margin-top: 6px;
+  }
+  .cookie-shop {
+    display: none !important;
+  }
+  .cookie-section {
+    position: static !important;
+    flex-direction: column-reverse !important;
+    align-items: center !important;
+    gap: 12px !important;
   }
   .cookie-lb {
     width: 200px;
