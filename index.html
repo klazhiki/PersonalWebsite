@@ -714,6 +714,12 @@
       var nameSave = document.getElementById('cookieNameSave');
       var nameError = document.getElementById('cookieNameError');
 
+      // Clean up any stored Guest usernames from previous auto-guest feature
+      var storedUsername = localStorage.getItem('cookieUsername') || '';
+      if (storedUsername.startsWith('Guest')) {
+        localStorage.removeItem('cookieUsername');
+      }
+
       var count = parseInt(localStorage.getItem('cookieCount') || '0', 10);
       var ipHash = '';
       var myUsername = '';
@@ -742,25 +748,18 @@
 
       async function initPlayer() {
         await resolveIpHash();
-        try {
-          var { data, error } = await sb.rpc('get_or_create_player', { p_ip_hash: ipHash });
-          if (error) { console.error('init error', error); return; }
-          myUsername = data.username;
-          localStorage.setItem('cookieUsername', myUsername);
+        var savedName = localStorage.getItem('cookieUsername') || '';
+        if (savedName && !savedName.startsWith('Guest')) {
+          myUsername = savedName;
           window.__username = myUsername;
-          if (data.cookies > count) {
-            count = data.cookies;
-            countEl.textContent = count;
-            localStorage.setItem('cookieCount', count);
-          } else if (count > 0) {
+          showUsername();
+          promptShown = true;
+          // Sync local cookie count to DB if we have a valid username
+          if (count > 0) {
             syncCookies();
           }
-          showUsername();
-          playerReady = true;
-          if (myUsername && !myUsername.startsWith('Guest')) {
-            promptShown = true;
-          }
-        } catch (e) { console.error('init exception', e); }
+        }
+        playerReady = true;
       }
 
       function showUsername() {
@@ -771,7 +770,7 @@
       }
 
       function syncCookies() {
-        if (!ipHash) return;
+        if (!ipHash || !myUsername || myUsername.startsWith('Guest')) return;
         clearTimeout(syncTimer);
         syncTimer = setTimeout(function() {
           sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: count }).then(function() {});
@@ -814,6 +813,7 @@
           var { data, error } = await sb
             .from('cookie_leaderboard')
             .select('username, cookies, ip_hash')
+            .not('username', 'like', 'Guest%')
             .order('cookies', { ascending: false })
             .limit(10);
           if (!error && data) {
@@ -864,10 +864,9 @@
           window.__username = myUsername;
           showUsername();
           promptEl.classList.remove('visible');
+          // Sync accumulated cookies now that we have a username
+          if (count > 0) syncCookies();
           fetchLeaderboard();
-          var tttPromptEl = document.getElementById('tttNamePrompt');
-          if (tttPromptEl) tttPromptEl.classList.remove('visible');
-          sb.rpc('ttt_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
           sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
           var c4PromptEl = document.getElementById('c4NamePrompt');
           if (c4PromptEl) c4PromptEl.classList.remove('visible');
@@ -890,9 +889,12 @@
         clicker.appendChild(pop);
         setTimeout(function() { pop.remove(); }, 700);
 
-        syncCookies();
+        // Only sync to DB if user has chosen a username
+        if (myUsername && !myUsername.startsWith('Guest')) {
+          syncCookies();
+        }
 
-        if (playerReady && !promptShown && myUsername.startsWith('Guest')) {
+        if (playerReady && !promptShown && !myUsername) {
           showPrompt();
         }
       });
@@ -980,7 +982,7 @@
       }
       function saveData() {
         localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
-        if (ipHash) sb.rpc('c4_update_stats', { p_ip_hash: ipHash, p_elo: elo, p_wins: score.w, p_losses: score.l, p_draws: score.d }).then(function(){});
+        if (ipHash && myUsername && !myUsername.startsWith('Guest')) sb.rpc('c4_update_stats', { p_ip_hash: ipHash, p_elo: elo, p_wins: score.w, p_losses: score.l, p_draws: score.d }).then(function(){});
       }
       function updateUI() {
         eloEl.textContent = elo; winsEl.textContent = score.w; drawsEl.textContent = score.d; lossesEl.textContent = score.l;
@@ -1142,7 +1144,7 @@
       }
       async function fetchLB() {
         try {
-          var { data, error } = await sb.from('c4_leaderboard').select('username, elo, ip_hash').order('elo', { ascending: false }).limit(10);
+          var { data, error } = await sb.from('c4_leaderboard').select('username, elo, ip_hash').not('username', 'like', 'Guest%').order('elo', { ascending: false }).limit(10);
           if (!error && data) { c4LBData = data; renderLB(); }
         } catch(e) {}
       }
@@ -1153,23 +1155,20 @@
       async function initPlayer() {
         await new Promise(function(resolve) { var ck = setInterval(function() { if (window.__ipHash) { clearInterval(ck); resolve(); } }, 100); });
         ipHash = window.__ipHash; myUsername = window.__username || '';
-        try {
-          var { data, error } = await sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: myUsername || 'Guest0000' });
-          if (!error && data) {
-            myUsername = data.username;
-            if (data.elo !== 800 || data.wins > 0) { elo = data.elo; score = { w: data.wins, d: data.draws, l: data.losses }; localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score })); }
-            else { saveData(); }
-            if (myUsername && !myUsername.startsWith('Guest')) c4PromptShown = true;
-            c4PlayerReady = true; updateUI();
-          }
-        } catch(e) { console.error('c4 init', e); }
+        if (myUsername && !myUsername.startsWith('Guest')) {
+          c4PromptShown = true;
+          // Sync local stats to DB if we have a valid username
+          saveData();
+        }
+        c4PlayerReady = true; updateUI();
       }
 
       function maybeShowPrompt() {
         if (c4PromptShown) return;
         myUsername = window.__username || '';
         if (myUsername && !myUsername.startsWith('Guest')) { c4PromptShown = true; return; }
-        c4PromptShown = true; c4NamePrompt.classList.add('visible');
+        c4PromptShown = true;
+        c4NamePrompt.classList.add('visible');
       }
 
       c4NameSave.addEventListener('click', submitName);
