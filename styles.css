@@ -506,9 +506,9 @@ li {
 /* ─── Cookie Name Prompt ─── */
 .cookie-name-prompt {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(8px) scale(0.95);
+  transform: translateX(-50%) translateY(-8px) scale(0.95);
   width: 170px;
   background: rgba(4, 7, 29, 0.92);
   border: 1px solid rgba(203, 172, 249, 0.2);
@@ -520,13 +520,13 @@ li {
   z-index: 10;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .cookie-name-prompt.visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(8px) scale(1);
+  transform: translateX(-50%) translateY(-8px) scale(1);
 }
 
 .cookie-name-prompt-label {
