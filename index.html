@@ -901,7 +901,10 @@
         try {
           nameSave.disabled = true;
 
-          // Set username in cookie_leaderboard (creates entry if needed)
+          // Ensure DB record exists for this IP (creates one if new user)
+          await sb.rpc('get_or_create_player', { p_ip_hash: ipHash });
+
+          // Now set the chosen username
           var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
           nameSave.disabled = false;
           if (error) { nameError.textContent = 'Server error'; return; }
@@ -918,19 +921,21 @@
           if (count > 0) syncCookies();
           fetchLeaderboard();
 
-          // Set the same username in c4_leaderboard (creates entry if needed)
-          sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {
-            // After C4 entry is created, sync local C4 stats if they exist
-            var c4Local = JSON.parse(localStorage.getItem('c4EloData') || 'null');
-            if (c4Local) {
-              sb.rpc('c4_update_stats', {
-                p_ip_hash: ipHash,
-                p_elo: c4Local.elo,
-                p_wins: c4Local.score.w,
-                p_losses: c4Local.score.l,
-                p_draws: c4Local.score.d
-              }).then(function() {});
-            }
+          // Ensure C4 DB record exists then set username there too
+          sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: val }).then(function() {
+            sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {
+              // After C4 entry is created, sync local C4 stats if they exist
+              var c4Local = JSON.parse(localStorage.getItem('c4EloData') || 'null');
+              if (c4Local) {
+                sb.rpc('c4_update_stats', {
+                  p_ip_hash: ipHash,
+                  p_elo: c4Local.elo,
+                  p_wins: c4Local.score.w,
+                  p_losses: c4Local.score.l,
+                  p_draws: c4Local.score.d
+                }).then(function() {});
+              }
+            });
           });
 
           // Dismiss C4 name prompt if open
@@ -1321,13 +1326,17 @@
         try {
           c4NameSave.disabled = true;
 
-          // Set username in cookie_leaderboard (creates entry if needed)
+          // Ensure DB records exist for this IP (creates if new user)
+          await sb.rpc('get_or_create_player', { p_ip_hash: ipHash });
+          await sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: val });
+
+          // Now set the chosen username in both leaderboards
           var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
           c4NameSave.disabled = false;
           if (error) { c4NameError.textContent = 'Server error'; return; }
           if (data && data.error) { c4NameError.textContent = data.error; return; }
 
-          // Set username in c4_leaderboard (creates entry if needed)
+          // Set username in c4_leaderboard
           await sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val });
 
           myUsername = val;
@@ -1338,7 +1347,7 @@
           // Sync C4 stats to DB
           saveData();
 
-          // Sync cookie count to DB via the cookie clicker's RPC
+          // Sync cookie count to DB
           var cookieCount = parseInt(localStorage.getItem('cookieCount') || '0', 10);
           if (cookieCount > 0) {
             sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: cookieCount }).then(function() {});
