@@ -748,17 +748,62 @@
 
       async function initPlayer() {
         await resolveIpHash();
+
+        // === MULTI-LAYER IDENTITY RESOLUTION ===
+        // Layer 1: Check localStorage
         var savedName = localStorage.getItem('cookieUsername') || '';
-        if (savedName && !savedName.startsWith('Guest')) {
+        if (savedName && savedName.startsWith('Guest')) savedName = '';
+
+        // Layer 2: Check cookie_leaderboard DB by IP hash
+        if (!savedName) {
+          try {
+            var res = await sb.from('cookie_leaderboard')
+              .select('username')
+              .eq('ip_hash', ipHash)
+              .not('username', 'like', 'Guest%')
+              .maybeSingle();
+            if (res.data && res.data.username) savedName = res.data.username;
+          } catch(e) { console.log('cookie LB lookup failed', e); }
+        }
+
+        // Layer 3: Check c4_leaderboard DB by IP hash as fallback
+        if (!savedName) {
+          try {
+            var res2 = await sb.from('c4_leaderboard')
+              .select('username')
+              .eq('ip_hash', ipHash)
+              .not('username', 'like', 'Guest%')
+              .maybeSingle();
+            if (res2.data && res2.data.username) savedName = res2.data.username;
+          } catch(e) { console.log('c4 LB lookup failed', e); }
+        }
+
+        // === APPLY RESOLVED IDENTITY ===
+        if (savedName) {
           myUsername = savedName;
+          localStorage.setItem('cookieUsername', myUsername);
           window.__username = myUsername;
           showUsername();
           promptShown = true;
-          // Sync local cookie count to DB if we have a valid username
-          if (count > 0) {
-            syncCookies();
+
+          // Merge DB cookie count with local count (take max)
+          try {
+            var cookieRes = await sb.from('cookie_leaderboard')
+              .select('cookies')
+              .eq('ip_hash', ipHash)
+              .maybeSingle();
+            if (cookieRes.data && cookieRes.data.cookies > count) {
+              count = cookieRes.data.cookies;
+              countEl.textContent = count;
+              localStorage.setItem('cookieCount', count);
+            } else if (count > 0) {
+              syncCookies();
+            }
+          } catch(e) {
+            if (count > 0) syncCookies();
           }
         }
+
         playerReady = true;
       }
 
@@ -855,21 +900,45 @@
         }
         try {
           nameSave.disabled = true;
+
+          // Set username in cookie_leaderboard (creates entry if needed)
           var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
           nameSave.disabled = false;
           if (error) { nameError.textContent = 'Server error'; return; }
           if (data && data.error) { nameError.textContent = data.error; return; }
+
           myUsername = data.username;
           localStorage.setItem('cookieUsername', myUsername);
           window.__username = myUsername;
           showUsername();
           promptEl.classList.remove('visible');
+
+          // === CROSS-GAME SYNC ===
           // Sync accumulated cookies now that we have a username
           if (count > 0) syncCookies();
           fetchLeaderboard();
-          sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {});
+
+          // Set the same username in c4_leaderboard (creates entry if needed)
+          sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {
+            // After C4 entry is created, sync local C4 stats if they exist
+            var c4Local = JSON.parse(localStorage.getItem('c4EloData') || 'null');
+            if (c4Local) {
+              sb.rpc('c4_update_stats', {
+                p_ip_hash: ipHash,
+                p_elo: c4Local.elo,
+                p_wins: c4Local.score.w,
+                p_losses: c4Local.score.l,
+                p_draws: c4Local.score.d
+              }).then(function() {});
+            }
+          });
+
+          // Dismiss C4 name prompt if open
           var c4PromptEl = document.getElementById('c4NamePrompt');
           if (c4PromptEl) c4PromptEl.classList.remove('visible');
+
+          // Notify C4 script that username is now set
+          window.__usernameJustSet = true;
         } catch (e) {
           nameSave.disabled = false;
           nameError.textContent = 'Network error';
@@ -1153,20 +1222,91 @@
       }
 
       async function initPlayer() {
+        // Wait for IP hash to be resolved by cookie clicker script
         await new Promise(function(resolve) { var ck = setInterval(function() { if (window.__ipHash) { clearInterval(ck); resolve(); } }, 100); });
-        ipHash = window.__ipHash; myUsername = window.__username || '';
-        if (myUsername && !myUsername.startsWith('Guest')) {
-          c4PromptShown = true;
-          // Sync local stats to DB if we have a valid username
-          saveData();
+        ipHash = window.__ipHash;
+
+        // === MULTI-LAYER IDENTITY RESOLUTION ===
+        // Layer 1: Check if cookie script already resolved username
+        myUsername = window.__username || '';
+        if (myUsername && myUsername.startsWith('Guest')) myUsername = '';
+
+        // Layer 2: Check c4_leaderboard DB by IP hash
+        if (!myUsername) {
+          try {
+            var res = await sb.from('c4_leaderboard')
+              .select('username, elo, wins, losses, draws')
+              .eq('ip_hash', ipHash)
+              .not('username', 'like', 'Guest%')
+              .maybeSingle();
+            if (res.data && res.data.username) {
+              myUsername = res.data.username;
+              // Load DB stats if they have real game data
+              if (res.data.elo !== 800 || res.data.wins > 0) {
+                elo = res.data.elo;
+                score = { w: res.data.wins, d: res.data.draws, l: res.data.losses };
+                localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
+              }
+            }
+          } catch(e) { console.log('c4 LB lookup failed', e); }
         }
+
+        // Layer 3: Check cookie_leaderboard DB by IP as fallback
+        if (!myUsername) {
+          try {
+            var res2 = await sb.from('cookie_leaderboard')
+              .select('username')
+              .eq('ip_hash', ipHash)
+              .not('username', 'like', 'Guest%')
+              .maybeSingle();
+            if (res2.data && res2.data.username) myUsername = res2.data.username;
+          } catch(e) { console.log('cookie LB lookup failed', e); }
+        }
+
+        // === APPLY RESOLVED IDENTITY ===
+        if (myUsername) {
+          localStorage.setItem('cookieUsername', myUsername);
+          window.__username = myUsername;
+          c4PromptShown = true;
+
+          // Merge DB stats with local stats (DB takes priority if non-default)
+          try {
+            var dbRes = await sb.from('c4_leaderboard')
+              .select('elo, wins, losses, draws')
+              .eq('ip_hash', ipHash)
+              .maybeSingle();
+            if (dbRes.data && (dbRes.data.elo !== 800 || dbRes.data.wins > 0)) {
+              elo = dbRes.data.elo;
+              score = { w: dbRes.data.wins, d: dbRes.data.draws, l: dbRes.data.losses };
+              localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
+            } else {
+              // Push local stats to DB if we have any
+              saveData();
+            }
+          } catch(e) {
+            saveData();
+          }
+
+          // Also update cookie clicker UI if it hasn't loaded the name yet
+          var cue = document.getElementById('cookieUsername');
+          if (cue && (!cue.textContent || cue.style.opacity === '0')) {
+            cue.textContent = myUsername;
+            cue.style.opacity = '1';
+          }
+        }
+
         c4PlayerReady = true; updateUI();
       }
 
       function maybeShowPrompt() {
         if (c4PromptShown) return;
+        // Re-check global username (could have been set by cookie script since init)
         myUsername = window.__username || '';
-        if (myUsername && !myUsername.startsWith('Guest')) { c4PromptShown = true; return; }
+        if (myUsername && !myUsername.startsWith('Guest')) {
+          c4PromptShown = true;
+          saveData(); // Sync stats now that we know the username
+          return;
+        }
         c4PromptShown = true;
         c4NamePrompt.classList.add('visible');
       }
@@ -1180,15 +1320,42 @@
         if (!/^[a-zA-Z0-9_]+$/.test(val)) { c4NameError.textContent = 'Letters, numbers, _ only'; return; }
         try {
           c4NameSave.disabled = true;
+
+          // Set username in cookie_leaderboard (creates entry if needed)
           var { data, error } = await sb.rpc('set_username', { p_ip_hash: ipHash, p_username: val });
           c4NameSave.disabled = false;
           if (error) { c4NameError.textContent = 'Server error'; return; }
           if (data && data.error) { c4NameError.textContent = data.error; return; }
+
+          // Set username in c4_leaderboard (creates entry if needed)
           await sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val });
-          myUsername = val; localStorage.setItem('cookieUsername', myUsername); window.__username = myUsername;
-          var cue = document.getElementById('cookieUsername'); if (cue) { cue.textContent = myUsername; cue.style.opacity = '1'; }
-          var cpe = document.getElementById('cookieNamePrompt'); if (cpe) cpe.classList.remove('visible');
-          c4NamePrompt.classList.remove('visible'); fetchLB();
+
+          myUsername = val;
+          localStorage.setItem('cookieUsername', myUsername);
+          window.__username = myUsername;
+
+          // === CROSS-GAME SYNC ===
+          // Sync C4 stats to DB
+          saveData();
+
+          // Sync cookie count to DB via the cookie clicker's RPC
+          var cookieCount = parseInt(localStorage.getItem('cookieCount') || '0', 10);
+          if (cookieCount > 0) {
+            sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: cookieCount }).then(function() {});
+          }
+
+          // Update cookie clicker UI
+          var cue = document.getElementById('cookieUsername');
+          if (cue) { cue.textContent = myUsername; cue.style.opacity = '1'; }
+          var cpe = document.getElementById('cookieNamePrompt');
+          if (cpe) cpe.classList.remove('visible');
+
+          // Dismiss C4 prompt and refresh leaderboard
+          c4NamePrompt.classList.remove('visible');
+          fetchLB();
+
+          // Notify cookie script that username is set
+          window.__usernameJustSet = true;
         } catch(e) { c4NameSave.disabled = false; c4NameError.textContent = 'Network error'; }
       }
 
