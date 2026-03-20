@@ -119,54 +119,7 @@
           </a>
         </div>
 
-        <!-- Cookie Clicker + Leaderboard + Shop -->
-        <div class="cookie-area absolute right-[40px] top-[260px]">
 
-          <!-- Cookie + Leaderboard Column -->
-          <div class="cookie-section" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
-
-            <!-- Leaderboard -->
-            <div class="cookie-lb" id="cookieLB">
-              <div class="cookie-lb-header">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                <span>Leaderboard</span>
-              </div>
-              <div class="cookie-lb-list" id="cookieLBList">
-                <div class="cookie-lb-empty">Loading...</div>
-              </div>
-            </div>
-
-            <!-- Cookie Clicker -->
-            <div class="cookie-clicker" style="position: relative;">
-              <div class="cookie-count" id="cookieCount">0</div>
-              <div class="cookie-cps-display" id="cookieCPSDisplay" style="opacity: 0;">0 per second</div>
-              <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
-                <span class="cookie-emoji" id="cookieEmoji">🍪</span>
-              </button>
-              <p class="cookie-label">Click for cookies</p>
-              <p class="cookie-username" id="cookieUsername" style="opacity: 0;"></p>
-
-              <!-- Username prompt (hidden initially) -->
-              <div class="cookie-name-prompt" id="cookieNamePrompt">
-                <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
-                <div style="display: flex; gap: 6px;">
-                  <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
-                  <button id="cookieNameSave" class="cookie-name-save">✓</button>
-                </div>
-                <p class="cookie-name-error" id="cookieNameError"></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Upgrades Shop Panel (right side) -->
-          <div class="cookie-shop visible" id="cookieShop">
-            <div class="cookie-shop-header">
-              <span class="cookie-shop-title">🏪 Shop</span>
-              <span class="cookie-cps" id="cookieCPSHeader">0/s</span>
-            </div>
-            <div class="cookie-shop-list" id="cookieShopList"></div>
-          </div>
-        </div>
 
       </div>
 
@@ -453,24 +406,73 @@
         </h2>
         <p class="text-[#c1c2d3] text-[14px] leading-[1.4] tracking-[-0.16px] mt-[12px]">Classic Tic Tac Toe vs CPU.</p>
       </div>
-      <div class="ttt-card mx-auto w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
-        <div class="flex items-center justify-between mb-[20px] px-[4px]">
-          <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span class="text-[13px] text-[#c1c2d3]">You</span></div>
-          <div id="tttStatus" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
-          <div class="flex items-center gap-[10px]"><span class="text-[13px] text-[#c1c2d3]">CPU</span><span class="ttt-badge ttt-o-color">O</span></div>
-        </div>
-        <div id="tttBoard" class="ttt-grid">
-          <button class="ttt-cell" data-i="0"></button><button class="ttt-cell" data-i="1"></button><button class="ttt-cell" data-i="2"></button>
-          <button class="ttt-cell" data-i="3"></button><button class="ttt-cell" data-i="4"></button><button class="ttt-cell" data-i="5"></button>
-          <button class="ttt-cell" data-i="6"></button><button class="ttt-cell" data-i="7"></button><button class="ttt-cell" data-i="8"></button>
-        </div>
-        <div class="flex items-center justify-between mt-[20px] px-[4px]">
-          <div class="flex gap-[20px]">
-            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="tttWins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
-            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="tttDraws" class="text-[18px] font-bold text-white">0</p></div>
-            <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="tttLosses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
+      <div class="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-[40px] px-[16px]">
+        <div class="ttt-card w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+          <div class="flex items-center justify-between mb-[20px] px-[4px]">
+            <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span class="text-[13px] text-[#c1c2d3]">You</span></div>
+            <div id="tttStatus" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
+            <div class="flex items-center gap-[10px]"><span class="text-[13px] text-[#c1c2d3]">CPU</span><span class="ttt-badge ttt-o-color">O</span></div>
           </div>
-          <button id="tttReset" class="ttt-reset-btn">New Game</button>
+          <div id="tttBoard" class="ttt-grid">
+            <button class="ttt-cell" data-i="0"></button><button class="ttt-cell" data-i="1"></button><button class="ttt-cell" data-i="2"></button>
+            <button class="ttt-cell" data-i="3"></button><button class="ttt-cell" data-i="4"></button><button class="ttt-cell" data-i="5"></button>
+            <button class="ttt-cell" data-i="6"></button><button class="ttt-cell" data-i="7"></button><button class="ttt-cell" data-i="8"></button>
+          </div>
+          <div class="flex items-center justify-between mt-[20px] px-[4px]">
+            <div class="flex gap-[20px]">
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="tttWins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="tttDraws" class="text-[18px] font-bold text-white">0</p></div>
+              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="tttLosses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
+            </div>
+            <button id="tttReset" class="ttt-reset-btn">New Game</button>
+          </div>
+        </div>
+
+        <!-- Cookie Clicker + Leaderboard + Shop -->
+        <div class="cookie-area relative">
+          <!-- Cookie + Leaderboard Column -->
+          <div class="cookie-section" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+            <!-- Leaderboard -->
+            <div class="cookie-lb" id="cookieLB">
+              <div class="cookie-lb-header">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                <span>Leaderboard</span>
+              </div>
+              <div class="cookie-lb-list" id="cookieLBList">
+                <div class="cookie-lb-empty">Loading...</div>
+              </div>
+            </div>
+
+            <!-- Cookie Clicker -->
+            <div class="cookie-clicker" style="position: relative;">
+              <div class="cookie-count" id="cookieCount">0</div>
+              <div class="cookie-cps-display" id="cookieCPSDisplay" style="opacity: 0;">0 per second</div>
+              <button class="cookie-btn" id="cookieBtn" aria-label="Click for cookies">
+                <span class="cookie-emoji" id="cookieEmoji">🍪</span>
+              </button>
+              <p class="cookie-label">Click for cookies</p>
+              <p class="cookie-username" id="cookieUsername" style="opacity: 0;"></p>
+
+              <!-- Username prompt (hidden initially) -->
+              <div class="cookie-name-prompt" id="cookieNamePrompt">
+                <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
+                <div style="display: flex; gap: 6px;">
+                  <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+                  <button id="cookieNameSave" class="cookie-name-save">✓</button>
+                </div>
+                <p class="cookie-name-error" id="cookieNameError"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upgrades Shop Panel (right side) -->
+          <div class="cookie-shop visible" id="cookieShop">
+            <div class="cookie-shop-header">
+              <span class="cookie-shop-title">🏪 Shop</span>
+              <span class="cookie-cps" id="cookieCPSHeader">0/s</span>
+            </div>
+            <div class="cookie-shop-list" id="cookieShopList"></div>
+          </div>
         </div>
       </div>
     </section>
