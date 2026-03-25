@@ -71,7 +71,6 @@ li {
 .nav-link {
   color: rgba(193, 194, 211, 0.65);
   transition: color 0.3s ease;
-  leading-trim: both;
   line-height: 1.1;
   cursor: pointer;
 }
@@ -304,13 +303,14 @@ li {
 
 /* ─── Project Cards ─── */
 .project-card {
-  position: relative;
+  position: sticky !important;
+  top: 130px;
+  transform-origin: top center;
   isolation: isolate;
-  overflow: hidden;
-  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.32s ease,
-    box-shadow 0.32s ease;
+  transition: border-color 0.32s ease, box-shadow 0.32s ease;
+  will-change: transform, filter;
 }
+
 
 .project-card::before {
   content: '';

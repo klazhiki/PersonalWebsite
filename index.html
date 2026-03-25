@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +9,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
@@ -27,13 +30,16 @@
     }
   </script>
 </head>
+
 <body class="bg-[#000319] font-inter text-white m-0 p-0">
   <!-- Preloader -->
-  <div class="preloader" id="preloader" style="position:fixed; top:0; left:0; width:125vw; height:125vh; z-index:999999; display:flex; align-items:center; justify-content:center; background-color:#000319;">
-    <div style="font-family: 'Courier New', Courier, monospace; font-size: 16px; width: 340px; text-align: left; line-height: 1.6;">
+  <div class="preloader" id="preloader"
+    style="position:fixed; top:0; left:0; width:125vw; height:125vh; z-index:999999; display:flex; align-items:center; justify-content:center; background-color:#000319;">
+    <div
+      style="font-family: 'Courier New', Courier, monospace; font-size: 16px; width: 340px; text-align: left; line-height: 1.6;">
       <div id="termOutput"></div>
       <div id="termActive">
-        <span style="color: #cbacf9; font-weight: 600;">ethan@sys:~$</span> 
+        <span style="color: #cbacf9; font-weight: 600;">ethan@sys:~$</span>
         <span id="termType" style="color: #e4ecff;"></span><span class="term-cursor"></span>
       </div>
     </div>
@@ -44,13 +50,16 @@
     <!-- Spotlight (top-left glow) -->
     <div class="absolute h-[608px] left-[-233px] overflow-clip top-0 w-[805px] pointer-events-none">
       <div class="absolute inset-0">
-        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 307px 390.853px; mask-position: 307px 390.853px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -64.29% 46.23% 40.92% -38.14%;">
+        <div class="spotlight-layer"
+          style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 307px 390.853px; mask-position: 307px 390.853px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -64.29% 46.23% 40.92% -38.14%;">
           <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight1.svg" />
         </div>
-        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 99.915px 380.376px; mask-position: 99.915px 380.376px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -62.56% 20.51% 39.2% -12.41%;">
+        <div class="spotlight-layer"
+          style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 99.915px 380.376px; mask-position: 99.915px 380.376px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -62.56% 20.51% 39.2% -12.41%;">
           <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight2.svg" />
         </div>
-        <div class="spotlight-layer" style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 20.409px 487px; mask-position: 20.409px 487px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -80.1% 10.63% 56.73% -2.54%;">
+        <div class="spotlight-layer"
+          style="-webkit-mask-image: url('assets/spotlight-mask.svg'); mask-image: url('assets/spotlight-mask.svg'); -webkit-mask-size: 805px 608px; mask-size: 805px 608px; -webkit-mask-position: 20.409px 487px; mask-position: 20.409px 487px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; position: absolute; inset: -80.1% 10.63% 56.73% -2.54%;">
           <img alt="" class="block max-w-none w-full h-full" src="assets/spotlight3.svg" />
         </div>
       </div>
@@ -70,7 +79,8 @@
     <section id="hero" class="relative w-full max-w-[1440px] mx-auto">
       <!-- Grid Pattern Background -->
       <div class="relative h-[660px] w-full overflow-hidden">
-        <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask hero-parallax-grid" id="heroGrid" style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+        <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask hero-parallax-grid" id="heroGrid"
+          style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
           <!-- Grid lines -->
           <div class="absolute h-[900px] left-0 top-0 w-full">
             <img alt="" class="absolute block max-w-none w-full h-full" src="assets/input-form.svg" />
@@ -90,9 +100,15 @@
             <img alt="" class="absolute block max-w-none w-full h-full" src="assets/container-small.svg" />
           </div>
           <!-- Grid overlay blocks -->
-          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[111px] left-[332px] opacity-[0.47] top-[113px] w-[110px]"></div>
-          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] w-[111px] h-[111px] left-[886px] opacity-[0.47] top-[1px]"></div>
-          <div class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[112px] left-[1218px] opacity-[0.47] top-[225px] w-[111px]"></div>
+          <div
+            class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[111px] left-[332px] opacity-[0.47] top-[113px] w-[110px]">
+          </div>
+          <div
+            class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] w-[111px] h-[111px] left-[886px] opacity-[0.47] top-[1px]">
+          </div>
+          <div
+            class="absolute bg-gradient-to-r from-[#0c0f24] to-[#0c0f24] border border-solid border-[#0c0f24] h-[112px] left-[1218px] opacity-[0.47] top-[225px] w-[111px]">
+          </div>
           <div class="absolute left-[1206px] w-[24px] h-[24px] top-[101px]">
             <img alt="" class="absolute block max-w-none w-full h-full" src="assets/section-input-dot.svg" />
           </div>
@@ -100,8 +116,10 @@
 
         <!-- Profile Photo -->
         <div class="absolute top-[170px]" style="left: 50%; transform: translateX(calc(-50% + 1.5px));">
-          <div class="relative h-[187px] w-[195px]" style="-webkit-mask-image: url('assets/profile-mask.svg'); mask-image: url('assets/profile-mask.svg'); -webkit-mask-size: 175px 168px; mask-size: 175px 168px; -webkit-mask-position: 9px 6px; mask-position: 9px 6px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
-            <img alt="Ethan Joseph" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/profile-photo.png" />
+          <div class="relative h-[187px] w-[195px]"
+            style="-webkit-mask-image: url('assets/profile-mask.svg'); mask-image: url('assets/profile-mask.svg'); -webkit-mask-size: 175px 168px; mask-size: 175px 168px; -webkit-mask-position: 9px 6px; mask-position: 9px 6px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+            <img alt="Ethan Joseph" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+              src="assets/profile-photo.png" />
           </div>
         </div>
 
@@ -113,7 +131,8 @@
         </div>
 
         <!-- Subtitle -->
-        <p class="absolute top-[486px] text-[#e4ecff] text-[24px] text-center leading-[1.2] whitespace-nowrap" style="left: 50%; transform: translateX(calc(-50% - 5.5px));">
+        <p class="absolute top-[486px] text-[#e4ecff] text-[24px] text-center leading-[1.2] whitespace-nowrap"
+          style="left: 50%; transform: translateX(calc(-50% - 5.5px));">
           McMaster Engineering 1 Student<br />
           AI Driven Systems, ML
         </p>
@@ -139,32 +158,56 @@
         <div class="tech-marquee" aria-label="Tech stack">
           <div class="tech-marquee-track">
             <div class="tech-marquee-group" aria-hidden="false">
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/python/3776AB" alt="">Python</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/typescript/3178C6" alt="">TypeScript</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openjdk/ED8B00" alt="">Java</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/c/A8B9CC" alt="">C</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/postgresql/4169E1" alt="">SQL</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="">JavaScript</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt="">Node.js</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openapiinitiative/6BA539" alt="">REST APIs</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/git/F05032" alt="">Git</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/githubactions/2088FF" alt="">GitHub Actions</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/googlegemini/8E75B2" alt="">Gemini API</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/vercel/FFFFFF" alt="">Vercel</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/python/3776AB"
+                  alt="">Python</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/typescript/3178C6"
+                  alt="">TypeScript</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openjdk/ED8B00"
+                  alt="">Java</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/c/A8B9CC"
+                  alt="">C</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/postgresql/4169E1"
+                  alt="">SQL</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/javascript/F7DF1E"
+                  alt="">JavaScript</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/nodedotjs/5FA04E"
+                  alt="">Node.js</span>
+              <span class="tech-pill"><img class="tech-pill-icon"
+                  src="https://cdn.simpleicons.org/openapiinitiative/6BA539" alt="">REST APIs</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/git/F05032"
+                  alt="">Git</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/githubactions/2088FF"
+                  alt="">GitHub Actions</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/googlegemini/8E75B2"
+                  alt="">Gemini API</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/vercel/FFFFFF"
+                  alt="">Vercel</span>
             </div>
             <div class="tech-marquee-group" aria-hidden="true">
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/python/3776AB" alt="">Python</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/typescript/3178C6" alt="">TypeScript</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openjdk/ED8B00" alt="">Java</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/c/A8B9CC" alt="">C</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/postgresql/4169E1" alt="">SQL</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="">JavaScript</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt="">Node.js</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openapiinitiative/6BA539" alt="">REST APIs</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/git/F05032" alt="">Git</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/githubactions/2088FF" alt="">GitHub Actions</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/googlegemini/8E75B2" alt="">Gemini API</span>
-              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/vercel/FFFFFF" alt="">Vercel</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/python/3776AB"
+                  alt="">Python</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/typescript/3178C6"
+                  alt="">TypeScript</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/openjdk/ED8B00"
+                  alt="">Java</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/c/A8B9CC"
+                  alt="">C</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/postgresql/4169E1"
+                  alt="">SQL</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/javascript/F7DF1E"
+                  alt="">JavaScript</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/nodedotjs/5FA04E"
+                  alt="">Node.js</span>
+              <span class="tech-pill"><img class="tech-pill-icon"
+                  src="https://cdn.simpleicons.org/openapiinitiative/6BA539" alt="">REST APIs</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/git/F05032"
+                  alt="">Git</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/githubactions/2088FF"
+                  alt="">GitHub Actions</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/googlegemini/8E75B2"
+                  alt="">Gemini API</span>
+              <span class="tech-pill"><img class="tech-pill-icon" src="https://cdn.simpleicons.org/vercel/FFFFFF"
+                  alt="">Vercel</span>
             </div>
           </div>
         </div>
@@ -181,52 +224,66 @@
       </div>
 
       <!-- Mid-page pattern decoration -->
-      <div class="absolute inset-0 pointer-events-none pattern-mid" style="-webkit-mask-image: url('assets/pattern-container1.svg'); mask-image: url('assets/pattern-container1.svg'); -webkit-mask-size: 1259.868px 1127px; mask-size: 1259.868px 1127px; -webkit-mask-position: 62.286px -76.088px; mask-position: 62.286px -76.088px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; top: 200px; left: 2.13%; right: 1.43%;">
+      <div class="absolute inset-0 pointer-events-none pattern-mid"
+        style="-webkit-mask-image: url('assets/pattern-container1.svg'); mask-image: url('assets/pattern-container1.svg'); -webkit-mask-size: 1259.868px 1127px; mask-size: 1259.868px 1127px; -webkit-mask-position: 62.286px -76.088px; mask-position: 62.286px -76.088px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; top: 200px; left: 2.13%; right: 1.43%;">
         <img alt="" class="block max-w-none w-full h-full" src="assets/pattern-container2.svg" />
       </div>
 
       <!-- Project Card 1: Sentinel AI -->
-      <div class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative mb-[57px]" style="background-image: linear-gradient(100.65deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div
+        class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] mb-[100px]"
+        style="background-image: linear-gradient(100.65deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
         <!-- Card Screenshot Area -->
         <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
           <!-- Flipped gradient background -->
           <div class="absolute flex h-[377px] items-center justify-center left-[-126px] top-[-24px] w-[770px]">
             <div class="flex-none" style="transform: scaleY(-1);">
               <div class="h-[377px] relative w-[770px]">
-                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/project-card-bg.png" />
+                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+                  src="assets/project-card-bg.png" />
               </div>
             </div>
           </div>
           <!-- Screenshot overlay -->
           <div class="absolute left-[14px] top-[13px] w-[801px] h-[326px]">
-            <img alt="Sentinel AI Screenshot" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/sentinel-ai-1.png" />
+            <img alt="Sentinel AI Screenshot"
+              class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+              src="assets/sentinel-ai-1.png" />
           </div>
         </div>
 
         <!-- Card Content -->
-        <div class="px-[39px] pt-[31px] pb-[43px]">
-          <h3 class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-[24px]">
+        <div class="px-[39px] pt-[20px] pb-[30px]">
+          <h3 class="font-bold text-[28px] leading-[32px] tracking-[-0.64px] text-white mb-[8px]">
             Sentinel AI - Code Auditor
           </h3>
 
-          <ul class="list-disc text-[#bec1dd] text-[20px] leading-[1.3] pl-[30px] space-y-[4px] mb-[40px] max-w-[747px]">
-            <li>Built an AI-driven application security auditor that analyses entire local or GitHub repositories using Gemini to generate structured vulnerability findings, visualize attack-flow graphs, and surface remediation guidance across Python and TypeScript codebases.</li>
-            <li>Designed a repository ingestion and batching pipeline for large codebases, enabling analysis of projects exceeding 50k LOC under strict file size and context limits.</li>
-            <li>Developed repository-aware vulnerability analysis that reduced false positives by ~35% vs rule-only scanners (benchmarked across 40+ open-source repos).</li>
-            <li>Implemented automated remediation with structured Git patch generation, achieving ~70% validated fix rate through post-scan verification and rescanning. Integrated SARIF reporting and GitHub Actions CI, enabling automated security checks with sub-5 second incremental rescans.</li>
-            <li>Optimized prompt architecture and context compression, reducing token usage ~28% while maintaining detection accuracy.</li>
-            <li>Deployed a production web interface on Vercel, averaging ~800 monthly visits from users scanning their repositories for security vulnerabilities.</li>
+          <ul class="list-disc text-[#bec1dd] text-[17px] leading-[1.3] pl-[30px] space-y-[0px] mb-[12px] max-w-[747px]">
+            <li>Built an AI-driven application security auditor that analyses entire local or GitHub repositories using
+              Gemini to generate structured vulnerability findings, visualize attack-flow graphs, and surface
+              remediation guidance across Python and TypeScript codebases.</li>
+            <li>Designed a repository ingestion and batching pipeline for large codebases, enabling analysis of projects
+              exceeding 50k LOC under strict file size and context limits.</li>
+            <li>Developed repository-aware vulnerability analysis that reduced false positives by ~35% vs rule-only
+              scanners (benchmarked across 40+ open-source repos).</li>
+            <li>Implemented automated remediation with structured Git patch generation, achieving ~70% validated fix
+              rate through post-scan verification and rescanning. Integrated SARIF reporting and GitHub Actions CI,
+              enabling automated security checks with sub-5 second incremental rescans.</li>
+            <li>Optimized prompt architecture and context compression, reducing token usage ~28% while maintaining
+              detection accuracy.</li>
+            <li>Deployed a production web interface on Vercel, averaging ~800 monthly visits from users scanning their
+              repositories for security vulnerabilities.</li>
           </ul>
 
           <!-- Stats Row -->
-          <div class="flex gap-[40px] mb-[40px] px-[27px]">
+          <div class="flex gap-[32px] mb-[16px] px-[27px]">
             <div class="w-[365px]">
-              <p class="font-normal text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-0">False Positive Reduction</p>
-              <p class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white">35 %</p>
+              <p class="font-normal text-[22px] leading-[26px] tracking-[-0.64px] text-white mb-0">False Positive Reduction</p>
+              <p class="font-bold text-[26px] leading-[30px] tracking-[-0.64px] text-white">35 %</p>
             </div>
             <div class="w-[365px]">
-              <p class="font-normal text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-0">Fix Validation Rate</p>
-              <p class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white">70%</p>
+              <p class="font-normal text-[22px] leading-[26px] tracking-[-0.64px] text-white mb-0">Fix Validation Rate</p>
+              <p class="font-bold text-[26px] leading-[30px] tracking-[-0.64px] text-white">70%</p>
             </div>
           </div>
 
@@ -236,7 +293,8 @@
             <div class="flex items-start pr-[4px]">
               <div class="relative w-[50px] h-[50px] -mr-[4px]">
                 <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
-                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;"
+                    src="assets/tech-circle.svg" />
                 </div>
                 <div class="absolute h-[24px] left-[12px] top-[13px] w-[26.96px]">
                   <img alt="" class="block max-w-none w-full h-full" src="assets/tech-frame5.svg" />
@@ -244,10 +302,12 @@
               </div>
               <div class="relative w-[50px] h-[50px] -mr-[4px]">
                 <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
-                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;"
+                    src="assets/tech-circle.svg" />
                 </div>
                 <div class="absolute left-[7px] top-[8px] w-[35px] h-[35px]">
-                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/image17.png" />
+                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+                    src="assets/image17.png" />
                 </div>
               </div>
               <div class="relative w-[50px] h-[50px] -mr-[4px]">
@@ -255,23 +315,32 @@
               </div>
               <div class="relative w-[50px] h-[50px] -mr-[4px]">
                 <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
-                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;"
+                    src="assets/tech-circle.svg" />
                 </div>
                 <div class="absolute left-[9px] top-[9px] w-[33px] h-[33px]">
-                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/image18.png" />
+                  <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+                    src="assets/image18.png" />
                 </div>
               </div>
               <div class="relative w-[50px] h-[50px] -mr-[4px]">
                 <div class="absolute left-0 top-0 w-[49.095px] h-[49.095px]">
-                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;" src="assets/tech-circle.svg" />
+                  <img alt="" class="block max-w-none w-full h-full" style="margin: -1.07%;"
+                    src="assets/tech-circle.svg" />
                 </div>
-                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24px] h-[24px]" viewBox="0 0 24 24" fill="white"><path d="M24 22.525H0l12-21.05 12 21.05z"/></svg>
+                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24px] h-[24px]"
+                  viewBox="0 0 24 24" fill="white">
+                  <path d="M24 22.525H0l12-21.05 12 21.05z" />
+                </svg>
               </div>
             </div>
 
             <!-- Check Live Site Link -->
-            <a href="https://sentinelauditor.vercel.app/" class="flex gap-[10px] items-center group" target="_blank" rel="noopener">
-              <span class="font-medium text-[20px] text-[#cbacf9] tracking-[-0.48px] leading-[1.2] underline decoration-solid">Check Live Site</span>
+            <a href="https://sentinelauditor.vercel.app/" class="flex gap-[10px] items-center group" target="_blank"
+              rel="noopener">
+              <span
+                class="font-medium text-[20px] text-[#cbacf9] tracking-[-0.48px] leading-[1.2] underline decoration-solid">Check
+                Live Site</span>
               <div class="flex items-center justify-center w-[11px] h-[11px]">
                 <div class="-rotate-45 flex-none">
                   <div class="relative w-[15.556px] h-0">
@@ -287,30 +356,35 @@
       </div>
 
       <!-- Project Card 2: ESP32 -->
-      <div class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative" style="background-image: linear-gradient(110.46deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div
+        class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] mb-[60vh]"
+        style="background-image: linear-gradient(110.46deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
         <!-- Card Screenshot Area -->
-        <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
+        <div class="relative mx-auto w-[828px] h-[220px] bg-[#13162d] rounded-[14px] mt-[24px] overflow-clip">
           <!-- Flipped gradient background -->
           <div class="absolute flex h-[377px] items-center justify-center left-[-126px] top-[-24px] w-[770px]">
             <div class="flex-none" style="transform: scaleY(-1);">
               <div class="h-[377px] relative w-[770px]">
-                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full" src="assets/project-card-bg.png" />
+                <img alt="" class="absolute inset-0 max-w-none object-cover pointer-events-none w-full h-full"
+                  src="assets/project-card-bg.png" />
               </div>
             </div>
           </div>
           <!-- Screenshot overlay -->
           <div class="absolute left-[14px] top-[13px] w-[801px] h-[326px]">
-            <img alt="ESP32 Microcontroller" class="absolute inset-0 max-w-none object-contain pointer-events-none w-full h-full" src="assets/sentinel-ai-2.png" />
+            <img alt="ESP32 Microcontroller"
+              class="absolute inset-0 max-w-none object-contain pointer-events-none w-full h-full"
+              src="assets/sentinel-ai-2.png" />
           </div>
         </div>
 
         <!-- Card Content -->
-        <div class="px-[39px] pt-[31px] pb-[43px]">
-          <h3 class="font-bold text-[32px] leading-[36px] tracking-[-0.64px] text-white mb-[24px]">
+        <div class="px-[39px] pt-[20px] pb-[30px]">
+          <h3 class="font-bold text-[28px] leading-[32px] tracking-[-0.64px] text-white mb-[12px]">
             In progress - ESP32 Microcontroller Project
           </h3>
 
-          <ul class="list-disc text-[#bec1dd] text-[20px] leading-[1.3] pl-[30px] space-y-[4px] max-w-[747px]">
+          <ul class="list-disc text-[#bec1dd] text-[17px] leading-[1.3] pl-[30px] space-y-[4px] max-w-[747px]">
             <li>Focusing on low-level microcontroller related tech</li>
             <li>C++, Python</li>
           </ul>
@@ -329,7 +403,9 @@
 
       <div class="flex justify-center items-start gap-[24px]">
         <!-- Game Card -->
-        <div class="reveal reveal-left c4-card rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[32px] px-[32px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div
+          class="reveal reveal-left c4-card rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[32px] px-[32px]"
+          style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
 
           <!-- ELO Rating Display -->
           <div class="flex items-center justify-between mb-[16px] px-[4px]">
@@ -345,7 +421,8 @@
           <!-- ELO Progress Bar -->
           <div class="mb-[16px]">
             <div class="w-full h-[4px] rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
-              <div id="c4EloBar" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
+              <div id="c4EloBar" class="h-full rounded-full transition-all duration-500"
+                style="width: 0%; background: linear-gradient(to right, #cbacf9, #8b5cf6);"></div>
             </div>
             <div class="flex justify-between mt-[4px]">
               <span id="c4Difficulty" class="text-[11px] text-[#c1c2d3]">Difficulty: Easy</span>
@@ -368,21 +445,79 @@
 
           <!-- Board -->
           <div class="c4-board" id="c4Board">
-            <div class="c4-col" data-col="0"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="1"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="2"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="3"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="4"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="5"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
-            <div class="c4-col" data-col="6"><div class="c4-slot" data-r="0"></div><div class="c4-slot" data-r="1"></div><div class="c4-slot" data-r="2"></div><div class="c4-slot" data-r="3"></div><div class="c4-slot" data-r="4"></div><div class="c4-slot" data-r="5"></div></div>
+            <div class="c4-col" data-col="0">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="1">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="2">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="3">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="4">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="5">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
+            <div class="c4-col" data-col="6">
+              <div class="c4-slot" data-r="0"></div>
+              <div class="c4-slot" data-r="1"></div>
+              <div class="c4-slot" data-r="2"></div>
+              <div class="c4-slot" data-r="3"></div>
+              <div class="c4-slot" data-r="4"></div>
+              <div class="c4-slot" data-r="5"></div>
+            </div>
           </div>
 
           <!-- Score + Reset -->
           <div class="flex items-center justify-between mt-[20px] px-[4px]">
             <div class="flex gap-[20px]">
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="c4Wins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="c4Draws" class="text-[18px] font-bold text-white">0</p></div>
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="c4Losses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p>
+                <p id="c4Wins" class="text-[18px] font-bold text-[#cbacf9]">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p>
+                <p id="c4Draws" class="text-[18px] font-bold text-white">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p>
+                <p id="c4Losses" class="text-[18px] font-bold text-[#f05032]">0</p>
+              </div>
             </div>
             <button id="c4Reset" class="ttt-reset-btn">New Game</button>
           </div>
@@ -391,7 +526,15 @@
         <!-- C4 Leaderboard -->
         <div class="reveal reveal-right ttt-lb" id="c4LB">
           <div class="ttt-lb-header">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+            </svg>
             <span>ELO Leaderboard</span>
           </div>
           <div class="ttt-lb-list" id="c4LBList">
@@ -400,7 +543,8 @@
           <div class="ttt-name-prompt" id="c4NamePrompt">
             <p class="cookie-name-prompt-label">Set your name for the leaderboard</p>
             <div style="display: flex; gap: 6px;">
-              <input type="text" id="c4NameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+              <input type="text" id="c4NameInput" class="cookie-name-input" placeholder="Username" maxlength="16"
+                autocomplete="off" spellcheck="false" />
               <button id="c4NameSave" class="cookie-name-save">✓</button>
             </div>
             <p class="cookie-name-error" id="c4NameError"></p>
@@ -418,22 +562,38 @@
         <p class="text-[#c1c2d3] text-[14px] leading-[1.4] tracking-[-0.16px] mt-[12px]">Classic Tic Tac Toe vs CPU.</p>
       </div>
       <div class="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-[40px] px-[16px]">
-        <div class="reveal reveal-left ttt-card w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div
+          class="reveal reveal-left ttt-card w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]"
+          style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
           <div class="flex items-center justify-between mb-[20px] px-[4px]">
-            <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span class="text-[13px] text-[#c1c2d3]">You</span></div>
+            <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span
+                class="text-[13px] text-[#c1c2d3]">You</span></div>
             <div id="tttStatus" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
-            <div class="flex items-center gap-[10px]"><span class="text-[13px] text-[#c1c2d3]">CPU</span><span class="ttt-badge ttt-o-color">O</span></div>
+            <div class="flex items-center gap-[10px]"><span class="text-[13px] text-[#c1c2d3]">CPU</span><span
+                class="ttt-badge ttt-o-color">O</span></div>
           </div>
           <div id="tttBoard" class="ttt-grid">
-            <button class="ttt-cell" data-i="0"></button><button class="ttt-cell" data-i="1"></button><button class="ttt-cell" data-i="2"></button>
-            <button class="ttt-cell" data-i="3"></button><button class="ttt-cell" data-i="4"></button><button class="ttt-cell" data-i="5"></button>
-            <button class="ttt-cell" data-i="6"></button><button class="ttt-cell" data-i="7"></button><button class="ttt-cell" data-i="8"></button>
+            <button class="ttt-cell" data-i="0"></button><button class="ttt-cell" data-i="1"></button><button
+              class="ttt-cell" data-i="2"></button>
+            <button class="ttt-cell" data-i="3"></button><button class="ttt-cell" data-i="4"></button><button
+              class="ttt-cell" data-i="5"></button>
+            <button class="ttt-cell" data-i="6"></button><button class="ttt-cell" data-i="7"></button><button
+              class="ttt-cell" data-i="8"></button>
           </div>
           <div class="flex items-center justify-between mt-[20px] px-[4px]">
             <div class="flex gap-[20px]">
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p><p id="tttWins" class="text-[18px] font-bold text-[#cbacf9]">0</p></div>
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p><p id="tttDraws" class="text-[18px] font-bold text-white">0</p></div>
-              <div class="text-center"><p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p><p id="tttLosses" class="text-[18px] font-bold text-[#f05032]">0</p></div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Wins</p>
+                <p id="tttWins" class="text-[18px] font-bold text-[#cbacf9]">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Draws</p>
+                <p id="tttDraws" class="text-[18px] font-bold text-white">0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-[11px] text-[#c1c2d3] mb-[2px]">Losses</p>
+                <p id="tttLosses" class="text-[18px] font-bold text-[#f05032]">0</p>
+              </div>
             </div>
             <button id="tttReset" class="ttt-reset-btn">New Game</button>
           </div>
@@ -446,7 +606,15 @@
             <!-- Leaderboard -->
             <div class="cookie-lb" id="cookieLB">
               <div class="cookie-lb-header">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                  <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                  <path d="M4 22h16" />
+                  <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                  <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                  <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+                </svg>
                 <span>Leaderboard</span>
               </div>
               <div class="cookie-lb-list" id="cookieLBList">
@@ -468,7 +636,8 @@
               <div class="cookie-name-prompt" id="cookieNamePrompt">
                 <p class="cookie-name-prompt-label">Set a leaderboard name?</p>
                 <div style="display: flex; gap: 6px;">
-                  <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username" maxlength="16" autocomplete="off" spellcheck="false" />
+                  <input type="text" id="cookieNameInput" class="cookie-name-input" placeholder="Username"
+                    maxlength="16" autocomplete="off" spellcheck="false" />
                   <button id="cookieNameSave" class="cookie-name-save">✓</button>
                 </div>
                 <p class="cookie-name-error" id="cookieNameError"></p>
@@ -501,25 +670,46 @@
         <!-- Contact Info -->
         <div class="reveal flex flex-col gap-[16px] items-center mb-[40px]">
           <div class="flex items-center gap-[12px]">
-            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-            <a href="mailto:ethanvjv@gmail.com" class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">ethanvjv@gmail.com</a>
+            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M22 4L12 13 2 4" />
+            </svg>
+            <a href="mailto:ethanvjv@gmail.com"
+              class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">ethanvjv@gmail.com</a>
           </div>
           <div class="flex items-center gap-[12px]">
-            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-            <a href="mailto:josepe15@mcmaster.ca" class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">josepe15@mcmaster.ca</a>
+            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M22 4L12 13 2 4" />
+            </svg>
+            <a href="mailto:josepe15@mcmaster.ca"
+              class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">josepe15@mcmaster.ca</a>
           </div>
           <div class="flex items-center gap-[12px]">
-            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener" class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">linkedin.com/in/ethan-joseph-990a29282</a>
+            <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+            <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener"
+              class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">linkedin.com/in/ethan-joseph-990a29282</a>
           </div>
         </div>
 
         <!-- LinkedIn Embed -->
         <div class="reveal reveal-scale mb-[40px] mx-auto" style="max-width: 400px;">
-          <div class="rounded-[16px] overflow-hidden border border-solid border-[rgba(54,55,73,0.43)]" style="background: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
-            <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener" class="flex items-center gap-[16px] p-[20px] hover:opacity-80 transition-opacity">
+          <div class="rounded-[16px] overflow-hidden border border-solid border-[rgba(54,55,73,0.43)]"
+            style="background: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+            <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener"
+              class="flex items-center gap-[16px] p-[20px] hover:opacity-80 transition-opacity">
               <div class="flex-shrink-0 w-[48px] h-[48px] rounded-[10px] bg-[#0A66C2] flex items-center justify-center">
-                <svg class="w-[24px] h-[24px]" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <svg class="w-[24px] h-[24px]" viewBox="0 0 24 24" fill="white">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
               </div>
               <div class="text-left">
                 <p class="text-white font-medium text-[15px] leading-[1.3]">Ethan Joseph</p>
@@ -550,7 +740,10 @@
             <div class="social-icon-border"></div>
             <div class="social-icon-gradient"></div>
             <div class="absolute inset-[8px] overflow-clip flex items-center justify-center">
-              <svg class="w-[20px] h-[20px]" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              <svg class="w-[20px] h-[20px]" viewBox="0 0 24 24" fill="white">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+              </svg>
             </div>
             <div class="social-icon-glow"></div>
           </a>
@@ -564,7 +757,8 @@
             <div class="social-icon-glow"></div>
           </a>
           <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener" class="social-icon-btn">
+          <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener"
+            class="social-icon-btn">
             <div class="social-icon-border"></div>
             <div class="social-icon-gradient"></div>
             <div class="absolute inset-[8px] overflow-clip flex items-center justify-center">
@@ -579,153 +773,153 @@
   </div>
 
   <script>
-    (function() {
-      var sections = ['hero', 'projects', 'contact'];
-      var navLinks = document.querySelectorAll('.nav-link');
-      var indicator = document.getElementById('navIndicator');
-      var navbar = document.getElementById('navbar');
-      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var scrollTopOffset = 140;
-      var currentActive = null;
+      (function () {
+        var sections = ['hero', 'projects', 'contact'];
+        var navLinks = document.querySelectorAll('.nav-link');
+        var indicator = document.getElementById('navIndicator');
+        var navbar = document.getElementById('navbar');
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var scrollTopOffset = 140;
+        var currentActive = null;
 
-      function moveIndicatorTo(sectionId) {
-        var activeLink = document.querySelector('.nav-link[data-section="' + sectionId + '"]');
-        if (!activeLink || !indicator || !navbar) return;
-        var offsetX = 0;
-        var el = activeLink;
-        while (el && el !== navbar) {
-          offsetX += el.offsetLeft;
-          el = el.offsetParent;
-        }
-        var centerX = offsetX + activeLink.offsetWidth / 2;
-        indicator.style.left = centerX + 'px';
-      }
-
-      function updateActiveNav(sectionId) {
-        if (sectionId === currentActive) return;
-        currentActive = sectionId;
-        navLinks.forEach(function(link) {
-          if (link.dataset.section === sectionId) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
+        function moveIndicatorTo(sectionId) {
+          var activeLink = document.querySelector('.nav-link[data-section="' + sectionId + '"]');
+          if (!activeLink || !indicator || !navbar) return;
+          var offsetX = 0;
+          var el = activeLink;
+          while (el && el !== navbar) {
+            offsetX += el.offsetLeft;
+            el = el.offsetParent;
           }
-        });
-        moveIndicatorTo(sectionId);
-      }
+          var centerX = offsetX + activeLink.offsetWidth / 2;
+          indicator.style.left = centerX + 'px';
+        }
 
-      function onScroll() {
-        var trigger = window.innerHeight * 0.4;
-        var active = sections[0];
-        for (var i = 0; i < sections.length; i++) {
-          var el = document.getElementById(sections[i]);
-          if (!el) continue;
-          var rect = el.getBoundingClientRect();
-          if (rect.top <= trigger) {
-            active = sections[i];
+        function updateActiveNav(sectionId) {
+          if (sectionId === currentActive) return;
+          currentActive = sectionId;
+          navLinks.forEach(function (link) {
+            if (link.dataset.section === sectionId) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+          moveIndicatorTo(sectionId);
+        }
+
+        function onScroll() {
+          var trigger = window.innerHeight * 0.4;
+          var active = sections[0];
+          for (var i = 0; i < sections.length; i++) {
+            var el = document.getElementById(sections[i]);
+            if (!el) continue;
+            var rect = el.getBoundingClientRect();
+            if (rect.top <= trigger) {
+              active = sections[i];
+            }
           }
-        }
-        updateActiveNav(active);
-      }
-
-      var smoothScrollController = (function() {
-        if (prefersReducedMotion) {
-          return { scrollTo: function(y) { window.scrollTo(0, y); } };
+          updateActiveNav(active);
         }
 
-        var targetY = window.scrollY;
-        var rafId = null;
-        var ease = 0.12;
-
-        function clampScroll(y) {
-          var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-          return Math.max(0, Math.min(y, maxY));
-        }
-
-        function animate() {
-          var currentY = window.scrollY;
-          var nextY = currentY + (targetY - currentY) * ease;
-          if (Math.abs(targetY - currentY) < 0.35) {
-            window.scrollTo(0, targetY);
-            rafId = null;
-            return;
+        var smoothScrollController = (function () {
+          if (prefersReducedMotion) {
+            return { scrollTo: function (y) { window.scrollTo(0, y); } };
           }
-          window.scrollTo(0, nextY);
-          rafId = requestAnimationFrame(animate);
-        }
 
-        function queueAnimation() {
-          if (rafId === null) rafId = requestAnimationFrame(animate);
-        }
+          var targetY = window.scrollY;
+          var rafId = null;
+          var ease = 0.12;
 
-        window.addEventListener('wheel', function(event) {
-          if (event.ctrlKey || event.defaultPrevented) return;
-          event.preventDefault();
-          targetY = clampScroll(targetY + event.deltaY);
-          queueAnimation();
-        }, { passive: false });
-
-        window.addEventListener('keydown', function(event) {
-          var pageStep = window.innerHeight * 0.9;
-          var delta = 0;
-          if (event.key === 'ArrowDown') delta = 84;
-          else if (event.key === 'ArrowUp') delta = -84;
-          else if (event.key === 'PageDown' || event.key === ' ') delta = pageStep;
-          else if (event.key === 'PageUp') delta = -pageStep;
-          else if (event.key === 'Home') { event.preventDefault(); targetY = 0; queueAnimation(); return; }
-          else if (event.key === 'End') { event.preventDefault(); targetY = clampScroll(document.documentElement.scrollHeight); queueAnimation(); return; }
-          if (delta !== 0) { event.preventDefault(); targetY = clampScroll(targetY + delta); queueAnimation(); }
-        }, { passive: false });
-
-        window.addEventListener('scroll', function() {
-          if (rafId === null) targetY = window.scrollY;
-        }, { passive: true });
-
-        return { scrollTo: function(y) { targetY = clampScroll(y); queueAnimation(); } };
-      })();
-
-      navLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          var targetId = this.getAttribute('href').substring(1);
-          var target = document.getElementById(targetId);
-          if (target) {
-            var targetY = target.getBoundingClientRect().top + window.scrollY - scrollTopOffset;
-            smoothScrollController.scrollTo(targetY);
+          function clampScroll(y) {
+            var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            return Math.max(0, Math.min(y, maxY));
           }
-        });
-      });
 
-      window.addEventListener('scroll', onScroll, { passive: true });
+          function animate() {
+            var currentY = window.scrollY;
+            var nextY = currentY + (targetY - currentY) * ease;
+            if (Math.abs(targetY - currentY) < 0.35) {
+              window.scrollTo(0, targetY);
+              rafId = null;
+              return;
+            }
+            window.scrollTo(0, nextY);
+            rafId = requestAnimationFrame(animate);
+          }
 
-      window.addEventListener('resize', function() {
-        if (currentActive) moveIndicatorTo(currentActive);
-      });
+          function queueAnimation() {
+            if (rafId === null) rafId = requestAnimationFrame(animate);
+          }
 
-      function initNav() {
-        indicator.style.transition = 'none';
-        currentActive = null;
-        updateActiveNav('hero');
-        moveIndicatorTo('hero');
-        void indicator.offsetWidth;
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            indicator.style.transition = '';
-            onScroll();
+          window.addEventListener('wheel', function (event) {
+            if (event.ctrlKey || event.defaultPrevented) return;
+            event.preventDefault();
+            targetY = clampScroll(targetY + event.deltaY);
+            queueAnimation();
+          }, { passive: false });
+
+          window.addEventListener('keydown', function (event) {
+            var pageStep = window.innerHeight * 0.9;
+            var delta = 0;
+            if (event.key === 'ArrowDown') delta = 84;
+            else if (event.key === 'ArrowUp') delta = -84;
+            else if (event.key === 'PageDown' || event.key === ' ') delta = pageStep;
+            else if (event.key === 'PageUp') delta = -pageStep;
+            else if (event.key === 'Home') { event.preventDefault(); targetY = 0; queueAnimation(); return; }
+            else if (event.key === 'End') { event.preventDefault(); targetY = clampScroll(document.documentElement.scrollHeight); queueAnimation(); return; }
+            if (delta !== 0) { event.preventDefault(); targetY = clampScroll(targetY + delta); queueAnimation(); }
+          }, { passive: false });
+
+          window.addEventListener('scroll', function () {
+            if (rafId === null) targetY = window.scrollY;
+          }, { passive: true });
+
+          return { scrollTo: function (y) { targetY = clampScroll(y); queueAnimation(); } };
+        })();
+
+        navLinks.forEach(function (link) {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('href').substring(1);
+            var target = document.getElementById(targetId);
+            if (target) {
+              var targetY = target.getBoundingClientRect().top + window.scrollY - scrollTopOffset;
+              smoothScrollController.scrollTo(targetY);
+            }
           });
         });
-      }
 
-      if (document.readyState === 'complete') {
-        initNav();
-      } else {
-        window.addEventListener('load', initNav);
-      }
-    })();
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        window.addEventListener('resize', function () {
+          if (currentActive) moveIndicatorTo(currentActive);
+        });
+
+        function initNav() {
+          indicator.style.transition = 'none';
+          currentActive = null;
+          updateActiveNav('hero');
+          moveIndicatorTo('hero');
+          void indicator.offsetWidth;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              indicator.style.transition = '';
+              onScroll();
+            });
+          });
+        }
+
+        if (document.readyState === 'complete') {
+          initNav();
+        } else {
+          window.addEventListener('load', initNav);
+        }
+      })();
   </script>
 
   <script>
-    (function() {
+    (function () {
       var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
       var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -764,7 +958,7 @@
           var enc = new TextEncoder().encode(data.ip + '_cookie_salt_2026');
           var hashBuf = await crypto.subtle.digest('SHA-256', enc);
           var arr = Array.from(new Uint8Array(hashBuf));
-          ipHash = arr.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+          ipHash = arr.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
         } catch (e) {
           ipHash = localStorage.getItem('cookieIpHash') || 'local_' + Math.random().toString(36).slice(2, 14);
         }
@@ -790,7 +984,7 @@
               .not('username', 'like', 'Guest%')
               .maybeSingle();
             if (res.data && res.data.username) savedName = res.data.username;
-          } catch(e) { console.log('cookie LB lookup failed', e); }
+          } catch (e) { console.log('cookie LB lookup failed', e); }
         }
 
         // Layer 3: Check c4_leaderboard DB by IP hash as fallback
@@ -802,7 +996,7 @@
               .not('username', 'like', 'Guest%')
               .maybeSingle();
             if (res2.data && res2.data.username) savedName = res2.data.username;
-          } catch(e) { console.log('c4 LB lookup failed', e); }
+          } catch (e) { console.log('c4 LB lookup failed', e); }
         }
 
         // === APPLY RESOLVED IDENTITY ===
@@ -826,7 +1020,7 @@
             } else if (count > 0) {
               syncCookies();
             }
-          } catch(e) {
+          } catch (e) {
             if (count > 0) syncCookies();
           }
         }
@@ -844,8 +1038,8 @@
       function syncCookies() {
         if (!ipHash || !myUsername || myUsername.startsWith('Guest')) return;
         clearTimeout(syncTimer);
-        syncTimer = setTimeout(function() {
-          sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: count }).then(function() {});
+        syncTimer = setTimeout(function () {
+          sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: count }).then(function () { });
         }, 800);
       }
 
@@ -897,7 +1091,7 @@
 
       function setupRealtime() {
         sb.channel('cookie-lb-changes')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'cookie_leaderboard' }, function() {
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'cookie_leaderboard' }, function () {
             fetchLeaderboard();
           })
           .subscribe();
@@ -910,7 +1104,7 @@
       }
 
       nameSave.addEventListener('click', submitUsername);
-      nameInput.addEventListener('keydown', function(e) {
+      nameInput.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') submitUsername();
       });
 
@@ -949,8 +1143,8 @@
           fetchLeaderboard();
 
           // Ensure C4 DB record exists then set username there too
-          sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: val }).then(function() {
-            sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function() {
+          sb.rpc('c4_get_or_create', { p_ip_hash: ipHash, p_username: val }).then(function () {
+            sb.rpc('c4_set_username', { p_ip_hash: ipHash, p_username: val }).then(function () {
               // After C4 entry is created, sync local C4 stats if they exist
               var c4Local = JSON.parse(localStorage.getItem('c4EloData') || 'null');
               if (c4Local) {
@@ -960,7 +1154,7 @@
                   p_wins: c4Local.score.w,
                   p_losses: c4Local.score.l,
                   p_draws: c4Local.score.d
-                }).then(function() {});
+                }).then(function () { });
               }
             });
           });
@@ -977,7 +1171,7 @@
         }
       }
 
-      btn.addEventListener('click', function(e) {
+      btn.addEventListener('click', function (e) {
         count++;
         countEl.textContent = count;
         localStorage.setItem('cookieCount', count);
@@ -988,7 +1182,7 @@
         pop.style.left = (Math.random() * 40 + 20) + 'px';
         pop.style.top = '20px';
         clicker.appendChild(pop);
-        setTimeout(function() { pop.remove(); }, 700);
+        setTimeout(function () { pop.remove(); }, 700);
 
         // Only sync to DB if user has chosen a username
         if (myUsername && !myUsername.startsWith('Guest')) {
@@ -1007,9 +1201,9 @@
 
       // Expose cookie functions for the shop system
       window.__cookieAPI = {
-        getCount: function() { return count; },
-        setCount: function(n) { count = n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
-        addCookies: function(n) { count += n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
+        getCount: function () { return count; },
+        setCount: function (n) { count = n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
+        addCookies: function (n) { count += n; countEl.textContent = formatNum(count); localStorage.setItem('cookieCount', count); },
         syncCookies: syncCookies,
         formatNum: formatNum
       };
@@ -1018,16 +1212,16 @@
 
   <!-- Cookie Shop (Upgrades) Script -->
   <script>
-    (function() {
+    (function () {
       var BUILDINGS = [
-        { id: 'cursor',    name: 'Cursor',        icon: '👆', baseCPS: 0.1,    baseCost: 15 },
-        { id: 'grandma',   name: 'Grandma',       icon: '👵', baseCPS: 1,      baseCost: 100 },
-        { id: 'farm',      name: 'Cookie Farm',   icon: '🌾', baseCPS: 8,      baseCost: 1100 },
-        { id: 'mine',      name: 'Cookie Mine',   icon: '⛏️', baseCPS: 47,     baseCost: 12000 },
-        { id: 'factory',   name: 'Factory',       icon: '🏭', baseCPS: 260,    baseCost: 130000 },
-        { id: 'bank',      name: 'Cookie Bank',   icon: '🏦', baseCPS: 1400,   baseCost: 1400000 },
-        { id: 'temple',    name: 'Temple',        icon: '🏛️', baseCPS: 7800,   baseCost: 20000000 },
-        { id: 'portal',    name: 'Portal',        icon: '🌀', baseCPS: 44000,  baseCost: 330000000 },
+        { id: 'cursor', name: 'Cursor', icon: '👆', baseCPS: 0.1, baseCost: 15 },
+        { id: 'grandma', name: 'Grandma', icon: '👵', baseCPS: 1, baseCost: 100 },
+        { id: 'farm', name: 'Cookie Farm', icon: '🌾', baseCPS: 8, baseCost: 1100 },
+        { id: 'mine', name: 'Cookie Mine', icon: '⛏️', baseCPS: 47, baseCost: 12000 },
+        { id: 'factory', name: 'Factory', icon: '🏭', baseCPS: 260, baseCost: 130000 },
+        { id: 'bank', name: 'Cookie Bank', icon: '🏦', baseCPS: 1400, baseCost: 1400000 },
+        { id: 'temple', name: 'Temple', icon: '🏛️', baseCPS: 7800, baseCost: 20000000 },
+        { id: 'portal', name: 'Portal', icon: '🌀', baseCPS: 44000, baseCost: 330000000 },
       ];
       var COST_MULT = 1.15;
 
@@ -1040,7 +1234,7 @@
       // Load saved state
       var saved = JSON.parse(localStorage.getItem('cookieShopData') || 'null');
       var owned = {};
-      BUILDINGS.forEach(function(b) { owned[b.id] = (saved && saved[b.id]) ? saved[b.id] : 0; });
+      BUILDINGS.forEach(function (b) { owned[b.id] = (saved && saved[b.id]) ? saved[b.id] : 0; });
 
       var shopVisible = false;
       var totalCPS = 0;
@@ -1053,7 +1247,7 @@
 
       function calcCPS() {
         var t = 0;
-        BUILDINGS.forEach(function(b) { t += b.baseCPS * owned[b.id]; });
+        BUILDINGS.forEach(function (b) { t += b.baseCPS * owned[b.id]; });
         totalCPS = t;
         return t;
       }
@@ -1077,7 +1271,7 @@
 
       function saveShop() {
         var data = {};
-        BUILDINGS.forEach(function(b) { data[b.id] = owned[b.id]; });
+        BUILDINGS.forEach(function (b) { data[b.id] = owned[b.id]; });
         localStorage.setItem('cookieShopData', JSON.stringify(data));
       }
 
@@ -1104,7 +1298,7 @@
         if (!api) return;
         var currentCount = api.getCount();
         var html = '';
-        BUILDINGS.forEach(function(b) {
+        BUILDINGS.forEach(function (b) {
           var cost = getCost(b);
           var canAfford = currentCount >= cost;
           var count = owned[b.id];
@@ -1112,19 +1306,19 @@
           html += '<div class="cookie-shop-item' + (canAfford ? '' : ' locked') + '" data-id="' + b.id + '">' +
             '<div class="cookie-shop-icon">' + b.icon + '</div>' +
             '<div class="cookie-shop-info">' +
-              '<div class="cookie-shop-name"><span>' + b.name + '</span><span class="cookie-shop-owned">' + (count > 0 ? count : '') + '</span></div>' +
-              '<div class="cookie-shop-detail"><span class="cookie-shop-cps-val">' + (count > 0 ? formatCPS(cps) + '/s' : formatCPS(b.baseCPS) + '/s each') + '</span><span class="cookie-shop-cost">' + formatNum(cost) + '</span></div>' +
+            '<div class="cookie-shop-name"><span>' + b.name + '</span><span class="cookie-shop-owned">' + (count > 0 ? count : '') + '</span></div>' +
+            '<div class="cookie-shop-detail"><span class="cookie-shop-cps-val">' + (count > 0 ? formatCPS(cps) + '/s' : formatCPS(b.baseCPS) + '/s each') + '</span><span class="cookie-shop-cost">' + formatNum(cost) + '</span></div>' +
             '</div>' +
-          '</div>';
+            '</div>';
         });
         shopListEl.innerHTML = html;
 
         // Attach click handlers
         var items = shopListEl.querySelectorAll('.cookie-shop-item');
-        items.forEach(function(item) {
-          item.addEventListener('click', function() {
+        items.forEach(function (item) {
+          item.addEventListener('click', function () {
             var id = this.dataset.id;
-            var b = BUILDINGS.find(function(x) { return x.id === id; });
+            var b = BUILDINGS.find(function (x) { return x.id === id; });
             if (b && !this.classList.contains('locked')) {
               buyBuilding(b);
               // Pulse animation
@@ -1168,7 +1362,7 @@
       }
 
       // Sync idle cookies to DB every 5 seconds if producing
-      setInterval(function() {
+      setInterval(function () {
         if (totalCPS > 0 && window.__username && !window.__username.startsWith('Guest')) {
           var api = window.__cookieAPI;
           if (api) api.syncCookies();
@@ -1177,7 +1371,7 @@
 
       // Re-render shop on cookie click (to update affordability)
       var cookieBtn = document.getElementById('cookieBtn');
-      cookieBtn.addEventListener('click', function() {
+      cookieBtn.addEventListener('click', function () {
         setTimeout(renderShop, 50);
       });
 
@@ -1191,7 +1385,7 @@
 
   <!-- Connect 4 Ranked Script -->
   <script>
-    (function() {
+    (function () {
       var SUPABASE_URL = 'https://vgrivhkkmlmojefmunwh.supabase.co';
       var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncml2aGtrbWxtb2plZm11bndoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NjM0MjIsImV4cCI6MjA4OTAzOTQyMn0.VYkHro0eGRWxuB4uJ73dpD-lPAusxbQAguxMHoT68rc';
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -1265,7 +1459,7 @@
       }
       function saveData() {
         localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
-        if (ipHash && myUsername && !myUsername.startsWith('Guest')) sb.rpc('c4_update_stats', { p_ip_hash: ipHash, p_elo: elo, p_wins: score.w, p_losses: score.l, p_draws: score.d }).then(function(){});
+        if (ipHash && myUsername && !myUsername.startsWith('Guest')) sb.rpc('c4_update_stats', { p_ip_hash: ipHash, p_elo: elo, p_wins: score.w, p_losses: score.l, p_draws: score.d }).then(function () { });
       }
       function updateUI() {
         eloEl.textContent = elo; winsEl.textContent = score.w; drawsEl.textContent = score.d; lossesEl.textContent = score.l;
@@ -1280,7 +1474,7 @@
         eloDeltaEl.textContent = (d >= 0 ? '+' : '') + d;
         eloDeltaEl.style.color = d > 0 ? '#cbacf9' : d < 0 ? '#f05032' : '#c1c2d3';
         eloDeltaEl.style.transition = 'none'; eloDeltaEl.style.opacity = '1';
-        setTimeout(function() { eloDeltaEl.style.transition = 'opacity 1.5s ease'; eloDeltaEl.style.opacity = '0'; }, 1500);
+        setTimeout(function () { eloDeltaEl.style.transition = 'opacity 1.5s ease'; eloDeltaEl.style.opacity = '0'; }, 1500);
       }
       function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
@@ -1290,10 +1484,10 @@
 
       function checkWin(b, p) {
         for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
-          if (c + 3 < COLS && b[r][c] === p && b[r][c+1] === p && b[r][c+2] === p && b[r][c+3] === p) return [[r,c],[r,c+1],[r,c+2],[r,c+3]];
-          if (r + 3 < ROWS && b[r][c] === p && b[r+1][c] === p && b[r+2][c] === p && b[r+3][c] === p) return [[r,c],[r+1,c],[r+2,c],[r+3,c]];
-          if (r + 3 < ROWS && c + 3 < COLS && b[r][c] === p && b[r+1][c+1] === p && b[r+2][c+2] === p && b[r+3][c+3] === p) return [[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]];
-          if (r + 3 < ROWS && c - 3 >= 0 && b[r][c] === p && b[r+1][c-1] === p && b[r+2][c-2] === p && b[r+3][c-3] === p) return [[r,c],[r+1,c-1],[r+2,c-2],[r+3,c-3]];
+          if (c + 3 < COLS && b[r][c] === p && b[r][c + 1] === p && b[r][c + 2] === p && b[r][c + 3] === p) return [[r, c], [r, c + 1], [r, c + 2], [r, c + 3]];
+          if (r + 3 < ROWS && b[r][c] === p && b[r + 1][c] === p && b[r + 2][c] === p && b[r + 3][c] === p) return [[r, c], [r + 1, c], [r + 2, c], [r + 3, c]];
+          if (r + 3 < ROWS && c + 3 < COLS && b[r][c] === p && b[r + 1][c + 1] === p && b[r + 2][c + 2] === p && b[r + 3][c + 3] === p) return [[r, c], [r + 1, c + 1], [r + 2, c + 2], [r + 3, c + 3]];
+          if (r + 3 < ROWS && c - 3 >= 0 && b[r][c] === p && b[r + 1][c - 1] === p && b[r + 2][c - 2] === p && b[r + 3][c - 3] === p) return [[r, c], [r + 1, c - 1], [r + 2, c - 2], [r + 3, c - 3]];
         }
         return null;
       }
@@ -1301,17 +1495,17 @@
       function evaluate(b) {
         function scoreWindow(cells) {
           var me = 0, opp = 0, empty = 0;
-          cells.forEach(function(v) { if (v === 2) me++; else if (v === 1) opp++; else empty++; });
+          cells.forEach(function (v) { if (v === 2) me++; else if (v === 1) opp++; else empty++; });
           if (me === 4) return 10000; if (me === 3 && empty === 1) return 50; if (me === 2 && empty === 2) return 5;
           if (opp === 4) return -10000; if (opp === 3 && empty === 1) return -80;
           return 0;
         }
         var s = 0;
-        for (var c = 0; c < COLS; c++) s += (b[ROWS-1][c] === 2 ? 3 : 0);
-        for (var r = 0; r < ROWS; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r][c+1], b[r][c+2], b[r][c+3]]);
-        for (var c = 0; c < COLS; c++) for (var r = 0; r <= ROWS - 4; r++) s += scoreWindow([b[r][c], b[r+1][c], b[r+2][c], b[r+3][c]]);
-        for (var r = 0; r <= ROWS - 4; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r+1][c+1], b[r+2][c+2], b[r+3][c+3]]);
-        for (var r = 0; r <= ROWS - 4; r++) for (var c = 3; c < COLS; c++) s += scoreWindow([b[r][c], b[r+1][c-1], b[r+2][c-2], b[r+3][c-3]]);
+        for (var c = 0; c < COLS; c++) s += (b[ROWS - 1][c] === 2 ? 3 : 0);
+        for (var r = 0; r < ROWS; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r][c + 1], b[r][c + 2], b[r][c + 3]]);
+        for (var c = 0; c < COLS; c++) for (var r = 0; r <= ROWS - 4; r++) s += scoreWindow([b[r][c], b[r + 1][c], b[r + 2][c], b[r + 3][c]]);
+        for (var r = 0; r <= ROWS - 4; r++) for (var c = 0; c <= COLS - 4; c++) s += scoreWindow([b[r][c], b[r + 1][c + 1], b[r + 2][c + 2], b[r + 3][c + 3]]);
+        for (var r = 0; r <= ROWS - 4; r++) for (var c = 3; c < COLS; c++) s += scoreWindow([b[r][c], b[r + 1][c - 1], b[r + 2][c - 2], b[r + 3][c - 3]]);
         return s;
       }
 
@@ -1319,7 +1513,7 @@
         var w1 = checkWin(b, 1), w2 = checkWin(b, 2);
         if (w2) return 100000 + depth; if (w1) return -100000 - depth;
         if (isFull(b) || depth === 0) return evaluate(b);
-        var order = [3,2,4,1,5,0,6];
+        var order = [3, 2, 4, 1, 5, 0, 6];
         if (isMax) {
           var v = -Infinity;
           for (var i = 0; i < order.length; i++) { var c = order[i]; var r = getRow(b, c); if (r < 0) continue; b[r][c] = 2; v = Math.max(v, minimax(b, depth - 1, alpha, beta, false)); b[r][c] = 0; alpha = Math.max(alpha, v); if (alpha >= beta) break; }
@@ -1336,7 +1530,7 @@
           var valid = []; for (var c = 0; c < COLS; c++) if (getRow(board, c) >= 0) valid.push(c);
           return valid[Math.floor(Math.random() * valid.length)];
         }
-        var bestCol = 3, bestVal = -Infinity, depth = getDepth(), order = [3,2,4,1,5,0,6];
+        var bestCol = 3, bestVal = -Infinity, depth = getDepth(), order = [3, 2, 4, 1, 5, 0, 6];
         for (var i = 0; i < order.length; i++) {
           var c = order[i], r = getRow(board, c);
           if (r < 0) continue;
@@ -1361,7 +1555,7 @@
       }
 
       function highlightWin(cells) {
-        cells.forEach(function(pos) {
+        cells.forEach(function (pos) {
           var slot = cols[pos[1]].querySelectorAll('.c4-slot')[pos[0]];
           var piece = slot.querySelector('.c4-piece');
           if (piece) piece.classList.add('win-piece');
@@ -1370,7 +1564,7 @@
 
       function endGame(result, winCells) {
         gameOver = true;
-        cols.forEach(function(c) { c.classList.add('disabled'); });
+        cols.forEach(function (c) { c.classList.add('disabled'); });
         var delta = calcEloDelta(result);
         elo = Math.max(100, elo + delta);
         if (result === 'win') { score.w++; statusEl.textContent = 'You win!'; if (winCells) highlightWin(winCells); }
@@ -1381,33 +1575,33 @@
 
       function resetGame() {
         board = makeBoard(); gameOver = false; statusEl.textContent = 'Your turn';
-        cols.forEach(function(col) {
+        cols.forEach(function (col) {
           col.classList.remove('disabled');
-          col.querySelectorAll('.c4-slot').forEach(function(s) { s.classList.remove('filled'); s.innerHTML = ''; });
+          col.querySelectorAll('.c4-slot').forEach(function (s) { s.classList.remove('filled'); s.innerHTML = ''; });
         });
         updateUI();
       }
 
-      cols.forEach(function(col) {
-        col.addEventListener('click', function() {
+      cols.forEach(function (col) {
+        col.addEventListener('click', function () {
           if (gameOver) return;
           var c = +this.dataset.col;
           if (getRow(board, c) < 0) return;
           if (!hasPlayed && c4PlayerReady) { hasPlayed = true; maybeShowPrompt(); }
-          cols.forEach(function(cl) { cl.classList.add('disabled'); });
-          dropPiece(c, 1, function() {
+          cols.forEach(function (cl) { cl.classList.add('disabled'); });
+          dropPiece(c, 1, function () {
             var w = checkWin(board, 1);
             if (w) return endGame('win', w);
             if (isFull(board)) return endGame('draw');
             statusEl.textContent = 'Thinking...';
-            setTimeout(function() {
+            setTimeout(function () {
               var cpuCol = cpuMove();
-              dropPiece(cpuCol, 2, function() {
+              dropPiece(cpuCol, 2, function () {
                 var w2 = checkWin(board, 2);
                 if (w2) return endGame('lose', w2);
                 if (isFull(board)) return endGame('draw');
                 statusEl.textContent = 'Your turn';
-                cols.forEach(function(cl) { cl.classList.remove('disabled'); });
+                cols.forEach(function (cl) { cl.classList.remove('disabled'); });
               });
             }, 200);
           });
@@ -1421,7 +1615,7 @@
         var html = '';
         for (var i = 0; i < c4LBData.length && i < 10; i++) {
           var row = c4LBData[i], isMe = row.ip_hash === ipHash;
-          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '"><span class="cookie-lb-rank">#' + (i+1) + '</span><span class="cookie-lb-name">' + escHtml(row.username) + '</span><span class="cookie-lb-sep"></span><span class="cookie-lb-score">' + row.elo + '</span></div>';
+          html += '<div class="cookie-lb-row' + (isMe ? ' is-you' : '') + '"><span class="cookie-lb-rank">#' + (i + 1) + '</span><span class="cookie-lb-name">' + escHtml(row.username) + '</span><span class="cookie-lb-sep"></span><span class="cookie-lb-score">' + row.elo + '</span></div>';
         }
         c4LBList.innerHTML = html;
       }
@@ -1429,15 +1623,15 @@
         try {
           var { data, error } = await sb.from('c4_leaderboard').select('username, elo, ip_hash').not('username', 'like', 'Guest%').order('elo', { ascending: false }).limit(10);
           if (!error && data) { c4LBData = data; renderLB(); }
-        } catch(e) {}
+        } catch (e) { }
       }
       function setupRealtime() {
-        sb.channel('c4-lb-changes').on('postgres_changes', { event: '*', schema: 'public', table: 'c4_leaderboard' }, function() { fetchLB(); }).subscribe();
+        sb.channel('c4-lb-changes').on('postgres_changes', { event: '*', schema: 'public', table: 'c4_leaderboard' }, function () { fetchLB(); }).subscribe();
       }
 
       async function initPlayer() {
         // Wait for IP hash to be resolved by cookie clicker script
-        await new Promise(function(resolve) { var ck = setInterval(function() { if (window.__ipHash) { clearInterval(ck); resolve(); } }, 100); });
+        await new Promise(function (resolve) { var ck = setInterval(function () { if (window.__ipHash) { clearInterval(ck); resolve(); } }, 100); });
         ipHash = window.__ipHash;
 
         // === MULTI-LAYER IDENTITY RESOLUTION ===
@@ -1462,7 +1656,7 @@
                 localStorage.setItem('c4EloData', JSON.stringify({ elo: elo, score: score }));
               }
             }
-          } catch(e) { console.log('c4 LB lookup failed', e); }
+          } catch (e) { console.log('c4 LB lookup failed', e); }
         }
 
         // Layer 3: Check cookie_leaderboard DB by IP as fallback
@@ -1474,7 +1668,7 @@
               .not('username', 'like', 'Guest%')
               .maybeSingle();
             if (res2.data && res2.data.username) myUsername = res2.data.username;
-          } catch(e) { console.log('cookie LB lookup failed', e); }
+          } catch (e) { console.log('cookie LB lookup failed', e); }
         }
 
         // === APPLY RESOLVED IDENTITY ===
@@ -1497,7 +1691,7 @@
               // Push local stats to DB if we have any
               saveData();
             }
-          } catch(e) {
+          } catch (e) {
             saveData();
           }
 
@@ -1526,7 +1720,7 @@
       }
 
       c4NameSave.addEventListener('click', submitName);
-      c4NameInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitName(); });
+      c4NameInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitName(); });
 
       async function submitName() {
         var val = c4NameInput.value.trim(); c4NameError.textContent = '';
@@ -1559,7 +1753,7 @@
           // Sync cookie count to DB
           var cookieCount = parseInt(localStorage.getItem('cookieCount') || '0', 10);
           if (cookieCount > 0) {
-            sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: cookieCount }).then(function() {});
+            sb.rpc('update_cookies', { p_ip_hash: ipHash, p_cookies: cookieCount }).then(function () { });
           }
 
           // Update cookie clicker UI
@@ -1574,7 +1768,7 @@
 
           // Notify cookie script that username is set
           window.__usernameJustSet = true;
-        } catch(e) { c4NameSave.disabled = false; c4NameError.textContent = 'Network error'; }
+        } catch (e) { c4NameSave.disabled = false; c4NameError.textContent = 'Network error'; }
       }
 
       resetGame();
@@ -1587,8 +1781,8 @@
 
   <!-- Tic Tac Toe Unranked Script -->
   <script>
-    (function() {
-      var WINS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    (function () {
+      var WINS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
       var cells = document.querySelectorAll('#tttBoard .ttt-cell');
       var status = document.getElementById('tttStatus');
       var resetBtn = document.getElementById('tttReset');
@@ -1599,10 +1793,10 @@
 
       function reset() {
         board = Array(9).fill(null); gameOver = false; status.textContent = 'Your turn';
-        cells.forEach(function(c) { c.textContent = ''; c.className = 'ttt-cell'; c.disabled = false; });
+        cells.forEach(function (c) { c.textContent = ''; c.className = 'ttt-cell'; c.disabled = false; });
       }
-      function checkWin(b, p) { return WINS.find(function(w) { return w.every(function(i) { return b[i] === p; }); }) || null; }
-      function isFull(b) { return b.every(function(c) { return c !== null; }); }
+      function checkWin(b, p) { return WINS.find(function (w) { return w.every(function (i) { return b[i] === p; }); }) || null; }
+      function isFull(b) { return b.every(function (c) { return c !== null; }); }
       function minimax(b, isMax, depth) {
         if (checkWin(b, 'O')) return 10 - depth; if (checkWin(b, 'X')) return depth - 10; if (isFull(b)) return 0;
         var best = isMax ? -Infinity : Infinity;
@@ -1617,17 +1811,17 @@
       }
       function place(i, p) { board[i] = p; cells[i].textContent = p; cells[i].classList.add(p.toLowerCase()); cells[i].disabled = true; }
       function endGame(result, wl) {
-        gameOver = true; cells.forEach(function(c) { c.disabled = true; });
-        if (result === 'win') { score.w++; winsEl.textContent = score.w; status.textContent = 'You win!'; if (wl) wl.forEach(function(i) { cells[i].classList.add('win-cell'); }); }
-        else if (result === 'lose') { score.l++; lossesEl.textContent = score.l; status.textContent = 'CPU wins'; if (wl) wl.forEach(function(i) { cells[i].classList.add('lose-cell'); }); }
+        gameOver = true; cells.forEach(function (c) { c.disabled = true; });
+        if (result === 'win') { score.w++; winsEl.textContent = score.w; status.textContent = 'You win!'; if (wl) wl.forEach(function (i) { cells[i].classList.add('win-cell'); }); }
+        else if (result === 'lose') { score.l++; lossesEl.textContent = score.l; status.textContent = 'CPU wins'; if (wl) wl.forEach(function (i) { cells[i].classList.add('lose-cell'); }); }
         else { score.d++; drawsEl.textContent = score.d; status.textContent = 'Draw'; }
       }
-      cells.forEach(function(cell) {
-        cell.addEventListener('click', function() {
+      cells.forEach(function (cell) {
+        cell.addEventListener('click', function () {
           var i = +this.dataset.i; if (board[i] || gameOver) return;
           place(i, 'X'); var xw = checkWin(board, 'X'); if (xw) return endGame('win', xw); if (isFull(board)) return endGame('draw');
           status.textContent = 'Thinking...';
-          setTimeout(function() { cpuMove(); var ow = checkWin(board, 'O'); if (ow) return endGame('lose', ow); if (isFull(board)) return endGame('draw'); status.textContent = 'Your turn'; }, 200);
+          setTimeout(function () { cpuMove(); var ow = checkWin(board, 'O'); if (ow) return endGame('lose', ow); if (isFull(board)) return endGame('draw'); status.textContent = 'Your turn'; }, 200);
         });
       });
       resetBtn.addEventListener('click', reset);
@@ -1636,7 +1830,7 @@
   </script>
 
   <script>
-    (function() {
+    (function () {
       var track = document.querySelector('.tech-marquee-track');
       var group = document.querySelector('.tech-marquee-group');
       if (!track || !group) return;
@@ -1671,7 +1865,7 @@
 
   <!-- Preloader + Scroll Reveal + Parallax -->
   <script>
-    (function() {
+    (function () {
       /* ═══ PRELOADER ═══ */
       var preloader = document.getElementById('preloader');
       document.documentElement.classList.add('is-loading');
@@ -1679,11 +1873,11 @@
       function dismissPreloader() {
         preloader.classList.add('done');
         document.documentElement.classList.remove('is-loading');
-        setTimeout(function() {
-          document.querySelectorAll('.reveal').forEach(function(el) {
+        setTimeout(function () {
+          document.querySelectorAll('.reveal').forEach(function (el) {
             revealObserver.observe(el);
           });
-          document.querySelectorAll('.hero-fade').forEach(function(el) {
+          document.querySelectorAll('.hero-fade').forEach(function (el) {
             el.classList.add('is-visible');
           });
         }, 100);
@@ -1701,7 +1895,7 @@
       var tChar = 0;
       var siteLoaded = false;
 
-      window.addEventListener('load', function() { siteLoaded = true; });
+      window.addEventListener('load', function () { siteLoaded = true; });
       if (document.readyState === 'complete') siteLoaded = true;
 
       function typeNext() {
@@ -1730,7 +1924,7 @@
           termType.textContent = '';
           tChar = 0;
           tLine++;
-          
+
           setTimeout(typeNext, 250); // Pause between commands
         }
       }
@@ -1740,8 +1934,8 @@
       /* ═══ SCROLL REVEAL ═══ */
       var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
             revealObserver.unobserve(entry.target); // once only
@@ -1754,16 +1948,16 @@
 
       if (prefersReducedMotion) {
         // Instantly show all elements
-        document.querySelectorAll('.reveal, .hero-fade').forEach(function(el) {
+        document.querySelectorAll('.reveal, .hero-fade').forEach(function (el) {
           el.classList.add('is-visible');
         });
       }
       // Note: reveals are observed after preloader dismisses (see above)
 
       // Assign stagger indices for children inside stagger parents
-      document.querySelectorAll('.reveal-stagger').forEach(function(parent) {
+      document.querySelectorAll('.reveal-stagger').forEach(function (parent) {
         var children = parent.querySelectorAll('.reveal');
-        children.forEach(function(child, i) {
+        children.forEach(function (child, i) {
           child.style.setProperty('--reveal-i', i);
         });
       });
@@ -1773,7 +1967,7 @@
       var heroGrid = document.getElementById('heroGrid');
 
       if (heroSection && heroGrid && !prefersReducedMotion) {
-        heroSection.addEventListener('mousemove', function(e) {
+        heroSection.addEventListener('mousemove', function (e) {
           var rect = heroSection.getBoundingClientRect();
           // Normalized -1 to 1 from center
           var nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
@@ -1785,11 +1979,72 @@
           heroGrid.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
         });
 
-        heroSection.addEventListener('mouseleave', function() {
+        heroSection.addEventListener('mouseleave', function () {
           heroGrid.style.transform = 'translate(0, 0)';
         });
       }
     })();
   </script>
+  <script>
+    (function () {
+      // Sticky Stacking Cards Animation
+      var cards = document.querySelectorAll('.project-card');
+      if (cards.length === 0) return;
+
+      var offsetPerCard = 15;
+
+      function updateTops() {
+        cards.forEach(function (card, i) {
+          card.style.top = (130 + (i * offsetPerCard)) + 'px';
+        });
+      }
+
+      function updateCards() {
+        cards.forEach(function (card, index) {
+          var nextCard = cards[index + 1];
+          if (nextCard) {
+            var nextRect = nextCard.getBoundingClientRect();
+            var nextStickyTop = parseFloat(nextCard.style.top) || 130;
+
+            // Animation starts when the next card's top bound enters the viewport
+            var animStart = window.innerHeight;
+            // Animation stops scaling when it fully locks into its sticky stack
+            var animEnd = nextStickyTop;
+
+            var t = nextRect.top;
+
+            if (t <= animStart && t > animEnd) {
+              var progress = 1 - ((t - animEnd) / (animStart - animEnd));
+              var scale = 1 - (0.05 * progress); // Scale out to 0.95
+              var brightness = 1 - (0.5 * progress); // Dim down back edge to 0.5
+
+              card.style.transform = 'scale(' + scale + ')';
+              card.style.filter = 'brightness(' + brightness + ')';
+            } else if (t <= animEnd) {
+              card.style.transform = 'scale(0.95)';
+              card.style.filter = 'brightness(0.5)';
+            } else {
+              card.style.transform = 'scale(1)';
+              card.style.filter = 'brightness(1)';
+            }
+          }
+        });
+      }
+
+      window.addEventListener('resize', function () {
+        updateTops();
+        updateCards();
+      });
+
+      window.addEventListener('scroll', function () {
+        requestAnimationFrame(updateCards);
+      }, { passive: true });
+
+      // Initialize
+      updateTops();
+      updateCards();
+    })();
+  </script>
 </body>
+
 </html>
