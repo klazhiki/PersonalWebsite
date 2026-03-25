@@ -28,6 +28,17 @@
   </script>
 </head>
 <body class="bg-[#000319] font-inter text-white m-0 p-0">
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" style="position:fixed; top:0; left:0; width:125vw; height:125vh; z-index:999999; display:flex; align-items:center; justify-content:center; background-color:#000319;">
+    <div style="font-family: 'Courier New', Courier, monospace; font-size: 16px; width: 340px; text-align: left; line-height: 1.6;">
+      <div id="termOutput"></div>
+      <div id="termActive">
+        <span style="color: #cbacf9; font-weight: 600;">ethan@sys:~$</span> 
+        <span id="termType" style="color: #e4ecff;"></span><span class="term-cursor"></span>
+      </div>
+    </div>
+  </div>
+
   <div class="relative bg-[#000319] rounded-[24px] w-full min-h-screen overflow-clip">
 
     <!-- Spotlight (top-left glow) -->
@@ -59,7 +70,7 @@
     <section id="hero" class="relative w-full max-w-[1440px] mx-auto">
       <!-- Grid Pattern Background -->
       <div class="relative h-[660px] w-full overflow-hidden">
-        <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask" style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+        <div class="absolute h-[900px] left-0 top-0 w-full grid-pattern-mask hero-parallax-grid" id="heroGrid" style="-webkit-mask-image: url('assets/number-input-mask.svg'); mask-image: url('assets/number-input-mask.svg'); -webkit-mask-size: 1604px 1604px; mask-size: 1604px 1604px; -webkit-mask-position: -82px -352px; mask-position: -82px -352px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
           <!-- Grid lines -->
           <div class="absolute h-[900px] left-0 top-0 w-full">
             <img alt="" class="absolute block max-w-none w-full h-full" src="assets/input-form.svg" />
@@ -163,7 +174,7 @@
     <!-- Projects Section -->
     <section id="projects" class="relative w-full max-w-[1440px] mx-auto mt-[72px]">
       <!-- Section Heading -->
-      <div class="text-center mb-[50px]">
+      <div class="reveal text-center mb-[50px]">
         <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
           A list of <span class="text-[#cbacf9]"> Featured projects</span>
         </h2>
@@ -175,7 +186,7 @@
       </div>
 
       <!-- Project Card 1: Sentinel AI -->
-      <div class="project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative mb-[57px]" style="background-image: linear-gradient(100.65deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative mb-[57px]" style="background-image: linear-gradient(100.65deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
         <!-- Card Screenshot Area -->
         <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
           <!-- Flipped gradient background -->
@@ -276,7 +287,7 @@
       </div>
 
       <!-- Project Card 2: ESP32 -->
-      <div class="project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative" style="background-image: linear-gradient(110.46deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+      <div class="reveal reveal-up project-card mx-auto w-[907px] rounded-[23px] overflow-clip border border-solid border-[rgba(54,55,73,0.43)] relative" style="background-image: linear-gradient(110.46deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
         <!-- Card Screenshot Area -->
         <div class="relative mx-auto w-[828px] h-[353px] bg-[#13162d] rounded-[14px] mt-[43px] overflow-clip">
           <!-- Flipped gradient background -->
@@ -309,7 +320,7 @@
 
     <!-- Ranked Connect 4 Section -->
     <section id="connect4" class="relative w-full max-w-[1440px] mx-auto mt-[100px]">
-      <div class="text-center mb-[40px]">
+      <div class="reveal text-center mb-[40px]">
         <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white">
           <span class="ttt-ranked-text">Ranked</span> Connect 4
         </h2>
@@ -318,7 +329,7 @@
 
       <div class="flex justify-center items-start gap-[24px]">
         <!-- Game Card -->
-        <div class="c4-card rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[32px] px-[32px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div class="reveal reveal-left c4-card rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[32px] px-[32px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
 
           <!-- ELO Rating Display -->
           <div class="flex items-center justify-between mb-[16px] px-[4px]">
@@ -378,7 +389,7 @@
         </div>
 
         <!-- C4 Leaderboard -->
-        <div class="ttt-lb" id="c4LB">
+        <div class="reveal reveal-right ttt-lb" id="c4LB">
           <div class="ttt-lb-header">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cbacf9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
             <span>ELO Leaderboard</span>
@@ -400,14 +411,14 @@
 
     <!-- Tic Tac Toe (Unranked) -->
     <section id="tictactoe" class="relative w-full max-w-[1440px] mx-auto mt-[80px]">
-      <div class="text-center mb-[30px]">
+      <div class="reveal text-center mb-[30px]">
         <h2 class="font-bold text-[36px] tracking-[-1.5px] leading-none text-white">
           Take a <span class="text-[#cbacf9]">Break</span>
         </h2>
         <p class="text-[#c1c2d3] text-[14px] leading-[1.4] tracking-[-0.16px] mt-[12px]">Classic Tic Tac Toe vs CPU.</p>
       </div>
       <div class="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-[40px] px-[16px]">
-        <div class="ttt-card w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
+        <div class="reveal reveal-left ttt-card w-[360px] rounded-[23px] border border-solid border-[rgba(54,55,73,0.43)] relative py-[30px] px-[30px]" style="background-image: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
           <div class="flex items-center justify-between mb-[20px] px-[4px]">
             <div class="flex items-center gap-[10px]"><span class="ttt-badge ttt-x-color">X</span><span class="text-[13px] text-[#c1c2d3]">You</span></div>
             <div id="tttStatus" class="text-[14px] font-medium text-white tracking-[-0.3px]">Your turn</div>
@@ -429,7 +440,7 @@
         </div>
 
         <!-- Cookie Clicker + Leaderboard + Shop -->
-        <div class="cookie-area relative">
+        <div class="reveal reveal-right cookie-area relative">
           <!-- Cookie + Leaderboard Column -->
           <div class="cookie-section" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
             <!-- Leaderboard -->
@@ -480,15 +491,15 @@
     <!-- Lets Connect Section -->
     <section id="contact" class="relative w-full max-w-[1440px] mx-auto pt-[200px] pb-[80px]">
       <div class="text-center max-w-[720px] mx-auto">
-        <h2 class="font-bold text-[48px] tracking-[-2px] leading-none text-white mb-[24px]">
+        <h2 class="reveal font-bold text-[48px] tracking-[-2px] leading-none text-white mb-[24px]">
           Let's Connect.
         </h2>
-        <p class="text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mb-[40px]">
+        <p class="reveal text-[#c1c2d3] text-[16px] leading-[1.4] tracking-[-0.16px] mb-[40px]">
           Reach out to me today and let's discuss how I can help you achieve your goals.
         </p>
 
         <!-- Contact Info -->
-        <div class="flex flex-col gap-[16px] items-center mb-[40px]">
+        <div class="reveal flex flex-col gap-[16px] items-center mb-[40px]">
           <div class="flex items-center gap-[12px]">
             <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="rgba(203,172,249,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
             <a href="mailto:ethanvjv@gmail.com" class="text-[15px] text-[#c1c2d3] hover:text-white transition-colors tracking-[-0.2px]">ethanvjv@gmail.com</a>
@@ -504,7 +515,7 @@
         </div>
 
         <!-- LinkedIn Embed -->
-        <div class="mb-[40px] mx-auto" style="max-width: 400px;">
+        <div class="reveal reveal-scale mb-[40px] mx-auto" style="max-width: 400px;">
           <div class="rounded-[16px] overflow-hidden border border-solid border-[rgba(54,55,73,0.43)]" style="background: linear-gradient(135deg, rgb(4, 7, 29) 16.66%, rgb(12, 14, 35) 81.61%);">
             <a href="https://www.linkedin.com/in/ethan-joseph-990a29282/" target="_blank" rel="noopener" class="flex items-center gap-[16px] p-[20px] hover:opacity-80 transition-opacity">
               <div class="flex-shrink-0 w-[48px] h-[48px] rounded-[10px] bg-[#0A66C2] flex items-center justify-center">
@@ -519,14 +530,14 @@
           </div>
         </div>
 
-        <a href="mailto:ethanvjv@gmail.com" class="cta-button cta-glow inline-flex">
+        <a href="mailto:ethanvjv@gmail.com" class="reveal cta-button cta-glow inline-flex">
           <span class="font-medium text-[18px] text-white tracking-[-0.48px] leading-[1.2]">Contact Me Now</span>
         </a>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="relative w-full max-w-[1440px] mx-auto px-[103px] pb-[60px] pt-[40px]">
+    <footer class="reveal relative w-full max-w-[1440px] mx-auto px-[103px] pb-[60px] pt-[40px]">
       <div class="flex items-center justify-between">
         <p class="text-white text-[14.375px] font-normal leading-[24px]">
           Copyright &copy;2026 Ethan Joseph
@@ -1654,6 +1665,129 @@
         startMarquee();
       } else {
         window.addEventListener('load', startMarquee);
+      }
+    })();
+  </script>
+
+  <!-- Preloader + Scroll Reveal + Parallax -->
+  <script>
+    (function() {
+      /* ═══ PRELOADER ═══ */
+      var preloader = document.getElementById('preloader');
+      document.documentElement.classList.add('is-loading');
+
+      function dismissPreloader() {
+        preloader.classList.add('done');
+        document.documentElement.classList.remove('is-loading');
+        setTimeout(function() {
+          document.querySelectorAll('.reveal').forEach(function(el) {
+            revealObserver.observe(el);
+          });
+          document.querySelectorAll('.hero-fade').forEach(function(el) {
+            el.classList.add('is-visible');
+          });
+        }, 100);
+      }
+
+      /* ═══ TERMINAL TYPEWRITER ═══ */
+      var termOutput = document.getElementById('termOutput');
+      var termType = document.getElementById('termType');
+      var termLines = [
+        "booting core systems...",
+        "loading portfolio modules...",
+        "access granted."
+      ];
+      var tLine = 0;
+      var tChar = 0;
+      var siteLoaded = false;
+
+      window.addEventListener('load', function() { siteLoaded = true; });
+      if (document.readyState === 'complete') siteLoaded = true;
+
+      function typeNext() {
+        // Finish condition
+        if (tLine >= termLines.length) {
+          setTimeout(dismissPreloader, 600); // Wait 0.6s then fade screen
+          return;
+        }
+
+        // Stall before typing "access granted." until assets load
+        if (tLine === termLines.length - 1 && !siteLoaded) {
+          setTimeout(typeNext, 50);
+          return;
+        }
+
+        var str = termLines[tLine];
+        if (tChar < str.length) {
+          termType.textContent += str.charAt(tChar);
+          tChar++;
+          setTimeout(typeNext, Math.random() * 15 + 15); // VERY fast typing 15-30ms
+        } else {
+          var div = document.createElement('div');
+          var color = (tLine === termLines.length - 1) ? '#4ade80' : '#e4ecff'; // Green on access granted
+          div.innerHTML = '<span style="color: #cbacf9; font-weight: 600;">ethan@sys:~$</span> <span style="color: ' + color + ';">' + str + '</span>';
+          termOutput.appendChild(div);
+          termType.textContent = '';
+          tChar = 0;
+          tLine++;
+          
+          setTimeout(typeNext, 250); // Pause between commands
+        }
+      }
+
+      typeNext();
+
+      /* ═══ SCROLL REVEAL ═══ */
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target); // once only
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      if (prefersReducedMotion) {
+        // Instantly show all elements
+        document.querySelectorAll('.reveal, .hero-fade').forEach(function(el) {
+          el.classList.add('is-visible');
+        });
+      }
+      // Note: reveals are observed after preloader dismisses (see above)
+
+      // Assign stagger indices for children inside stagger parents
+      document.querySelectorAll('.reveal-stagger').forEach(function(parent) {
+        var children = parent.querySelectorAll('.reveal');
+        children.forEach(function(child, i) {
+          child.style.setProperty('--reveal-i', i);
+        });
+      });
+
+      /* ═══ HERO PARALLAX GRID ═══ */
+      var heroSection = document.getElementById('hero');
+      var heroGrid = document.getElementById('heroGrid');
+
+      if (heroSection && heroGrid && !prefersReducedMotion) {
+        heroSection.addEventListener('mousemove', function(e) {
+          var rect = heroSection.getBoundingClientRect();
+          // Normalized -1 to 1 from center
+          var nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          var ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+          // Subtle translation (max ±12px) and slight rotation
+          var tx = nx * 12;
+          var ty = ny * 8;
+          heroGrid.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
+        });
+
+        heroSection.addEventListener('mouseleave', function() {
+          heroGrid.style.transform = 'translate(0, 0)';
+        });
       }
     })();
   </script>

@@ -9,6 +9,10 @@ html {
   zoom: 0.8;
 }
 
+html.is-loading {
+  overflow: hidden;
+}
+
 body {
   background-color: #000319;
   overflow-x: hidden;
@@ -348,6 +352,16 @@ li {
     transition: none;
     animation: none;
   }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .preloader {
+    display: none;
+  }
 }
 
 /* ─── Mask Composites ─── */
@@ -371,6 +385,111 @@ li {
   mask-composite: intersect;
   height: 800px;
 }
+
+/* ═══════════════════════════════════════════════
+   Preloader
+   ═══════════════════════════════════════════════ */
+#preloader.preloader {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: #000319;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 28px;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.15, 1),
+              visibility 0.6s;
+  overflow: hidden;
+}
+
+#preloader.preloader.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.term-cursor {
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 18px;
+  background-color: #e4ecff;
+  margin-left: 6px;
+  animation: term-blink 1.2s step-end infinite;
+}
+
+@keyframes term-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   Scroll Reveal Animations
+   ═══════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.reveal-up {
+  transform: translateY(48px);
+}
+
+.reveal.reveal-scale {
+  transform: translateY(24px) scale(0.97);
+}
+
+.reveal.reveal-left {
+  transform: translateX(-40px);
+}
+
+.reveal.reveal-right {
+  transform: translateX(40px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Stagger children inside a reveal-stagger parent */
+.reveal-stagger .reveal {
+  transition-delay: calc(var(--reveal-i, 0) * 100ms);
+}
+
+/* ═══════════════════════════════════════════════
+   Hero Parallax Grid
+   ═══════════════════════════════════════════════ */
+.hero-parallax-grid {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════
+   Hero Fade (opacity-only, no transform override)
+   ═══════════════════════════════════════════════ */
+.hero-fade {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-fade.is-visible {
+  opacity: 1;
+}
+
+/* Stagger each hero-fade child */
+.hero-fade:nth-child(2) { transition-delay: 0.05s; }
+.hero-fade:nth-child(3) { transition-delay: 0.15s; }
+.hero-fade:nth-child(4) { transition-delay: 0.25s; }
+.hero-fade:nth-child(5) { transition-delay: 0.35s; }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
