@@ -92,7 +92,7 @@ const Navbar = () => {
         
         {/* Resume link */}
         <a
-          href="/PersonalWebsite/Ethan_Joseph_Resume.pdf"
+          href="/Ethan_Joseph_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-muted hover:text-text-primary hover:bg-stroke/50 transition-colors duration-200"

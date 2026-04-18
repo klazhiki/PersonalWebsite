@@ -158,7 +158,7 @@ const ViewResumeButton = () => {
 
   return (
     <a
-      href="/PersonalWebsite/Ethan_Joseph_Resume.pdf"
+      href="/Ethan_Joseph_Resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
       className="relative rounded-full text-sm transition-transform duration-200 hover:scale-105"
