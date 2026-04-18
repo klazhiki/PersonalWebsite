@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const WORDS = ["Design", "Engineer", "Solve"];
+const WORDS = ["AI Driven Systems", "Software Architecture", "Ethan Joseph"];
 const DURATION = 2100; // ms
 const WORD_INTERVAL = 700;
 
