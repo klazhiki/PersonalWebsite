@@ -8,7 +8,7 @@ import Journal from "@/components/Journal";
 import Contact from "@/components/Contact";
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>

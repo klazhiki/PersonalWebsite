@@ -2,35 +2,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import Hls from "hls.js";
 import Navbar from "./Navbar";
-import {
-  SiPython,
-  SiC,
-  SiCplusplus,
-  SiTypescript,
-  SiGit,
-  SiGithubactions,
-  SiVercel,
-  SiDocker,
-  SiArduino,
-  SiGooglegemini,
-  SiOpenjdk,
-} from "react-icons/si";
-import { Database } from "lucide-react";
-
-const TECH = [
-  { name: "Python", Icon: SiPython, color: "#FFD43B" },
-  { name: "C", Icon: SiC, color: "#A8B9CC" },
-  { name: "C++", Icon: SiCplusplus, color: "#00599C" },
-  { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
-  { name: "Java", Icon: SiOpenjdk, color: "#ED8B00" },
-  { name: "SQL", Icon: Database, color: "#4E85BF" },
-  { name: "Arduino", Icon: SiArduino, color: "#00979D" },
-  { name: "Git", Icon: SiGit, color: "#F05032" },
-  { name: "GitHub Actions", Icon: SiGithubactions, color: "#2088FF" },
-  { name: "Vercel", Icon: SiVercel, color: "#FFFFFF" },
-  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-  { name: "Gemini", Icon: SiGooglegemini, color: "#8AB4F8" },
-];
 
 const ROLES = ["Software", "Fullstack", "Curious", "Aspiring"];
 const VIDEO_SRC =
@@ -139,35 +110,7 @@ const Hero = () => {
           <ViewResumeButton />
         </div>
 
-        {/* Tech marquee */}
-        <div
-          className="blur-in mt-12 w-full max-w-3xl relative overflow-hidden"
-          style={{
-            maskImage:
-              "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
-          }}
-        >
-          <div className="flex w-max animate-marquee gap-3">
-            {[...TECH, ...TECH].map((item, i) => {
-              const { Icon } = item;
-              return (
-                <div
-                  key={`${item.name}-${i}`}
-                  className="inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 bg-surface/60 border border-stroke rounded-full backdrop-blur-sm shrink-0"
-                >
-                  <span className="w-6 h-6 rounded-md bg-bg border border-stroke/60 flex items-center justify-center">
-                    <Icon size={13} style={{ color: item.color }} />
-                  </span>
-                  <span className="text-xs text-text-primary font-medium whitespace-nowrap">
-                    {item.name}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+
       </div>
 
       {/* Scroll indicator */}
