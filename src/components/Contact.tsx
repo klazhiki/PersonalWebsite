@@ -72,7 +72,7 @@ const Contact = () => {
             <div className="marquee-inner flex whitespace-nowrap w-max" style={{ willChange: "transform" }}>
               {[...Array(10)].map((_, i) => (
                 <span key={i} className="text-5xl md:text-7xl lg:text-8xl font-display italic text-text-primary/10 mx-4 md:mx-8">
-                  LET'S SHIP SOMETHING GREAT
+                  LET'S CONNECT
                   <span className="mx-4 md:mx-8">•</span>
                 </span>
               ))}
