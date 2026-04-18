@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FlaskConical } from "lucide-react";
 
-const NAV_LINKS = ["Home", "Work", "Resume"];
+const NAV_LINKS = ["Home", "Projects"];
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -11,10 +11,28 @@ const Navbar = () => {
   const [sayHiHovered, setSayHiHovered] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 100);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+      
+      const scrollPosition = window.scrollY + 250; // offset
+      let currentActive = active;
+      
+      NAV_LINKS.forEach(link => {
+        const section = document.getElementById(link.toLowerCase());
+        if (section && section.offsetTop <= scrollPosition && (section.offsetTop + section.offsetHeight) > scrollPosition) {
+          currentActive = link;
+        }
+      });
+      
+      if (currentActive !== active) {
+        setActive(currentActive);
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check initially
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [active]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center pt-4 md:pt-6 px-4 gap-3">
@@ -58,8 +76,9 @@ const Navbar = () => {
 
         {/* Nav links */}
         {NAV_LINKS.map((link) => (
-          <button
+          <a
             key={link}
+            href={`#${link.toLowerCase()}`}
             onClick={() => setActive(link)}
             className={`text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors duration-200 ${
               active === link
@@ -68,14 +87,25 @@ const Navbar = () => {
             }`}
           >
             {link}
-          </button>
+          </a>
         ))}
+        
+        {/* Resume link */}
+        <a
+          href="/Ethan_Joseph_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-muted hover:text-text-primary hover:bg-stroke/50 transition-colors duration-200"
+        >
+          Resume
+        </a>
 
         {/* Divider */}
         <span className="hidden sm:block w-px h-5 bg-stroke mx-1" />
 
         {/* Say hi button */}
-        <button
+        <a
+          href="#contact"
           className="relative text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-muted hover:text-text-primary transition-colors duration-200"
           onMouseEnter={() => setSayHiHovered(true)}
           onMouseLeave={() => setSayHiHovered(false)}
@@ -90,7 +120,7 @@ const Navbar = () => {
           <span className="relative z-10 flex items-center gap-1 bg-surface rounded-full px-3 sm:px-4 py-1.5 sm:py-2 -mx-3 sm:-mx-4 -my-1.5 sm:-my-2 backdrop-blur-md">
             Say hi <span className="text-[10px]">↗</span>
           </span>
-        </button>
+        </a>
       </div>
     </nav>
   );

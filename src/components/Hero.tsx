@@ -94,7 +94,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={heroRef} className="relative min-h-screen flex flex-col">
+    <section id="home" ref={heroRef} className="relative min-h-screen flex flex-col">
       <Navbar />
 
       {/* Background video */}
@@ -215,7 +215,9 @@ const ViewResumeButton = () => {
 
   return (
     <a
-      href="#"
+      href="/Ethan_Joseph_Resume.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
       className="relative rounded-full text-sm transition-transform duration-200 hover:scale-105"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

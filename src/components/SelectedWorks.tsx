@@ -72,6 +72,7 @@ const SelectedWorks = () => {
 
   return (
     <section
+      id="projects"
       ref={sectionRef}
       className="bg-bg relative"
       style={{ height: `${projects.length * 100}vh` }}
