@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const WORDS = ["Build", "Code", "Ship"];
-const DURATION = 2700; // ms
-const WORD_INTERVAL = 900;
+const WORDS = ["Design", "Engineer", "Solve"];
+const DURATION = 2100; // ms
+const WORD_INTERVAL = 700;
 
 interface LoadingScreenProps {
   onComplete: () => void;
