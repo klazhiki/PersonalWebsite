@@ -14,8 +14,23 @@ type Project = {
   stack: string[];
   image: string;
   gradient: string;
+  accentColor: string;
   liveUrl?: string;
   metrics?: [Metric, Metric];
+};
+
+const renderDescription = (text: string, accentColor: string) => {
+  const parts = text.split(/(~?\d+%)/g);
+  return parts.map((part, i) => {
+    if (/(~?\d+%)/.test(part)) {
+      return (
+        <span key={i} className={`font-semibold ${accentColor}`}>
+          {part}
+        </span>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
 };
 
 const projects: Project[] = [
@@ -28,7 +43,8 @@ const projects: Project[] = [
       "An AI-driven application security auditor that scans local and GitHub repositories to produce structured vulnerability findings, attack-flow graphs, and automated Git-patch remediations — cutting false positives by ~35% vs rule-only scanners and landing fixes at a ~70% success rate.",
     stack: ["Python", "TypeScript", "Gemini API", "GitHub Actions", "Vercel"],
     image: sentinelImage,
-    gradient: "from-violet-500 via-fuchsia-400/60 to-transparent",
+    gradient: "from-blue-600 via-blue-400/60 to-transparent",
+    accentColor: "text-blue-400",
     liveUrl: "https://sentinelauditor.vercel.app/",
     metrics: [
       { value: "−35%", label: "False positives vs rule-only scanners" },
@@ -45,6 +61,7 @@ const projects: Project[] = [
     stack: ["C++", "Python"],
     image: esp32Image,
     gradient: "from-sky-500 via-blue-400/60 to-transparent",
+    accentColor: "text-sky-400",
   },
 ];
 
@@ -242,7 +259,7 @@ const Card = ({
                 {project.title}
               </h3>
               <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-5">
-                {project.description}
+                {renderDescription(project.description, project.accentColor)}
               </p>
             </div>
 
@@ -253,12 +270,15 @@ const Card = ({
                   {project.metrics.map((m) => (
                     <div
                       key={m.label}
-                      className="rounded-2xl border border-stroke bg-bg/40 p-4"
+                      className="relative rounded-2xl border border-stroke bg-bg/40 p-5 overflow-hidden group hover:border-white/20 transition-colors"
                     >
-                      <div className="text-2xl md:text-3xl font-display italic text-text-primary leading-none mb-2">
+                      {/* Subtle background glow */}
+                      <div className={`absolute -inset-4 opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500 bg-current ${project.accentColor}`} />
+                      
+                      <div className={`relative text-3xl md:text-4xl font-display italic leading-none mb-2 drop-shadow-md ${project.accentColor}`}>
                         {m.value}
                       </div>
-                      <div className="text-[11px] uppercase tracking-[0.15em] text-muted leading-snug">
+                      <div className="relative text-[11px] uppercase tracking-[0.15em] text-text-primary leading-snug">
                         {m.label}
                       </div>
                     </div>
@@ -284,12 +304,9 @@ const Card = ({
                   href={project.liveUrl ?? "#"}
                   target={project.liveUrl ? "_blank" : undefined}
                   rel={project.liveUrl ? "noopener noreferrer" : undefined}
-                  className="group inline-flex items-center gap-3 text-sm text-text-primary"
+                  className="group inline-flex items-center gap-2 text-sm font-medium px-6 py-3 rounded-full bg-text-primary text-bg hover:scale-105 transition-all duration-300 mt-2"
                 >
-                  <span className="relative">
-                    {project.liveUrl ? "View live site" : "View case study"}
-                    <span className="absolute left-0 right-0 -bottom-0.5 h-px bg-text-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
-                  </span>
+                  <span>{project.liveUrl ? "View live site" : "View case study"}</span>
                   <svg
                     className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                     viewBox="0 0 24 24"
