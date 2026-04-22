@@ -29,7 +29,7 @@ const projects: Project[] = [
     stack: ["Python", "TypeScript", "Gemini API", "GitHub Actions", "Vercel"],
     image: sentinelImage,
     gradient: "from-violet-500 via-fuchsia-400/60 to-transparent",
-    liveUrl: "#",
+    liveUrl: "https://sentinelauditor.vercel.app/",
     metrics: [
       { value: "−35%", label: "False positives vs rule-only scanners" },
       { value: "~70%", label: "Auto-patch fix success rate" },

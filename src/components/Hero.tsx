@@ -89,7 +89,7 @@ const Hero = () => {
         </h1>
 
         <p className="blur-in text-lg md:text-xl lg:text-2xl text-muted mb-10">
-          An{" "}
+          {/^[aeiou]/i.test(ROLES[roleIndex]) ? "An" : "A"}{" "}
           <span
             key={roleIndex}
             className="font-display italic text-text-primary animate-role-fade-in inline-block"
