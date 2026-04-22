@@ -258,6 +258,16 @@ const Card = ({
               <h3 className="text-2xl md:text-3xl lg:text-4xl font-display italic text-text-primary leading-[1.05] mb-4">
                 {project.title}
               </h3>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs px-3 py-1.5 rounded-full border border-stroke text-muted bg-bg/40"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
               <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-5">
                 {renderDescription(project.description, project.accentColor)}
               </p>
@@ -288,27 +298,16 @@ const Card = ({
                 <div />
               )}
 
-              <div className="flex flex-col gap-4 md:items-end">
-                <div className="flex flex-wrap gap-2 md:justify-end">
-                  {project.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-xs px-3 py-1.5 rounded-full border border-stroke text-muted"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
+              <div className="flex flex-col gap-4 md:items-end h-full justify-end">
                 <a
                   href={project.liveUrl ?? "#"}
                   target={project.liveUrl ? "_blank" : undefined}
                   rel={project.liveUrl ? "noopener noreferrer" : undefined}
-                  className="group inline-flex items-center gap-2 text-sm font-medium px-6 py-3 rounded-full bg-text-primary text-bg hover:scale-105 transition-all duration-300 mt-2"
+                  className="group inline-flex items-center justify-center gap-3 text-base font-medium px-8 py-5 rounded-2xl bg-text-primary text-bg hover:scale-[1.02] hover:bg-white/90 transition-all duration-300 w-full md:w-auto md:min-w-[200px] shadow-xl"
                 >
                   <span>{project.liveUrl ? "View live site" : "View case study"}</span>
                   <svg
-                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
