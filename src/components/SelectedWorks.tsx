@@ -75,7 +75,7 @@ const SelectedWorks = () => {
       id="projects"
       ref={sectionRef}
       className="bg-bg relative"
-      style={{ height: `${projects.length * 100}vh` }}
+      style={{ height: `${projects.length * 130}vh` }}
     >
       <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
         <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-20 md:pt-24">
@@ -99,9 +99,6 @@ const SelectedWorks = () => {
                   {String(active + 1).padStart(2, "0")}
                 </span>
                 / {String(projects.length).padStart(2, "0")}
-              </span>
-              <span className="text-xs text-muted uppercase tracking-[0.25em] hidden sm:inline">
-                Keep scrolling
               </span>
             </div>
           </div>
@@ -137,23 +134,53 @@ const Card = ({
   total: number;
   progress: MotionValue<number>;
 }) => {
-  // Each card has a "reveal window": from index/total to (index+1)/total
-  const start = index / total;
-  const end = (index + 1) / total;
+  const chunk = 1 / total;
+  // Use 60% of the chunk for the slide transition, leaving 40% for holding
+  const transitionFraction = 0.6;
+  
+  // Card slides in during the later part of the PREVIOUS chunk
+  const slideStart = (index - 1) * chunk + chunk * (1 - transitionFraction);
+  const slideEnd = index * chunk;
 
-  // First card: already in place. Others: slide up from below.
+  const yRange = index === 0 ? [0, 1] : [slideStart, slideEnd];
   const y = useTransform(
     progress,
-    [Math.max(0, start - 1 / total), start],
+    yRange,
     index === 0 ? ["0%", "0%"] : ["100%", "0%"]
   );
 
-  // Once revealed, scale + fade slightly as next card lands on top
-  const scale = useTransform(progress, [end - 1 / total, end], [1, 0.94]);
+  // Card scales down during the later part of ITS OWN chunk
+  const scaleStart = index * chunk + chunk * (1 - transitionFraction);
+  const scaleEnd = (index + 1) * chunk;
+
+  const scale = useTransform(
+    progress,
+    [scaleStart, scaleEnd],
+    index === total - 1 ? [1, 1] : [1, 0.94]
+  );
   const opacity = useTransform(
     progress,
-    [end - 1 / total, end],
-    [1, index === total - 1 ? 1 : 0.5]
+    [scaleStart, scaleEnd],
+    index === total - 1 ? [1, 1] : [1, 0.5]
+  );
+
+  // Micro-interactions for continuous feedback
+  const imageScale = useTransform(
+    progress,
+    [index === 0 ? 0 : slideStart, scaleEnd],
+    [1, 1.1]
+  );
+
+  const contentY = useTransform(
+    progress,
+    [index * chunk, scaleEnd],
+    ["0px", "-16px"]
+  );
+
+  const holdProgress = useTransform(
+    progress,
+    [index * chunk, index === total - 1 ? 1 : scaleStart],
+    ["0%", "100%"]
   );
 
   return (
@@ -170,13 +197,21 @@ const Card = ({
         <div className="grid grid-cols-1 grid-rows-[minmax(0,1fr)_auto] h-full min-h-[420px]">
           {/* Image side (top) */}
           <div className="relative overflow-hidden min-h-[220px]">
-            <img
+            <motion.img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover origin-center"
+              style={{ scale: imageScale }}
             />
             <div
               className={`absolute inset-0 bg-gradient-to-tr ${project.gradient} opacity-30 mix-blend-overlay`}
+            />
+            
+            {/* Scroll Progress Indicator for Hold Phase */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-20" />
+            <motion.div 
+              className="absolute top-0 left-0 h-1 bg-white/60 z-20 origin-left"
+              style={{ width: holdProgress }}
             />
             <div
               className="absolute inset-0 opacity-20 mix-blend-multiply"
@@ -189,7 +224,10 @@ const Card = ({
           </div>
 
           {/* Text side (bottom) */}
-          <div className="relative p-6 md:p-8 lg:p-10 flex flex-col gap-6">
+          <motion.div 
+            className="relative p-6 md:p-8 lg:p-10 flex flex-col gap-6 bg-surface z-10"
+            style={{ y: contentY }}
+          >
             <div>
               <div className="flex items-center gap-3 mb-4 text-xs text-muted uppercase tracking-[0.25em]">
                 <span>{project.category}</span>
@@ -264,7 +302,7 @@ const Card = ({
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </motion.div>

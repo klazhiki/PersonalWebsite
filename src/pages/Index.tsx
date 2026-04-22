@@ -26,7 +26,7 @@ const Index = () => {
         <Hero />
         <SelectedWorks />
         <Journal />
-        
+
         <Contact />
       </motion.div>
     </>
