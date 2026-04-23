@@ -1,48 +1,95 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch's name
   push:
     branches: [main]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
 
-# Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
+env:
+  PAGES_BRANCH: main
+  PAGES_DOMAIN: ethanjoseph.dev
+
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Reassert GitHub Pages settings
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          printf '{"build_type":"workflow","cname":"%s","https_enforced":true,"source":{"branch":"%s","path":"/"}}' \
+            "$PAGES_DOMAIN" \
+            "$PAGES_BRANCH" \
+            | gh api \
+                --method PUT \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "repos/${GITHUB_REPOSITORY}/pages" \
+                --input -
+
+      - name: Verify GitHub Pages settings
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          build_type="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.build_type')"
+          cname="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.cname // ""')"
+          https_enforced="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.https_enforced')"
+
+          if [ "$build_type" != "workflow" ]; then
+            echo "::error::Expected GitHub Pages build_type=workflow, got '$build_type'."
+            exit 1
+          fi
+
+          if [ "$cname" != "$PAGES_DOMAIN" ]; then
+            echo "::error::Expected GitHub Pages cname='$PAGES_DOMAIN', got '$cname'."
+            exit 1
+          fi
+
+          if [ "$https_enforced" != "true" ]; then
+            echo "::error::Expected GitHub Pages https_enforced=true."
+            exit 1
+          fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
+
       - name: Install dependencies
         run: npm ci
+
       - name: Build
         run: npm run build
-      - name: Copy index.html to 404.html
+
+      - name: Copy SPA fallback
         run: cp dist/index.html dist/404.html
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          # Upload entire repository
           path: "./dist"
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
