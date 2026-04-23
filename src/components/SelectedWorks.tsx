@@ -199,6 +199,7 @@ const Card = ({
     [index * chunk, index === total - 1 ? 1 : scaleStart],
     ["0%", "100%"]
   );
+  const hasLiveSite = Boolean(project.liveUrl);
 
   return (
     <motion.div
@@ -299,23 +300,50 @@ const Card = ({
               )}
 
               <div className="flex flex-col gap-4 md:items-end h-full justify-end">
-                <a
-                  href={project.liveUrl ?? "#"}
-                  target={project.liveUrl ? "_blank" : undefined}
-                  rel={project.liveUrl ? "noopener noreferrer" : undefined}
-                  className="group inline-flex items-center justify-center gap-3 text-base font-medium px-8 py-5 rounded-2xl bg-text-primary text-bg hover:scale-[1.02] hover:bg-white/90 transition-all duration-300 w-full md:w-auto md:min-w-[200px] shadow-xl"
-                >
-                  <span>{project.liveUrl ? "View live site" : "View case study"}</span>
-                  <svg
-                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
+                {hasLiveSite ? (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex w-full items-center justify-between overflow-hidden rounded-full border border-stroke bg-bg/60 text-text-primary shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent md:w-auto md:min-w-[210px]"
                   >
-                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                  </svg>
-                </a>
+                    <span className="absolute inset-0 rounded-full accent-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <span className="absolute inset-[1px] rounded-full bg-bg/95" />
+                    <div className="relative flex items-center gap-3 px-6 py-4">
+                      <span className="h-2 w-2 rounded-full bg-[#4E85BF]" />
+                      <span className="text-[15px] font-medium tracking-[0.01em] text-text-primary">
+                        View live site
+                      </span>
+                    </div>
+                    <span className="relative mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stroke bg-surface transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:border-white/15">
+                      <svg
+                        className="h-4 w-4 text-muted transition-colors duration-300 group-hover:text-text-primary"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                      </svg>
+                    </span>
+                  </a>
+                ) : (
+                  <a
+                    href="#"
+                    className="group inline-flex items-center justify-center gap-3 rounded-2xl border border-stroke bg-bg/40 px-6 py-4 text-sm font-medium text-text-primary transition-colors duration-300 hover:border-white/20 hover:bg-bg/70 w-full md:w-auto md:min-w-[200px]"
+                  >
+                    <span>View case study</span>
+                    <svg
+                      className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>
