@@ -116,7 +116,7 @@ const Hero = () => {
             label="GitHub Profile"
           />
           <SocialIconButton
-            href="https://www.linkedin.com/in/ethan-joseph/"
+            href="https://www.linkedin.com/in/ethan-joseph-990a29282/"
             icon={Linkedin}
             label="LinkedIn Profile"
           />

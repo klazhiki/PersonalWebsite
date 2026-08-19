@@ -6,7 +6,7 @@ import Hls from "hls.js";
 const VIDEO_SRC = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
 
 const socials = [
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/ethan-joseph/" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/ethan-joseph-990a29282/" },
   { name: "GitHub", href: "https://github.com/klazhiki" },
 ];
 
