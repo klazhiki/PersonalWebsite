@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FlaskConical } from "lucide-react";
 
 const NAV_LINKS = [
@@ -138,27 +138,40 @@ const Navbar = () => {
         {/* Subtle Divider */}
         <span className="h-4 w-px bg-white/10 mx-0.5" />
 
-        {/* Contact / Email Action Button (Expands on Hover, Direct mailto) */}
-        <a
+        {/* Contact / Email Action Button (Smooth Spring Expanding Pill, Direct mailto) */}
+        <motion.a
+          layout
           href="mailto:josepe15@mcmaster.ca"
           onMouseEnter={() => setSayHiHovered(true)}
           onMouseLeave={() => setSayHiHovered(false)}
-          className="relative group inline-flex items-center justify-center overflow-hidden rounded-full border border-white/[0.12] bg-white/[0.04] px-3.5 sm:px-4 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-200 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] transition-all duration-300 hover:border-white/30 hover:bg-white/[0.09] hover:text-white"
+          transition={{
+            layout: { type: "spring", stiffness: 420, damping: 32 },
+          }}
+          className="relative group inline-flex items-center justify-center overflow-hidden rounded-full border border-white/[0.12] bg-white/[0.04] px-3.5 sm:px-4 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-200 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] transition-colors duration-300 hover:border-white/30 hover:bg-white/[0.09] hover:text-white"
         >
           <span
-            className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
+            className={`absolute inset-0 rounded-full transition-opacity duration-300 pointer-events-none ${
               sayHiHovered
                 ? "opacity-100 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
                 : "opacity-0"
             }`}
           />
-          <span className="relative z-10 flex items-center gap-1.5 whitespace-nowrap">
-            <span>{sayHiHovered ? "josepe15@mcmaster.ca" : "Say hi"}</span>
-            <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              ↗
-            </span>
-          </span>
-        </a>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={sayHiHovered ? "email" : "label"}
+              initial={{ opacity: 0, y: 5, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -5, filter: "blur(3px)" }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="relative z-10 flex items-center gap-1.5 whitespace-nowrap"
+            >
+              <span>{sayHiHovered ? "josepe15@mcmaster.ca" : "Say hi"}</span>
+              <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                ↗
+              </span>
+            </motion.span>
+          </AnimatePresence>
+        </motion.a>
       </nav>
     </header>
   );
