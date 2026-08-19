@@ -1,5 +1,13 @@
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  MotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import sentinelImage from "@/assets/sentinel.png";
 import esp32Image from "@/assets/esp32.png";
 
@@ -65,13 +73,25 @@ const projects: Project[] = [
   },
 ];
 
-const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number];
-
-// Keep the stack pinned only long enough to reveal each additional card.
-// The previous 130vh per card made a two-card stack consume 160vh of pinned
-// scrolling, which could feel like the page had stopped on the second card.
+// One viewport displays the stack; each additional card gets a compact scroll
+// runway. This keeps the transition deliberate without trapping fast scrollers.
 const STACK_BASE_HEIGHT_VH = 100;
-const SCROLL_VH_PER_ADDITIONAL_CARD = 70;
+const SCROLL_VH_PER_ADDITIONAL_CARD = 82;
+
+const useCompactProjectLayout = () => {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsCompact(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  return isCompact;
+};
 
 const SelectedWorks = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -79,35 +99,43 @@ const SelectedWorks = () => {
     target: sectionRef,
     offset: ["start start", "end end"],
   });
+  const prefersReducedMotion = useReducedMotion();
+  const isCompact = useCompactProjectLayout();
+  const stackEnabled = !isCompact && !prefersReducedMotion;
+  const springProgress = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 30,
+    mass: 0.18,
+    restDelta: 0.001,
+  });
+  const stackProgress = prefersReducedMotion
+    ? scrollYProgress
+    : springProgress;
 
-  // Track active card for the counter
   const [active, setActive] = useState(0);
   const sectionHeight =
     STACK_BASE_HEIGHT_VH +
     Math.max(0, projects.length - 1) * SCROLL_VH_PER_ADDITIONAL_CARD;
 
-  useEffect(() => {
-    return scrollYProgress.on("change", (v) => {
-      // each card occupies 1/projects.length of the scroll
-      const idx = Math.min(
-        projects.length - 1,
-        Math.floor(v * projects.length)
-      );
-      setActive(idx);
-    });
-  }, [scrollYProgress]);
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    const idx = Math.min(
+      projects.length - 1,
+      Math.round(value * Math.max(1, projects.length - 1))
+    );
+    setActive(idx);
+  });
 
   return (
     <section
       id="projects"
       ref={sectionRef}
       className="bg-bg relative"
-      style={{ height: `${sectionHeight}vh` }}
+      style={stackEnabled ? { height: `${sectionHeight}vh` } : undefined}
     >
-      <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
-        <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-20 md:pt-24">
+      <div className={stackEnabled ? "sticky top-0 h-screen flex flex-col overflow-hidden" : "flex flex-col"}>
+        <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-16 md:pt-20">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 md:mb-10 px-2 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-6 md:mb-8 px-2 gap-6">
             <div>
               <div className="inline-flex items-center gap-2 mb-4">
                 <span className="w-8 h-px bg-stroke" />
@@ -120,27 +148,30 @@ const SelectedWorks = () => {
               </h2>
             </div>
 
-            <div className="flex items-center gap-4">
+            {stackEnabled && <div className="hidden md:flex items-center gap-4">
               <span className="text-sm text-muted tabular-nums">
                 <span className="text-text-primary font-display italic text-2xl mr-1">
                   {String(active + 1).padStart(2, "0")}
                 </span>
                 / {String(projects.length).padStart(2, "0")}
               </span>
-            </div>
+            </div>}
           </div>
         </div>
 
         {/* Stacking cards container */}
-        <div className="relative flex-1 max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pb-16">
-          <div className="relative w-full h-full px-2">
+        <div className="relative flex-1 max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pb-12">
+          <div className={stackEnabled ? "relative w-full h-full px-2" : "relative w-full px-2 flex flex-col gap-6"}>
             {projects.map((p, i) => (
               <Card
                 key={p.slug}
                 project={p}
                 index={i}
                 total={projects.length}
-                progress={scrollYProgress}
+                progress={stackProgress}
+                isActive={active === i}
+                reducedMotion={Boolean(prefersReducedMotion)}
+                stacked={stackEnabled}
               />
             ))}
           </div>
@@ -155,58 +186,51 @@ const Card = ({
   index,
   total,
   progress,
+  isActive,
+  reducedMotion,
+  stacked,
 }: {
   project: Project;
   index: number;
   total: number;
   progress: MotionValue<number>;
+  isActive: boolean;
+  reducedMotion: boolean;
+  stacked: boolean;
 }) => {
-  const chunk = 1 / total;
-  // Use 60% of the chunk for the slide transition, leaving 40% for holding
-  const transitionFraction = 0.6;
-  
-  // Card slides in during the later part of the PREVIOUS chunk
-  const slideStart = (index - 1) * chunk + chunk * (1 - transitionFraction);
-  const slideEnd = index * chunk;
+  const step = 1 / Math.max(1, total - 1);
+  const entryStart = index === 0 ? 0 : (index - 1) * step + step * 0.08;
+  const entryEnd = index === 0 ? 0 : index * step - step * 0.16;
+  const nextEntryStart = index === total - 1
+    ? 1
+    : index * step + step * 0.08;
+  const nextEntryEnd = index === total - 1
+    ? 1
+    : (index + 1) * step - step * 0.16;
 
-  const yRange = index === 0 ? [0, 1] : [slideStart, slideEnd];
   const y = useTransform(
     progress,
-    yRange,
-    index === 0 ? ["0%", "0%"] : ["100%", "0%"]
+    index === 0 ? [0, 1] : [entryStart, entryEnd],
+    index === 0 || reducedMotion ? ["0%", "0%"] : ["108%", "0%"]
   );
 
-  // Card scales down during the later part of ITS OWN chunk
-  const scaleStart = index * chunk + chunk * (1 - transitionFraction);
-  const scaleEnd = (index + 1) * chunk;
-
-  const scale = useTransform(
+  const scaleRange = index === 0
+    ? [nextEntryStart, nextEntryEnd]
+    : index === total - 1
+      ? [entryStart, entryEnd]
+      : [entryStart, entryEnd, nextEntryStart, nextEntryEnd];
+  const scaleValues = index === 0
+    ? [1, 0.955]
+    : index === total - 1
+      ? [0.985, 1]
+      : [0.985, 1, 1, 0.955];
+  const scale = useTransform(progress, scaleRange, scaleValues);
+  const imageScale = useTransform(progress, [0, 1], [1, 1.055]);
+  const cardProgress = useTransform(
     progress,
-    [scaleStart, scaleEnd],
-    index === total - 1 ? [1, 1] : [1, 0.94]
-  );
-  const opacity = useTransform(
-    progress,
-    [scaleStart, scaleEnd],
-    index === total - 1 ? [1, 1] : [1, 0.5]
-  );
-
-  // Micro-interactions for continuous feedback
-  const imageScale = useTransform(
-    progress,
-    [index === 0 ? 0 : slideStart, scaleEnd],
-    [1, 1.1]
-  );
-
-  const contentY = useTransform(
-    progress,
-    [index * chunk, scaleEnd],
-    ["0px", "-16px"]
-  );
-
-  const holdProgress = useTransform(
-    progress,
-    [index * chunk, index === total - 1 ? 1 : scaleStart],
+    index === total - 1
+      ? [entryEnd, 1]
+      : [entryEnd, nextEntryEnd],
     ["0%", "100%"]
   );
   const hasLiveSite = Boolean(project.liveUrl);
@@ -214,15 +238,17 @@ const Card = ({
   return (
     <motion.div
       style={{
-        y,
-        scale,
-        opacity,
+        y: stacked ? y : 0,
+        scale: stacked ? scale : 1,
+        opacity: 1,
         zIndex: index + 1,
+        pointerEvents: stacked && !isActive ? "none" : "auto",
       }}
-      className="absolute inset-0"
+      aria-hidden={stacked ? !isActive : undefined}
+      className={stacked ? "absolute inset-0" : "relative w-full"}
     >
-      <div className="bg-surface border border-stroke rounded-3xl overflow-hidden h-full shadow-2xl shadow-black/40">
-        <div className="grid grid-cols-1 grid-rows-[minmax(0,1fr)_auto] h-full min-h-[420px]">
+      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-full" : "h-auto"}`}>
+        <div className={`grid grid-cols-1 grid-rows-[minmax(220px,0.7fr)_auto] min-h-[420px] ${stacked ? "md:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] md:grid-rows-1 h-full" : "h-auto"}`}>
           {/* Image side (top) */}
           <div className="relative overflow-hidden min-h-[220px]">
             <motion.img
@@ -239,7 +265,7 @@ const Card = ({
             <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-20" />
             <motion.div 
               className="absolute top-0 left-0 h-1 bg-white/60 z-20 origin-left"
-              style={{ width: holdProgress }}
+              style={{ width: cardProgress }}
             />
             <div
               className="absolute inset-0 opacity-20 mix-blend-multiply"
@@ -252,12 +278,9 @@ const Card = ({
           </div>
 
           {/* Text side (bottom) */}
-          <motion.div 
-            className="relative p-6 md:p-8 lg:p-10 flex flex-col gap-6 bg-surface z-10"
-            style={{ y: contentY }}
-          >
+          <div className="relative p-6 md:p-7 lg:p-8 flex flex-col gap-4 bg-surface z-10">
             <div>
-              <div className="flex items-center gap-3 mb-4 text-xs text-muted uppercase tracking-[0.25em]">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-[10px] md:text-xs text-muted uppercase tracking-[0.2em] md:tracking-[0.25em] [&>span]:whitespace-nowrap">
                 <span>{project.category}</span>
                 <span className="w-1 h-1 rounded-full bg-stroke" />
                 <span>{project.year}</span>
@@ -269,7 +292,7 @@ const Card = ({
               <h3 className="text-2xl md:text-3xl lg:text-4xl font-display italic text-text-primary leading-[1.05] mb-4">
                 {project.title}
               </h3>
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
@@ -279,27 +302,27 @@ const Card = ({
                   </span>
                 ))}
               </div>
-              <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-5">
+              <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-4">
                 {renderDescription(project.description, project.accentColor)}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-end">
               {/* Highlighted metrics */}
               {project.metrics ? (
                 <div className="grid grid-cols-2 gap-3 max-w-xl w-full">
                   {project.metrics.map((m) => (
                     <div
                       key={m.label}
-                      className="relative rounded-2xl border border-stroke bg-bg/40 p-5 overflow-hidden group hover:border-white/20 transition-colors"
+                      className="relative rounded-2xl border border-stroke bg-bg/40 p-4 overflow-hidden group hover:border-white/20 transition-colors"
                     >
                       {/* Subtle background glow */}
                       <div className={`absolute -inset-4 opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500 bg-current ${project.accentColor}`} />
                       
-                      <div className={`relative text-3xl md:text-4xl font-display italic leading-none mb-2 drop-shadow-md ${project.accentColor}`}>
+                      <div className={`relative text-3xl font-display italic leading-none mb-2 drop-shadow-md ${project.accentColor}`}>
                         {m.value}
                       </div>
-                      <div className="relative text-[11px] uppercase tracking-[0.15em] text-text-primary leading-snug">
+                      <div className="relative text-[10px] uppercase tracking-[0.12em] text-text-primary leading-snug">
                         {m.label}
                       </div>
                     </div>
@@ -315,7 +338,8 @@ const Card = ({
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative inline-flex w-full items-center justify-between overflow-hidden rounded-full border border-stroke bg-bg/60 text-text-primary shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent md:w-auto md:min-w-[210px]"
+                    tabIndex={!stacked || isActive ? 0 : -1}
+                    className="group relative inline-flex w-full items-center justify-between overflow-hidden rounded-full border border-stroke bg-bg/60 text-text-primary shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent md:w-auto md:min-w-[180px]"
                   >
                     <span className="absolute inset-0 rounded-full accent-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                     <span className="absolute inset-[1px] rounded-full bg-bg/95" />
@@ -340,6 +364,7 @@ const Card = ({
                 ) : (
                   <a
                     href="#"
+                    tabIndex={!stacked || isActive ? 0 : -1}
                     className="group inline-flex items-center justify-center gap-3 rounded-2xl border border-stroke bg-bg/40 px-6 py-4 text-sm font-medium text-text-primary transition-colors duration-300 hover:border-white/20 hover:bg-bg/70 w-full md:w-auto md:min-w-[200px]"
                   >
                     <span>View case study</span>
@@ -356,7 +381,7 @@ const Card = ({
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>
