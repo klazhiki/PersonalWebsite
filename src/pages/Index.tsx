@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import LoadingScreen from "@/components/LoadingScreen";
 import Hero from "@/components/Hero";
+import WorkExperience from "@/components/WorkExperience";
 import SelectedWorks from "@/components/SelectedWorks";
 import Journal from "@/components/Journal";
 
@@ -24,6 +25,7 @@ const Index = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <Hero />
+        <WorkExperience />
         <SelectedWorks />
         <Journal />
 
