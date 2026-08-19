@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import donemakerLogo from "@/assets/donemaker-logo.jpg";
 
 const impact = [
   { value: "4", label: "systems unified" },
@@ -11,194 +11,221 @@ const impact = [
 const highlights = [
   {
     number: "01",
-    title: "Unified a fragmented data stack",
+    title: "Unified four external systems",
     description:
-      "Built a server-side pipeline across Google Search Console, SE Ranking, WordPress, and Supabase, using URL normalization and structured aggregation to create one reliable application workflow.",
+      "Google Search Console, SE Ranking, WordPress, and Supabase became one reliable workflow.",
   },
   {
     number: "02",
-    title: "Made third-party APIs dramatically leaner",
+    title: "Reduced API usage by ~65%",
     description:
-      "Reworked orchestration around on-demand execution, 24-hour caching, request deduplication, rate-limit retries, and controlled sequencing - reducing external API calls by roughly 65%.",
+      "Used caching, request deduplication, rate-limit retries, and controlled sequencing.",
   },
   {
     number: "03",
-    title: "Turned raw signals into decisions",
+    title: "Shipped decision-ready analytics",
     description:
-      "Combined performance, ranking, authority, backlink, and audit data into prioritized recommendations, with fault-tolerant handling when individual upstream services failed.",
-  },
-  {
-    number: "04",
-    title: "Shipped with the people using it",
-    description:
-      "Worked directly with project stakeholders and a three-person development team through demos, technical feedback, regression testing, Git-based review, and production handoff.",
+      "Combined 5+ signal types into fault-tolerant recommendations and delivered them to production.",
   },
 ];
 
-const technologies = ["React", "Node.js", "Supabase", "Data pipelines", "API orchestration"];
+const ease = [0.22, 1, 0.36, 1] as const;
 
-const WorkExperience = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 70%", "end 35%"],
-  });
-  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-
-  return (
+const WorkExperience = () => (
   <section
-    ref={sectionRef}
     id="experience"
-    className="relative overflow-hidden border-y border-stroke/70 bg-bg py-24 md:py-32"
+    className="relative overflow-hidden border-y border-stroke/70 bg-bg py-20 md:py-28"
   >
-    <motion.div
-      style={{ y: backgroundY }}
-      className="pointer-events-none absolute inset-x-0 top-[-12rem] h-[34rem] opacity-60 [background:radial-gradient(circle_at_74%_44%,rgba(78,133,191,0.17),transparent_42%)]"
+    <div
+      className="pointer-events-none absolute inset-0 opacity-[0.22]"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)",
+        backgroundSize: "42px 42px",
+        maskImage: "linear-gradient(to bottom, black, transparent 92%)",
+      }}
     />
-    <motion.div
-      aria-hidden="true"
-      className="pointer-events-none absolute right-[9%] top-24 h-28 w-28 rounded-full border border-[#4E85BF]/10"
-      animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.55, 0.25] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-    />
-    <div className="pointer-events-none absolute right-[-3vw] top-[-8rem] select-none font-display text-[18rem] italic leading-none text-white/[0.018] md:text-[26rem]">
-      01
-    </div>
+    <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-[48rem] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(78,133,191,0.14),transparent_68%)]" />
 
     <div className="relative mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-16">
-      <div className="mb-16 flex items-center gap-4 md:mb-20">
-        <span className="h-px w-10 bg-stroke" />
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ duration: 0.6, ease }}
+        className="mb-7 flex items-center gap-4"
+      >
+        <span className="h-px w-9 bg-stroke" />
         <span className="text-xs uppercase tracking-[0.3em] text-muted">
-          Work experience
+          Experience
         </span>
         <span className="h-px flex-1 bg-stroke/70" />
-        <span className="text-xs tabular-nums text-muted">01 / 01</span>
-      </div>
+        <span className="text-xs tabular-nums text-muted">02 roles</span>
+      </motion.div>
 
-      <div className="grid gap-14 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
-        <motion.aside
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="relative lg:sticky lg:top-28 lg:self-start"
-        >
-          <div className="absolute bottom-0 left-0 top-0 w-px bg-stroke" />
+      <motion.article
+        initial={{ opacity: 0, y: 28, scale: 0.99 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.12 }}
+        transition={{ duration: 0.75, delay: 0.05, ease }}
+        className="group relative overflow-hidden rounded-[28px] border border-stroke bg-gradient-to-br from-surface/85 via-surface/70 to-bg/80 shadow-2xl shadow-black/20 backdrop-blur-sm transition-colors duration-500 hover:border-white/15"
+      >
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#6EA6DF] to-transparent opacity-70" />
+        <div className="pointer-events-none absolute right-[-5rem] top-[-7rem] h-72 w-72 rounded-full bg-[#4E85BF]/[0.07] opacity-70 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+
+        <div className="relative flex flex-col items-start gap-5 p-6 pb-0 md:flex-row md:gap-7 md:p-9 md:pb-0">
           <motion.div
-            style={{ scaleY: timelineProgress, transformOrigin: "top" }}
-            className="absolute bottom-0 left-0 top-0 w-px bg-[#4E85BF] shadow-[0_0_18px_rgba(78,133,191,0.55)]"
-          />
-          <motion.div
-            className="absolute left-[-4px] top-1 h-[9px] w-[9px] rounded-full bg-[#4E85BF] shadow-[0_0_24px_rgba(78,133,191,0.8)]"
-            animate={{ scale: [1, 1.55, 1] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-          />
-
-          <div className="pl-7">
-            <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#89AACC]">
-              May - August 2026
-            </p>
-            <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted">
-              Professional experience
-            </p>
-            <h2 className="mb-8 max-w-xs font-display text-3xl italic leading-[0.95] text-text-primary md:text-4xl">
-              Zivko Online Solutions<span className="text-[#89AACC]">.</span>
-            </h2>
-
-            <div className="flex flex-wrap gap-x-4 gap-y-3">
-              {technologies.map((technology) => (
-                <motion.span
-                  key={technology}
-                  whileHover={{ y: -2, color: "#D8E4F0" }}
-                  transition={{ duration: 0.18 }}
-                  className="cursor-default border-b border-stroke pb-1 text-xs text-muted"
-                >
-                  {technology}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        </motion.aside>
-
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ scale: 1.04, rotate: -2 }}
+            transition={{ type: "spring", stiffness: 280, damping: 20 }}
+            className="relative h-[72px] w-[72px] overflow-hidden rounded-2xl border border-white/10 bg-[#4255dc] shadow-[0_14px_30px_rgba(37,55,190,0.22)] md:h-20 md:w-20"
           >
-            <p className="mb-5 flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-[#89AACC]">
-              <motion.span
-                className="h-1.5 w-1.5 rounded-full bg-[#4E85BF]"
-                animate={{ opacity: [0.35, 1, 0.35] }}
-                transition={{ duration: 2.2, repeat: Infinity }}
-              />
+            <img
+              src={donemakerLogo}
+              alt="Zivko Online Solutions product logo"
+              className="h-full w-full object-cover"
+            />
+          </motion.div>
+
+          <div className="min-w-0 flex-1">
+            <p className="mb-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#89AACC]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4E85BF] shadow-[0_0_12px_rgba(78,133,191,0.8)]" />
               Zivko Online Solutions
             </p>
-            <h3 className="max-w-4xl font-display text-5xl italic leading-[1.02] text-[#89AACC] md:text-7xl lg:text-[5.25rem]">
+            <h2 className="mb-2 text-3xl font-semibold tracking-[-0.035em] text-text-primary md:text-4xl">
               Full-Stack Developer
-            </h3>
-            <p className="mt-7 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-              Owned and shipped features across an existing React, Node.js, and Supabase codebase,
-              translating stakeholder requirements into a live analytics experience.
+            </h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-muted">
+              Shipped a production analytics workflow in React, Node.js, and Supabase.
             </p>
-          </motion.div>
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] uppercase tracking-[0.18em] text-muted">
+              <span className="text-[#89AACC]">
+              May — August 2026
+              </span>
+              <span className="h-1 w-1 rounded-full bg-stroke" />
+              <span>
+              Production analytics
+              </span>
+            </div>
+          </div>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.7, delay: 0.16 }}
-            className="my-12 grid grid-cols-2 border-y border-stroke md:grid-cols-4"
-          >
-            {impact.map((item, index) => (
-              <motion.div
-                key={item.label}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className={`py-6 md:px-5 ${index % 2 === 1 ? "pl-5" : "pr-5"} ${index > 0 ? "md:border-l md:border-stroke" : ""}`}
-              >
-                <motion.div
-                  className="mb-2 font-display text-3xl italic text-text-primary md:text-4xl"
-                  whileHover={{ color: "#89AACC" }}
-                >
-                  {item.value}
-                </motion.div>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-muted">
-                  {item.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+        <div className="mx-6 mt-8 flex flex-wrap gap-x-9 gap-y-5 border-y border-stroke py-6 md:mx-9 md:gap-x-14">
+          {impact.map((item) => (
+            <motion.div
+              key={item.label}
+              whileHover={{ y: -3 }}
+              className="w-[calc(50%-18px)] md:w-auto md:min-w-[105px]"
+            >
+              <p className="mb-1.5 font-display text-2xl italic leading-none text-[#9DBDDA] md:text-3xl">
+                {item.value}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.17em] text-muted">
+                {item.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
 
-          <div className="border-t border-stroke">
+        <div className="p-6 md:p-9">
+          <div className="mb-3">
+            <h3 className="text-xs font-medium uppercase tracking-[0.22em] text-[#89AACC]">
+              Selected impact
+            </h3>
+          </div>
+
+          <div className="max-w-4xl">
             {highlights.map((item, index) => (
               <motion.div
                 key={item.number}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.45 }}
-                transition={{ duration: 0.55, delay: index * 0.05 }}
-                whileHover={{ x: 7 }}
-                className="group relative grid cursor-default gap-4 overflow-hidden border-b border-stroke py-7 transition-colors duration-300 md:grid-cols-[3rem_0.8fr_1.2fr] md:gap-6"
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.5, delay: index * 0.06, ease }}
+                whileHover={{ x: 5 }}
+                className="group/item relative border-t border-stroke py-5"
               >
-                <span className="absolute inset-y-0 left-[-7px] w-px bg-[#4E85BF] opacity-0 shadow-[0_0_16px_rgba(78,133,191,0.65)] transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="text-xs tabular-nums text-[#4E85BF] transition-transform duration-300 group-hover:translate-x-1">{item.number}</span>
-                <h4 className="text-base font-medium leading-snug text-text-primary transition-colors duration-300 group-hover:text-[#B7D0E8] md:text-lg">
-                  {item.title}
-                </h4>
-                <p className="text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-text-primary/75 md:text-base">
-                  {item.description}
-                </p>
+                <div className="grid grid-cols-[2.2rem_1fr] gap-x-3 gap-y-1 md:grid-cols-[2.5rem_1fr] md:gap-x-5">
+                  <span className="pt-1 text-[11px] tabular-nums text-[#4E85BF]">
+                    {item.number}
+                  </span>
+                  <h4 className="text-base font-medium text-text-primary transition-colors group-hover/item:text-[#B7D0E8]">
+                    {item.title}
+                  </h4>
+                  <p className="col-start-2 text-[13px] leading-relaxed text-muted">
+                    {item.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </motion.article>
+
+      <motion.article
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.6, delay: 0.08, ease }}
+        className="group mt-5 overflow-hidden rounded-[24px] border border-stroke bg-surface/55 transition-colors duration-500 hover:border-white/15 hover:bg-surface/75"
+      >
+        <div className="grid gap-5 p-6 md:grid-cols-[68px_minmax(0,1fr)_auto] md:items-center md:gap-6 md:p-7 lg:px-8">
+          <motion.div
+            whileHover={{ scale: 1.05, rotate: 3 }}
+            transition={{ type: "spring", stiffness: 280, damping: 20 }}
+            className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-violet-300/15 bg-[radial-gradient(circle_at_32%_24%,#6f78e8,#25284f_72%)] shadow-[0_12px_28px_rgba(66,71,155,0.2)]"
+          >
+            <span className="absolute inset-[7px] rounded-full border border-white/15" />
+            <span className="font-display text-3xl italic text-white">E</span>
+          </motion.div>
+
+          <div className="min-w-0">
+            <div className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <h3 className="text-xl font-semibold tracking-[-0.02em] text-text-primary md:text-2xl">
+                Founder &amp; Organizer
+              </h3>
+              <span className="text-lg text-[#7086A0]">@</span>
+              <p className="text-lg text-text-primary md:text-xl">Eclipse Hackathons</p>
+            </div>
+            <p className="max-w-3xl text-sm leading-relaxed text-muted">
+              Founded an Ontario-wide student hackathon, built its registration and
+              submission platform, secured HCLTech sponsorship, and recruited judges
+              from AMD, Dropbox, Fractal Analytics, and SAP Concur.
+            </p>
+          </div>
+
+          <div className="md:min-w-[170px] md:text-right">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#8E99C9]">
+              August — November 2024
+            </p>
+            <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted">
+              Community leadership
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 border-t border-stroke">
+          {[
+            { value: "80+", label: "participants" },
+            { value: "15+", label: "Ontario schools" },
+            { value: "Zero", label: "downtime during judging" },
+          ].map((item, index) => (
+            <motion.div
+              key={item.label}
+              whileHover={{ backgroundColor: "rgba(111,120,232,0.06)" }}
+              className={`px-4 py-5 md:px-7 ${index > 0 ? "border-l border-stroke" : ""}`}
+            >
+              <p className="mb-1.5 font-display text-2xl italic text-[#A7AEE3] md:text-3xl">
+                {item.value}
+              </p>
+              <p className="text-[9px] uppercase leading-snug tracking-[0.14em] text-muted md:text-[10px]">
+                {item.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.article>
     </div>
   </section>
-  );
-};
+);
 
 export default WorkExperience;
