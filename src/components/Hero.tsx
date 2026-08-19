@@ -127,26 +127,15 @@ const Hero = () => {
 };
 
 const ContactButton = () => {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <a
       href="#contact"
-      className="relative rounded-full text-sm transition-transform duration-200 hover:scale-105"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/[0.16] bg-neutral-950/50 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.28),0_10px_35px_rgba(0,0,0,0.55)] transition-all duration-300 hover:border-white/35 hover:bg-white/[0.1] hover:scale-105 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.65),0_0_25px_rgba(59,130,246,0.25)]"
     >
-      <span
-        className={`absolute rounded-full accent-gradient transition-opacity duration-300 ${
-          hovered ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ inset: "-2px" }}
-      />
-      <span
-        className={`relative z-10 block px-7 py-3.5 rounded-full transition-colors duration-300 ${
-          hovered ? "bg-bg text-text-primary" : "bg-text-primary text-bg"
-        }`}
-      >
+      {/* Specular hairline top sheen */}
+      <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      <span className="relative z-10 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.9)]" />
         Contact
       </span>
     </a>
@@ -154,31 +143,20 @@ const ContactButton = () => {
 };
 
 const ViewResumeButton = () => {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <a
       href="/Ethan_Joseph_Resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
-      className="relative rounded-full text-sm transition-transform duration-200 hover:scale-105"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/[0.13] bg-neutral-950/40 px-7 py-3.5 text-sm font-medium text-neutral-300 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_10px_35px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/30 hover:bg-white/[0.08] hover:text-white hover:scale-105 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_12px_40px_rgba(0,0,0,0.6)]"
     >
-      <span
-        className={`absolute rounded-full accent-gradient transition-opacity duration-300 ${
-          hovered ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ inset: "-2px" }}
-      />
-      <span
-        className={`relative z-10 block px-7 py-3.5 rounded-full border-2 transition-colors duration-300 ${
-          hovered
-            ? "border-transparent bg-bg text-text-primary"
-            : "border-stroke bg-bg text-text-primary"
-        }`}
-      >
+      {/* Specular hairline top sheen */}
+      <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      <span className="relative z-10 flex items-center gap-1.5">
         View Resume
+        <span className="text-xs text-neutral-400 transition-transform duration-200 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          ↗
+        </span>
       </span>
     </a>
   );
