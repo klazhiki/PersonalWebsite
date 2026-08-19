@@ -134,8 +134,7 @@ const ContactButton = () => {
     >
       {/* Specular hairline top sheen */}
       <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-      <span className="relative z-10 flex items-center gap-2">
-        <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.9)]" />
+      <span className="relative z-10">
         Contact
       </span>
     </a>

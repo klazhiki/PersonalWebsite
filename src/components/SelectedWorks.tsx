@@ -276,7 +276,6 @@ const SelectedWorks = () => {
         {/* Section Header */}
         <div className="mb-12 md:mb-16">
           <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">
               Selected Work
             </span>
