@@ -5,18 +5,25 @@ import {
   useTransform,
   useSpring,
 } from "framer-motion";
-import { ArrowUpRight, Award, Sparkles } from "lucide-react";
+import { ArrowUpRight, Award, Activity } from "lucide-react";
 import sentinelImage from "@/assets/sentinel.png";
 import safeguardImage from "@/assets/safeguard.png";
 
 type Metric = { value: string; label: string; subtext?: string };
+
+type Badge = {
+  text: string;
+  icon: React.ElementType;
+  className: string;
+  dotPulse?: boolean;
+};
 
 type Project = {
   slug: string;
   title: string;
   category: string;
   year: string;
-  badge?: string;
+  badge?: Badge;
   description: string;
   stack: string[];
   image: string;
@@ -54,6 +61,12 @@ const projects: Project[] = [
     title: "Sentinel Security Auditor",
     category: "AI Security & Static Analysis",
     year: "Nov 2025 – Present",
+    badge: {
+      text: "~800 Monthly Scans · Live Production",
+      icon: Activity,
+      className: "border-cyan-400/30 bg-cyan-500/10 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.15)]",
+      dotPulse: true,
+    },
     description:
       "AI-driven application security auditor that analyzes local and GitHub repositories to generate structured vulnerability findings, attack-flow graphs, and remediation guidance. Scaled a production web app averaging ~800 monthly visits, compressed prompts across 50k+ LOC codebases to reduce token spend by 28%, reduced false positives by ~35% vs rule-only scanners (across 40+ open-source repos), and achieved a ~70% successful Git-patch fix application rate.",
     stack: ["Python", "TypeScript", "Gemini API", "GitHub Actions", "Vercel"],
@@ -74,7 +87,12 @@ const projects: Project[] = [
     title: "SafeGuard",
     category: "AI Computer Vision & Safety",
     year: "Mar 2026",
-    badge: "MacHacks Winner · Best Use of Gemini API",
+    badge: {
+      text: "MacHacks Winner · Best Use of Gemini API",
+      icon: Award,
+      className: "border-amber-400/30 bg-amber-500/10 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.15)]",
+      dotPulse: false,
+    },
     description:
       "Built and deployed an AI safety application that analyzes environmental images to identify hazards and generate structured risk reports. Engineered a Gemini vision pipeline with normalized JSON outputs supporting up to 8 images per request and context-aware follow-up analysis, with client-side image compression reducing payload sizes by ~60% before serverless inference.",
     stack: ["JavaScript", "React", "Tailwind CSS", "Flask", "Gemini API", "Vercel"],
@@ -110,6 +128,8 @@ const ProjectCard = ({
 
   const scale = useTransform(progress, range, [1, targetScale]);
   const opacity = useTransform(progress, range, [1, index === total - 1 ? 1 : 0.65]);
+
+  const BadgeIcon = project.badge?.icon;
 
   return (
     <div
@@ -148,11 +168,19 @@ const ProjectCard = ({
                 </span>
               </div>
 
-              {/* Award Badge if present */}
-              {project.badge && (
-                <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-300">
-                  <Award className="h-3.5 w-3.5" />
-                  <span>{project.badge}</span>
+              {/* Status / Recognition Badge if present */}
+              {project.badge && BadgeIcon && (
+                <div
+                  className={`mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${project.badge.className}`}
+                >
+                  {project.badge.dotPulse && (
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
+                    </span>
+                  )}
+                  <BadgeIcon className="h-3.5 w-3.5" />
+                  <span>{project.badge.text}</span>
                 </div>
               )}
 
