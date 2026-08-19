@@ -102,8 +102,8 @@ const WorkExperience = () => {
             <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted">
               Professional experience
             </p>
-            <h2 className="mb-8 font-display text-4xl italic leading-none text-text-primary md:text-5xl">
-              Zivko<span className="text-[#89AACC]">.</span>
+            <h2 className="mb-8 max-w-xs font-display text-3xl italic leading-[0.95] text-text-primary md:text-4xl">
+              Zivko Online Solutions<span className="text-[#89AACC]">.</span>
             </h2>
 
             <div className="flex flex-wrap gap-x-4 gap-y-3">
