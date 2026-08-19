@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FlaskConical } from "lucide-react";
 
-const NAV_LINKS = ["Home", "Projects"];
+const NAV_LINKS = [
+  { label: "Home", id: "home" },
+  { label: "Experience", id: "experience" },
+  { label: "Projects", id: "projects" },
+];
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -12,117 +17,147 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-      
-      const scrollPosition = window.scrollY + 250; // offset
-      let currentActive = active;
-      
-      NAV_LINKS.forEach(link => {
-        const section = document.getElementById(link.toLowerCase());
-        if (section && section.offsetTop <= scrollPosition && (section.offsetTop + section.offsetHeight) > scrollPosition) {
-          currentActive = link;
+      setScrolled(window.scrollY > 40);
+
+      const scrollPosition = window.scrollY + 280;
+
+      for (let i = NAV_LINKS.length - 1; i >= 0; i--) {
+        const link = NAV_LINKS[i];
+        const section = document.getElementById(link.id);
+        if (section) {
+          const top = section.offsetTop;
+          const height = section.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActive(link.label);
+            return;
+          }
         }
-      });
-      
-      if (currentActive !== active) {
-        setActive(currentActive);
+      }
+
+      if (window.scrollY < 200) {
+        setActive("Home");
       }
     };
-    
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Check initially
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [active]);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center pt-4 md:pt-6 px-4 gap-3">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center pt-3 sm:pt-5 px-4 pointer-events-none">
+      {/* Visual Playground Button */}
       <Link
         to="/experimental"
         aria-label="Experimental — Visual Playground"
         title="Experimental"
-        className="group inline-flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border border-white/10 bg-surface text-muted hover:text-text-primary transition-colors duration-200 absolute right-4 md:right-6 top-1/2 -translate-y-1/2 mt-2 md:mt-3"
+        className="pointer-events-auto group absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 mt-1.5 sm:mt-2.5 inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/[0.14] bg-neutral-950/40 backdrop-blur-2xl text-neutral-400 hover:text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/30 hover:scale-105 hover:bg-white/[0.08]"
       >
         <FlaskConical className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
       </Link>
-      <div
-        className={`inline-flex items-center rounded-full backdrop-blur-md border border-white/10 bg-surface px-2 py-2 transition-shadow duration-300 ${
-          scrolled ? "shadow-md shadow-black/10" : ""
+
+      {/* Main Liquid Glass Capsule Bar */}
+      <nav
+        className={`pointer-events-auto relative inline-flex items-center gap-1 rounded-full border border-white/[0.13] bg-neutral-950/45 p-1.5 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),inset_0_-1px_1px_rgba(0,0,0,0.4),0_12px_40px_rgba(0,0,0,0.55)] transition-all duration-400 ${
+          scrolled
+            ? "border-white/[0.18] bg-neutral-950/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_16px_50px_rgba(0,0,0,0.7)]"
+            : ""
         }`}
       >
-        {/* Logo */}
-        <button
-          className="relative w-9 h-9 rounded-full p-[2px] transition-transform duration-200"
+        {/* Specular Liquid Sheen on Top */}
+        <div className="pointer-events-none absolute inset-x-6 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+        {/* Logo Avatar */}
+        <a
+          href="#home"
+          className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full p-[1px] transition-transform duration-200 hover:scale-105"
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
           style={{
             background: logoHovered
-              ? "linear-gradient(90deg, #4E85BF 0%, #89AACC 100%)"
-              : "linear-gradient(90deg, #89AACC 0%, #4E85BF 100%)",
+              ? "linear-gradient(135deg, #60a5fa 0%, #a855f7 100%)"
+              : "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.08) 100%)",
           }}
         >
-          <span className="flex items-center justify-center w-full h-full rounded-full bg-bg">
+          <span className="flex h-full w-full items-center justify-center rounded-full bg-[#09090b]/90 shadow-inner">
             <span
-              className={`text-[13px] font-display italic tracking-tighter text-text-primary transition-transform duration-200 ${
+              className={`text-xs sm:text-[13px] font-display italic font-semibold tracking-tighter text-white transition-transform duration-200 ${
                 logoHovered ? "scale-110" : ""
               }`}
             >
               EJ
             </span>
           </span>
-        </button>
-
-        {/* Divider */}
-        <span className="hidden sm:block w-px h-5 bg-stroke mx-1" />
-
-        {/* Nav links */}
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link}
-            href={`#${link.toLowerCase()}`}
-            onClick={() => setActive(link)}
-            className={`text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors duration-200 ${
-              active === link
-                ? "text-text-primary bg-stroke/50"
-                : "text-muted hover:text-text-primary hover:bg-stroke/50"
-            }`}
-          >
-            {link}
-          </a>
-        ))}
-        
-        {/* Resume link */}
-        <a
-          href="/Ethan_Joseph_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-muted hover:text-text-primary hover:bg-stroke/50 transition-colors duration-200"
-        >
-          Resume
         </a>
 
-        {/* Divider */}
-        <span className="hidden sm:block w-px h-5 bg-stroke mx-1" />
+        {/* Subtle Divider */}
+        <span className="h-4 w-px bg-white/10 mx-0.5" />
 
-        {/* Say hi button */}
+        {/* Nav Links with Smooth Floating Pill */}
+        <div className="flex items-center gap-0.5">
+          {NAV_LINKS.map((link) => {
+            const isCurrent = active === link.label;
+            return (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={() => setActive(link.label)}
+                className={`relative px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-[13px] font-medium transition-colors duration-200 ${
+                  isCurrent
+                    ? "text-white"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                {isCurrent && (
+                  <motion.div
+                    layoutId="liquidActivePill"
+                    className="absolute inset-0 rounded-full border border-white/15 bg-white/[0.1] shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)] backdrop-blur-sm"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
+              </a>
+            );
+          })}
+
+          {/* Resume Link */}
+          <a
+            href="/Ethan_Joseph_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-400 hover:text-neutral-200 transition-colors duration-200 rounded-full hover:bg-white/[0.05]"
+          >
+            Resume
+          </a>
+        </div>
+
+        {/* Subtle Divider */}
+        <span className="h-4 w-px bg-white/10 mx-0.5" />
+
+        {/* Say Hi Action Button */}
         <a
           href="#contact"
-          className="relative text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-muted hover:text-text-primary transition-colors duration-200"
           onMouseEnter={() => setSayHiHovered(true)}
           onMouseLeave={() => setSayHiHovered(false)}
+          className="relative group inline-flex items-center gap-1 rounded-full px-3 sm:px-4 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-200 transition-all duration-300 hover:text-white"
         >
-          {/* Gradient border on hover */}
           <span
-            className={`absolute rounded-full transition-opacity duration-300 accent-gradient ${
-              sayHiHovered ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
+              sayHiHovered
+                ? "opacity-100 bg-gradient-to-r from-blue-500/30 to-indigo-500/30 border border-blue-400/40 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                : "opacity-0"
             }`}
-            style={{ inset: "-2px" }}
           />
-          <span className="relative z-10 flex items-center gap-1 bg-surface rounded-full px-3 sm:px-4 py-1.5 sm:py-2 -mx-3 sm:-mx-4 -my-1.5 sm:-my-2 backdrop-blur-md">
-            Say hi <span className="text-[10px]">↗</span>
+          <span className="relative z-10 flex items-center gap-1">
+            Say hi <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
           </span>
         </a>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 
