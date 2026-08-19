@@ -138,22 +138,25 @@ const Navbar = () => {
         {/* Subtle Divider */}
         <span className="h-4 w-px bg-white/10 mx-0.5" />
 
-        {/* Say Hi Action Button */}
+        {/* Contact / Email Action Button (Expands on Hover, Direct mailto) */}
         <a
-          href="#contact"
+          href="mailto:josepe15@mcmaster.ca"
           onMouseEnter={() => setSayHiHovered(true)}
           onMouseLeave={() => setSayHiHovered(false)}
-          className="relative group inline-flex items-center gap-1 rounded-full px-3 sm:px-4 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-200 transition-all duration-300 hover:text-white"
+          className="relative group inline-flex items-center justify-center overflow-hidden rounded-full border border-white/[0.12] bg-white/[0.04] px-3.5 sm:px-4 py-1.5 text-xs sm:text-[13px] font-medium text-neutral-200 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] transition-all duration-300 hover:border-white/30 hover:bg-white/[0.09] hover:text-white"
         >
           <span
             className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
               sayHiHovered
-                ? "opacity-100 bg-gradient-to-r from-blue-500/30 to-indigo-500/30 border border-blue-400/40 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                ? "opacity-100 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
                 : "opacity-0"
             }`}
           />
-          <span className="relative z-10 flex items-center gap-1">
-            Say hi <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+          <span className="relative z-10 flex items-center gap-1.5 whitespace-nowrap">
+            <span>{sayHiHovered ? "josepe15@mcmaster.ca" : "Say hi"}</span>
+            <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              ↗
+            </span>
           </span>
         </a>
       </nav>

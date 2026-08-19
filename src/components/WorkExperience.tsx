@@ -109,7 +109,7 @@ const renderBulletWithHighlights = (text: string) => {
 
 const customEase = [0.21, 0.47, 0.32, 0.98] as const;
 
-// Experience Card with interactive subtle spotlight and refined micro-interactions
+// Experience Card with refined Liquid Glass styling
 const ExperienceCard = ({
   exp,
   index,
@@ -128,7 +128,7 @@ const ExperienceCard = ({
     mouseY.set(e.clientY - rect.top);
   };
 
-  const spotlightBackground = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(255, 255, 255, 0.05), transparent 80%)`;
+  const spotlightBackground = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, rgba(255, 255, 255, 0.06), transparent 80%)`;
 
   return (
     <motion.article
@@ -143,7 +143,7 @@ const ExperienceCard = ({
         ease: customEase,
       }}
       whileHover={{ y: -3 }}
-      className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0e]/80 p-6 sm:p-8 backdrop-blur-sm transition-all duration-400 hover:border-white/[0.18] hover:shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+      className="group relative overflow-hidden rounded-3xl border border-white/[0.13] bg-neutral-950/45 p-6 sm:p-8 md:p-10 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),inset_0_-1px_1px_rgba(0,0,0,0.5),0_16px_50px_rgba(0,0,0,0.6)] transition-all duration-400 hover:border-white/[0.24] hover:bg-neutral-950/60 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_20px_60px_rgba(0,0,0,0.7)]"
     >
       {/* Subtle mouse spotlight */}
       <motion.div
@@ -151,23 +151,23 @@ const ExperienceCard = ({
         style={{ background: spotlightBackground }}
       />
 
-      {/* Top subtle hairline highlight */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+      {/* Specular hairline top light reflection */}
+      <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
 
       {/* Header: Role, Company, Period, Links */}
       <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-start gap-4">
-          {/* Company Logo / Monogram */}
+          {/* Liquid Glass Company Logo Container */}
           <motion.div
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-sm"
+            className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/[0.15] bg-white/[0.04] p-1 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
           >
             {exp.logo.type === "image" && exp.logo.src ? (
               <img
                 src={exp.logo.src}
                 alt={exp.company}
-                className="h-full w-full object-cover"
+                className="h-full w-full rounded-xl object-cover"
               />
             ) : (
               <span className="font-display text-xl font-bold italic text-indigo-400">
@@ -201,16 +201,16 @@ const ExperienceCard = ({
           </div>
         </div>
 
-        {/* Devpost / External Link */}
+        {/* Liquid Glass Devpost Link */}
         {exp.link && (
           <motion.a
             href={exp.link.url}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 350, damping: 20 }}
-            className="group/link inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-neutral-300 transition-all duration-200 hover:border-white/25 hover:bg-white/[0.08] hover:text-white hover:shadow-sm"
+            className="group/link inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-1.5 text-xs font-medium text-neutral-300 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-200 hover:border-white/30 hover:bg-white/[0.09] hover:text-white hover:shadow-md"
           >
             <span>{exp.link.label}</span>
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
@@ -219,7 +219,7 @@ const ExperienceCard = ({
       </div>
 
       {/* Bullet Points */}
-      <ul className="relative z-10 mt-5 space-y-3 border-t border-white/[0.06] pt-5">
+      <ul className="relative z-10 mt-6 space-y-3 border-t border-white/[0.07] pt-5">
         {exp.bullets.map((bullet, i) => (
           <motion.li
             key={i}
@@ -231,7 +231,7 @@ const ExperienceCard = ({
               delay: 0.2 + i * 0.05,
               ease: "easeOut",
             }}
-            className="group/bullet flex items-start gap-3 text-[13px] leading-relaxed text-neutral-400 transition-colors duration-200 hover:text-neutral-200 sm:text-sm"
+            className="group/bullet flex items-start gap-3 text-[13px] leading-relaxed text-neutral-300 transition-colors duration-200 hover:text-white sm:text-sm"
           >
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-600 transition-all duration-200 group-hover/bullet:scale-125 group-hover/bullet:bg-neutral-300" />
             <span>{renderBulletWithHighlights(bullet)}</span>
@@ -239,12 +239,12 @@ const ExperienceCard = ({
         ))}
       </ul>
 
-      {/* Tech Stack Pills */}
-      <div className="relative z-10 mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.04] pt-4">
+      {/* Liquid Glass Tech Stack Pills */}
+      <div className="relative z-10 mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.05] pt-4">
         {exp.stack.map((tech) => (
           <span
             key={tech}
-            className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-xs font-medium text-neutral-400 transition-all duration-200 hover:border-white/15 hover:bg-white/[0.05] hover:text-neutral-200"
+            className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-xs font-medium text-neutral-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-200 hover:border-white/20 hover:bg-white/[0.07] hover:text-neutral-200"
           >
             {tech}
           </span>
@@ -260,13 +260,13 @@ const WorkExperience = () => {
       id="experience"
       className="relative border-y border-white/[0.07] bg-[#09090b] py-20 md:py-28"
     >
-      {/* Soft background ambient light */}
+      {/* Ambient background refraction light */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/2 top-0 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/[0.04] to-transparent blur-3xl" />
+        <div className="absolute left-1/2 top-10 h-72 w-[48rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-600/[0.05] via-indigo-600/[0.03] to-transparent blur-3xl" />
       </div>
 
       <div className="relative mx-auto w-full max-w-[1060px] px-6 sm:px-8 md:px-12">
-        {/* Section Header with smooth entrance */}
+        {/* Section Header */}
         <div className="mb-12 md:mb-14">
           <motion.div
             initial={{ opacity: 0, y: 14, filter: "blur(4px)" }}

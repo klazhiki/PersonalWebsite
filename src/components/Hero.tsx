@@ -127,15 +127,24 @@ const Hero = () => {
 };
 
 const ContactButton = () => {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <a
-      href="#contact"
+      href="mailto:josepe15@mcmaster.ca"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/[0.16] bg-neutral-950/50 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.28),0_10px_35px_rgba(0,0,0,0.55)] transition-all duration-300 hover:border-white/35 hover:bg-white/[0.1] hover:scale-105 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.65),0_0_25px_rgba(59,130,246,0.25)]"
     >
       {/* Specular hairline top sheen */}
       <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-      <span className="relative z-10">
-        Contact
+      <span className="relative z-10 flex items-center gap-1.5 whitespace-nowrap">
+        <span>{hovered ? "josepe15@mcmaster.ca" : "Contact"}</span>
+        {hovered && (
+          <span className="text-xs text-neutral-300 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            ↗
+          </span>
+        )}
       </span>
     </a>
   );
