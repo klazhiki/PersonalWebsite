@@ -67,6 +67,12 @@ const projects: Project[] = [
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number];
 
+// Keep the stack pinned only long enough to reveal each additional card.
+// The previous 130vh per card made a two-card stack consume 160vh of pinned
+// scrolling, which could feel like the page had stopped on the second card.
+const STACK_BASE_HEIGHT_VH = 100;
+const SCROLL_VH_PER_ADDITIONAL_CARD = 70;
+
 const SelectedWorks = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -76,6 +82,10 @@ const SelectedWorks = () => {
 
   // Track active card for the counter
   const [active, setActive] = useState(0);
+  const sectionHeight =
+    STACK_BASE_HEIGHT_VH +
+    Math.max(0, projects.length - 1) * SCROLL_VH_PER_ADDITIONAL_CARD;
+
   useEffect(() => {
     return scrollYProgress.on("change", (v) => {
       // each card occupies 1/projects.length of the scroll
@@ -92,7 +102,7 @@ const SelectedWorks = () => {
       id="projects"
       ref={sectionRef}
       className="bg-bg relative"
-      style={{ height: `${projects.length * 130}vh` }}
+      style={{ height: `${sectionHeight}vh` }}
     >
       <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
         <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-20 md:pt-24">
