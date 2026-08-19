@@ -247,8 +247,8 @@ const Card = ({
       aria-hidden={stacked ? !isActive : undefined}
       className={stacked ? "absolute inset-x-0 top-0" : "relative w-full"}
     >
-      <div className="bg-surface border border-stroke rounded-3xl overflow-hidden h-auto shadow-2xl shadow-black/40">
-        <div className={`grid grid-cols-1 min-h-[420px] h-auto ${stacked ? "grid-rows-[clamp(160px,24vh,280px)_auto]" : "grid-rows-[minmax(220px,0.7fr)_auto]"}`}>
+      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-[min(720px,calc(100vh-195px))]" : "h-auto"}`}>
+        <div className={`grid grid-cols-1 min-h-[420px] ${stacked ? "grid-rows-[clamp(160px,24vh,280px)_minmax(0,1fr)] h-full" : "grid-rows-[minmax(220px,0.7fr)_auto] h-auto"}`}>
           {/* Image side (top) */}
           <div className={`relative overflow-hidden ${stacked ? "min-h-0" : "min-h-[220px]"}`}>
             <motion.img
@@ -278,7 +278,7 @@ const Card = ({
           </div>
 
           {/* Text side (bottom) */}
-          <div className="relative px-6 py-4 flex flex-col gap-3 bg-surface z-10">
+          <div className={`relative px-6 flex flex-col gap-3 bg-surface z-10 ${stacked ? "py-3" : "py-4"}`}>
             <div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-[10px] md:text-xs text-muted uppercase tracking-[0.2em] md:tracking-[0.25em] [&>span]:whitespace-nowrap">
                 <span>{project.category}</span>
