@@ -278,7 +278,7 @@ const Card = ({
           </div>
 
           {/* Text side (bottom) */}
-          <div className={`relative px-6 flex flex-col gap-3 bg-surface z-10 ${stacked ? "py-3" : "py-4"}`}>
+          <div className={`relative px-6 flex flex-col gap-3 bg-surface z-10 ${stacked ? "justify-center py-5 md:py-6" : "py-4"}`}>
             <div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-[10px] md:text-xs text-muted uppercase tracking-[0.2em] md:tracking-[0.25em] [&>span]:whitespace-nowrap">
                 <span>{project.category}</span>
