@@ -136,11 +136,8 @@ const WorkExperience = () => {
               />
               Zivko Online Solutions
             </p>
-            <h3 className="max-w-4xl text-4xl leading-[1.02] text-text-primary md:text-6xl lg:text-[4.5rem]">
-              SEO Analyst
-              <span className="block font-display italic text-[#89AACC]">
-                &amp; Full-Stack Developer
-              </span>
+            <h3 className="max-w-4xl font-display text-5xl italic leading-[1.02] text-[#89AACC] md:text-7xl lg:text-[5.25rem]">
+              Full-Stack Developer
             </h3>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
               Owned and shipped features across an existing React, Node.js, and Supabase codebase,
