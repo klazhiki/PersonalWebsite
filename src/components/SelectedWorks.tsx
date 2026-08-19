@@ -247,7 +247,7 @@ const Card = ({
       aria-hidden={stacked ? !isActive : undefined}
       className={stacked ? "absolute inset-x-0 top-0" : "relative w-full"}
     >
-      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-[min(720px,calc(100vh-195px))]" : "h-auto"}`}>
+      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-[min(760px,calc(100vh-175px))]" : "h-auto"}`}>
         <div className={`grid grid-cols-1 min-h-[420px] ${stacked ? "grid-rows-[clamp(160px,24vh,280px)_minmax(0,1fr)] h-full" : "grid-rows-[minmax(220px,0.7fr)_auto] h-auto"}`}>
           {/* Image side (top) */}
           <div className={`relative overflow-hidden ${stacked ? "min-h-0" : "min-h-[220px]"}`}>
