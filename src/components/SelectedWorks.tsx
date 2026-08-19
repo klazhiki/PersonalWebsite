@@ -211,7 +211,7 @@ const Card = ({
   const y = useTransform(
     progress,
     index === 0 ? [0, 1] : [entryStart, entryEnd],
-    index === 0 || reducedMotion ? ["0%", "0%"] : ["108%", "0%"]
+    index === 0 || reducedMotion ? ["0vh", "0vh"] : ["70vh", "0vh"]
   );
 
   const scaleRange = index === 0
@@ -245,10 +245,10 @@ const Card = ({
         pointerEvents: stacked && !isActive ? "none" : "auto",
       }}
       aria-hidden={stacked ? !isActive : undefined}
-      className={stacked ? "absolute inset-0" : "relative w-full"}
+      className={stacked ? "absolute inset-x-0 top-0" : "relative w-full"}
     >
-      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-full" : "h-auto"}`}>
-        <div className={`grid grid-cols-1 min-h-[420px] ${stacked ? "grid-rows-[minmax(170px,0.65fr)_minmax(0,1.35fr)] h-full" : "grid-rows-[minmax(220px,0.7fr)_auto] h-auto"}`}>
+      <div className="bg-surface border border-stroke rounded-3xl overflow-hidden h-auto shadow-2xl shadow-black/40">
+        <div className={`grid grid-cols-1 min-h-[420px] h-auto ${stacked ? "grid-rows-[clamp(160px,24vh,280px)_auto]" : "grid-rows-[minmax(220px,0.7fr)_auto]"}`}>
           {/* Image side (top) */}
           <div className={`relative overflow-hidden ${stacked ? "min-h-0" : "min-h-[220px]"}`}>
             <motion.img
