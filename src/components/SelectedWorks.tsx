@@ -211,7 +211,7 @@ const Card = ({
   const y = useTransform(
     progress,
     index === 0 ? [0, 1] : [entryStart, entryEnd],
-    index === 0 || reducedMotion ? ["0%", "0%"] : ["92%", "0%"]
+    index === 0 || reducedMotion ? ["0%", "0%"] : ["98%", "0%"]
   );
 
   const scaleRange = index === 0
