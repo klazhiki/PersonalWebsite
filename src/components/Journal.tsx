@@ -2,14 +2,18 @@ import { motion } from "framer-motion";
 import type { IconType } from "react-icons";
 import {
   SiPython,
-  SiC,
   SiCplusplus,
   SiTypescript,
+  SiJavascript,
+  SiReact,
+  SiNodedotjs,
+  SiFlask,
+  SiSupabase,
   SiGit,
   SiGithubactions,
   SiVercel,
   SiDocker,
-  SiArduino,
+  SiLinux,
   SiGooglegemini,
   SiOpenjdk,
 } from "react-icons/si";
@@ -24,17 +28,21 @@ type TechItem = {
 
 const stack: TechItem[] = [
   { name: "Python", category: "Language", Icon: SiPython, color: "#FFD43B" },
-  { name: "C", category: "Language", Icon: SiC, color: "#A8B9CC" },
-  { name: "C++", category: "Language", Icon: SiCplusplus, color: "#00599C" },
   { name: "TypeScript", category: "Language", Icon: SiTypescript, color: "#3178C6" },
+  { name: "JavaScript", category: "Language", Icon: SiJavascript, color: "#F7DF1E" },
   { name: "Java", category: "Language", Icon: SiOpenjdk, color: "#ED8B00" },
-  { name: "SQL", category: "Database", Icon: Database, color: "#4E85BF" },
-  { name: "Arduino (Embedded C/C++)", category: "Microcontroller", Icon: SiArduino, color: "#00979D" },
+  { name: "C / C++", category: "Languages", Icon: SiCplusplus, color: "#00599C" },
+  { name: "SQL", category: "Database language", Icon: Database, color: "#4E85BF" },
+  { name: "React", category: "Frontend framework", Icon: SiReact, color: "#61DAFB" },
+  { name: "Node.js", category: "Backend runtime", Icon: SiNodedotjs, color: "#5FA04E" },
+  { name: "Flask", category: "Backend framework", Icon: SiFlask, color: "#FFFFFF" },
+  { name: "Supabase", category: "Database & backend", Icon: SiSupabase, color: "#3FCF8E" },
   { name: "Git", category: "Version control", Icon: SiGit, color: "#F05032" },
   { name: "GitHub Actions", category: "CI/CD", Icon: SiGithubactions, color: "#2088FF" },
-  { name: "Vercel", category: "Cloud deployment", Icon: SiVercel, color: "#FFFFFF" },
   { name: "Docker", category: "Containerization", Icon: SiDocker, color: "#2496ED" },
-  { name: "Gemini", category: "LLM API integration", Icon: SiGooglegemini, color: "#8AB4F8" },
+  { name: "Linux", category: "Development environment", Icon: SiLinux, color: "#FCC624" },
+  { name: "Vercel", category: "Cloud deployment", Icon: SiVercel, color: "#FFFFFF" },
+  { name: "Gemini API", category: "AI engineering", Icon: SiGooglegemini, color: "#8AB4F8" },
 ];
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number];
