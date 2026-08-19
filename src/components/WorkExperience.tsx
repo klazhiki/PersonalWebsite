@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const impact = [
   { value: "4", label: "systems unified" },
@@ -36,12 +37,31 @@ const highlights = [
 
 const technologies = ["React", "Node.js", "Supabase", "Data pipelines", "API orchestration"];
 
-const WorkExperience = () => (
+const WorkExperience = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 70%", "end 35%"],
+  });
+  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+
+  return (
   <section
+    ref={sectionRef}
     id="experience"
     className="relative overflow-hidden border-y border-stroke/70 bg-bg py-24 md:py-32"
   >
-    <div className="pointer-events-none absolute inset-0 opacity-50 [background:radial-gradient(circle_at_78%_20%,rgba(78,133,191,0.13),transparent_36%)]" />
+    <motion.div
+      style={{ y: backgroundY }}
+      className="pointer-events-none absolute inset-x-0 top-[-12rem] h-[34rem] opacity-60 [background:radial-gradient(circle_at_74%_44%,rgba(78,133,191,0.17),transparent_42%)]"
+    />
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none absolute right-[9%] top-24 h-28 w-28 rounded-full border border-[#4E85BF]/10"
+      animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.55, 0.25] }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    />
     <div className="pointer-events-none absolute right-[-3vw] top-[-8rem] select-none font-display text-[18rem] italic leading-none text-white/[0.018] md:text-[26rem]">
       01
     </div>
@@ -65,25 +85,37 @@ const WorkExperience = () => (
           className="relative lg:sticky lg:top-28 lg:self-start"
         >
           <div className="absolute bottom-0 left-0 top-0 w-px bg-stroke" />
-          <div className="absolute left-[-3px] top-1 h-[7px] w-[7px] rounded-full bg-[#4E85BF] shadow-[0_0_24px_rgba(78,133,191,0.8)]" />
+          <motion.div
+            style={{ scaleY: timelineProgress, transformOrigin: "top" }}
+            className="absolute bottom-0 left-0 top-0 w-px bg-[#4E85BF] shadow-[0_0_18px_rgba(78,133,191,0.55)]"
+          />
+          <motion.div
+            className="absolute left-[-4px] top-1 h-[9px] w-[9px] rounded-full bg-[#4E85BF] shadow-[0_0_24px_rgba(78,133,191,0.8)]"
+            animate={{ scale: [1, 1.55, 1] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+          />
 
           <div className="pl-7">
             <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#89AACC]">
               May - August 2026
             </p>
-            <h2 className="mb-3 font-display text-4xl italic leading-none text-text-primary md:text-5xl">
-              Software Developer
+            <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted">
+              Professional experience
+            </p>
+            <h2 className="mb-8 font-display text-4xl italic leading-none text-text-primary md:text-5xl">
+              Zivko<span className="text-[#89AACC]">.</span>
             </h2>
-            <p className="mb-8 text-lg text-muted">Zivko Online Solutions</p>
 
             <div className="flex flex-wrap gap-x-4 gap-y-3">
               {technologies.map((technology) => (
-                <span
+                <motion.span
                   key={technology}
-                  className="border-b border-stroke pb-1 text-xs text-muted"
+                  whileHover={{ y: -2, color: "#D8E4F0" }}
+                  transition={{ duration: 0.18 }}
+                  className="cursor-default border-b border-stroke pb-1 text-xs text-muted"
                 >
                   {technology}
-                </span>
+                </motion.span>
               ))}
             </div>
           </div>
@@ -96,12 +128,19 @@ const WorkExperience = () => (
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="mb-5 text-xs uppercase tracking-[0.28em] text-muted">
-              Full-stack analytics workflow
+            <p className="mb-5 flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-[#89AACC]">
+              <motion.span
+                className="h-1.5 w-1.5 rounded-full bg-[#4E85BF]"
+                animate={{ opacity: [0.35, 1, 0.35] }}
+                transition={{ duration: 2.2, repeat: Infinity }}
+              />
+              Zivko Online Solutions
             </p>
-            <h3 className="max-w-3xl text-3xl leading-[1.12] text-text-primary md:text-4xl lg:text-[2.7rem]">
-              From scattered third-party data to a production workflow built for
-              <span className="font-display italic text-[#89AACC]"> clear decisions.</span>
+            <h3 className="max-w-4xl text-4xl leading-[1.02] text-text-primary md:text-6xl lg:text-[4.5rem]">
+              SEO Analyst
+              <span className="block font-display italic text-[#89AACC]">
+                &amp; Full-Stack Developer
+              </span>
             </h3>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
               Owned and shipped features across an existing React, Node.js, and Supabase codebase,
@@ -117,17 +156,22 @@ const WorkExperience = () => (
             className="my-12 grid grid-cols-2 border-y border-stroke md:grid-cols-4"
           >
             {impact.map((item, index) => (
-              <div
+              <motion.div
                 key={item.label}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 className={`py-6 md:px-5 ${index % 2 === 1 ? "pl-5" : "pr-5"} ${index > 0 ? "md:border-l md:border-stroke" : ""}`}
               >
-                <div className="mb-2 font-display text-3xl italic text-text-primary md:text-4xl">
+                <motion.div
+                  className="mb-2 font-display text-3xl italic text-text-primary md:text-4xl"
+                  whileHover={{ color: "#89AACC" }}
+                >
                   {item.value}
-                </div>
+                </motion.div>
                 <div className="text-[10px] uppercase tracking-[0.18em] text-muted">
                   {item.label}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
 
@@ -139,13 +183,15 @@ const WorkExperience = () => (
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.45 }}
                 transition={{ duration: 0.55, delay: index * 0.05 }}
-                className="grid gap-4 border-b border-stroke py-7 md:grid-cols-[3rem_0.8fr_1.2fr] md:gap-6"
+                whileHover={{ x: 7 }}
+                className="group relative grid cursor-default gap-4 overflow-hidden border-b border-stroke py-7 transition-colors duration-300 md:grid-cols-[3rem_0.8fr_1.2fr] md:gap-6"
               >
-                <span className="text-xs tabular-nums text-[#4E85BF]">{item.number}</span>
-                <h4 className="text-base font-medium leading-snug text-text-primary md:text-lg">
+                <span className="absolute inset-y-0 left-[-7px] w-px bg-[#4E85BF] opacity-0 shadow-[0_0_16px_rgba(78,133,191,0.65)] transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="text-xs tabular-nums text-[#4E85BF] transition-transform duration-300 group-hover:translate-x-1">{item.number}</span>
+                <h4 className="text-base font-medium leading-snug text-text-primary transition-colors duration-300 group-hover:text-[#B7D0E8] md:text-lg">
                   {item.title}
                 </h4>
-                <p className="text-sm leading-relaxed text-muted md:text-base">
+                <p className="text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-text-primary/75 md:text-base">
                   {item.description}
                 </p>
               </motion.div>
@@ -155,6 +201,7 @@ const WorkExperience = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default WorkExperience;
