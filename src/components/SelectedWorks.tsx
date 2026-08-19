@@ -133,9 +133,9 @@ const SelectedWorks = () => {
       style={stackEnabled ? { height: `${sectionHeight}vh` } : undefined}
     >
       <div className={stackEnabled ? "sticky top-0 h-screen flex flex-col overflow-hidden" : "flex flex-col"}>
-        <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-16 md:pt-20">
+        <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-16">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-6 md:mb-8 px-2 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-4 px-2 gap-6">
             <div>
               <div className="inline-flex items-center gap-2 mb-4">
                 <span className="w-8 h-px bg-stroke" />
@@ -160,7 +160,7 @@ const SelectedWorks = () => {
         </div>
 
         {/* Stacking cards container */}
-        <div className="relative flex-1 max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pb-12">
+        <div className="relative flex-1 max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pb-6">
           <div className={stackEnabled ? "relative w-full h-full px-2" : "relative w-full px-2 flex flex-col gap-6"}>
             {projects.map((p, i) => (
               <Card
@@ -248,9 +248,9 @@ const Card = ({
       className={stacked ? "absolute inset-0" : "relative w-full"}
     >
       <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-full" : "h-auto"}`}>
-        <div className={`grid grid-cols-1 grid-rows-[minmax(220px,0.7fr)_auto] min-h-[420px] ${stacked ? "md:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] md:grid-rows-1 h-full" : "h-auto"}`}>
+        <div className={`grid grid-cols-1 min-h-[420px] ${stacked ? "grid-rows-[minmax(170px,0.65fr)_minmax(0,1.35fr)] h-full" : "grid-rows-[minmax(220px,0.7fr)_auto] h-auto"}`}>
           {/* Image side (top) */}
-          <div className="relative overflow-hidden min-h-[220px]">
+          <div className={`relative overflow-hidden ${stacked ? "min-h-0" : "min-h-[220px]"}`}>
             <motion.img
               src={project.image}
               alt={project.title}
@@ -278,7 +278,7 @@ const Card = ({
           </div>
 
           {/* Text side (bottom) */}
-          <div className="relative p-6 md:p-7 lg:p-8 flex flex-col gap-4 bg-surface z-10">
+          <div className="relative px-6 py-4 flex flex-col gap-3 bg-surface z-10">
             <div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-[10px] md:text-xs text-muted uppercase tracking-[0.2em] md:tracking-[0.25em] [&>span]:whitespace-nowrap">
                 <span>{project.category}</span>
@@ -289,10 +289,10 @@ const Card = ({
                   {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-display italic text-text-primary leading-[1.05] mb-4">
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-display italic text-text-primary leading-[1.05] mb-3">
                 {project.title}
               </h3>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-3">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
@@ -302,7 +302,7 @@ const Card = ({
                   </span>
                 ))}
               </div>
-              <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-4">
+              <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-3">
                 {renderDescription(project.description, project.accentColor)}
               </p>
             </div>
@@ -314,7 +314,7 @@ const Card = ({
                   {project.metrics.map((m) => (
                     <div
                       key={m.label}
-                      className="relative rounded-2xl border border-stroke bg-bg/40 p-4 overflow-hidden group hover:border-white/20 transition-colors"
+                      className="relative rounded-2xl border border-stroke bg-bg/40 p-3 overflow-hidden group hover:border-white/20 transition-colors"
                     >
                       {/* Subtle background glow */}
                       <div className={`absolute -inset-4 opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500 bg-current ${project.accentColor}`} />
