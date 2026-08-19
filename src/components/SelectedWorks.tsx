@@ -1,38 +1,45 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import {
   motion,
-  MotionValue,
-  useMotionValueEvent,
-  useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
+  useSpring,
 } from "framer-motion";
+import { ArrowUpRight, Award, Sparkles } from "lucide-react";
 import sentinelImage from "@/assets/sentinel.png";
-import esp32Image from "@/assets/esp32.png";
+import safeguardImage from "@/assets/safeguard.png";
 
-type Metric = { value: string; label: string };
+type Metric = { value: string; label: string; subtext?: string };
 
 type Project = {
   slug: string;
   title: string;
   category: string;
   year: string;
+  badge?: string;
   description: string;
   stack: string[];
   image: string;
   gradient: string;
   accentColor: string;
+  accentBorder: string;
+  glowColor: string;
   liveUrl?: string;
-  metrics?: [Metric, Metric];
+  metrics: Metric[];
 };
 
-const renderDescription = (text: string, accentColor: string) => {
-  const parts = text.split(/(~?\d+%)/g);
+const renderDescription = (text: string) => {
+  const parts = text.split(
+    /(~?\d+[%+]?|−\d+[%+]?|\b(?:50k\+ LOC|40\+ open-source repos|800 monthly visits|8 images per request|Best Use of Gemini API)\b)/g
+  );
   return parts.map((part, i) => {
-    if (/(~?\d+%)/.test(part)) {
+    if (
+      /(~?\d+[%+]?|−\d+[%+]?|\b(?:50k\+ LOC|40\+ open-source repos|800 monthly visits|8 images per request|Best Use of Gemini API)\b)/.test(
+        part
+      )
+    ) {
       return (
-        <span key={i} className={`font-semibold ${accentColor}`}>
+        <span key={i} className="font-semibold text-neutral-100">
           {part}
         </span>
       );
@@ -45,346 +52,247 @@ const projects: Project[] = [
   {
     slug: "sentinel-security-auditor",
     title: "Sentinel Security Auditor",
-    category: "AI Security Tooling",
-    year: "Nov 2025 – Mar 2026",
+    category: "AI Security & Static Analysis",
+    year: "Nov 2025 – Present",
     description:
-      "An AI-driven application security auditor that scans local and GitHub repositories to produce structured vulnerability findings, attack-flow graphs, and automated Git-patch remediations — cutting false positives by ~35% vs rule-only scanners and landing fixes at a ~70% success rate.",
+      "AI-driven application security auditor that analyzes local and GitHub repositories to generate structured vulnerability findings, attack-flow graphs, and remediation guidance. Scaled a production web app averaging ~800 monthly visits, compressed prompts across 50k+ LOC codebases to reduce token spend by 28%, reduced false positives by ~35% vs rule-only scanners (across 40+ open-source repos), and achieved a ~70% successful Git-patch fix application rate.",
     stack: ["Python", "TypeScript", "Gemini API", "GitHub Actions", "Vercel"],
     image: sentinelImage,
-    gradient: "from-blue-600 via-blue-400/60 to-transparent",
+    gradient: "from-blue-600/30 via-indigo-600/20 to-transparent",
     accentColor: "text-blue-400",
+    accentBorder: "border-blue-500/30",
+    glowColor: "rgba(59, 130, 246, 0.15)",
     liveUrl: "https://sentinelauditor.vercel.app/",
     metrics: [
-      { value: "−35%", label: "False positives vs rule-only scanners" },
-      { value: "~70%", label: "Auto-patch fix success rate" },
+      { value: "−35%", label: "False Positives", subtext: "vs rule-only scanners" },
+      { value: "~70%", label: "Git Patch Success", subtext: "Automated fix application" },
+      { value: "~800", label: "Monthly Scans", subtext: "Active production traffic" },
     ],
   },
   {
-    slug: "esp32-microcontroller",
-    title: "ESP32 Microcontroller Project",
-    category: "In Progress — Embedded Systems",
-    year: "2026",
+    slug: "safeguard-ai-safety",
+    title: "SafeGuard",
+    category: "AI Computer Vision & Safety",
+    year: "Mar 2026",
+    badge: "MacHacks Winner · Best Use of Gemini API",
     description:
-      "Focusing on low-level microcontroller related tech — exploring firmware, peripherals, and hardware-software integration on the ESP32 platform.",
-    stack: ["C++", "Python"],
-    image: esp32Image,
-    gradient: "from-sky-500 via-blue-400/60 to-transparent",
-    accentColor: "text-sky-400",
+      "Built and deployed an AI safety application that analyzes environmental images to identify hazards and generate structured risk reports. Engineered a Gemini vision pipeline with normalized JSON outputs supporting up to 8 images per request and context-aware follow-up analysis, with client-side image compression reducing payload sizes by ~60% before serverless inference.",
+    stack: ["JavaScript", "React", "Tailwind CSS", "Flask", "Gemini API", "Vercel"],
+    image: safeguardImage,
+    gradient: "from-emerald-600/30 via-teal-600/20 to-transparent",
+    accentColor: "text-emerald-400",
+    accentBorder: "border-emerald-500/30",
+    glowColor: "rgba(16, 185, 129, 0.15)",
+    metrics: [
+      { value: "Winner", label: "Best Gemini API", subtext: "MacHacks Hackathon Award" },
+      { value: "−60%", label: "Payload Reduced", subtext: "Client-side image compression" },
+      { value: "8 Imgs", label: "Vision Pipeline", subtext: "Normalized JSON output schema" },
+    ],
   },
 ];
 
-// One viewport displays the stack; each additional card gets a compact scroll
-// runway. This keeps the transition deliberate without trapping fast scrollers.
-const STACK_BASE_HEIGHT_VH = 100;
-const SCROLL_VH_PER_ADDITIONAL_CARD = 82;
-
-const useCompactProjectLayout = () => {
-  const [isCompact, setIsCompact] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const update = () => setIsCompact(mediaQuery.matches);
-
-    update();
-    mediaQuery.addEventListener("change", update);
-    return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
-  return isCompact;
-};
-
-const SelectedWorks = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-  const prefersReducedMotion = useReducedMotion();
-  const isCompact = useCompactProjectLayout();
-  const stackEnabled = !isCompact && !prefersReducedMotion;
-  const springProgress = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 30,
-    mass: 0.18,
-    restDelta: 0.001,
-  });
-  const stackProgress = prefersReducedMotion
-    ? scrollYProgress
-    : springProgress;
-
-  const [active, setActive] = useState(0);
-  const sectionHeight =
-    STACK_BASE_HEIGHT_VH +
-    Math.max(0, projects.length - 1) * SCROLL_VH_PER_ADDITIONAL_CARD;
-
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    const idx = Math.min(
-      projects.length - 1,
-      Math.round(value * Math.max(1, projects.length - 1))
-    );
-    setActive(idx);
-  });
-
-  return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="bg-bg relative"
-      style={stackEnabled ? { height: `${sectionHeight}vh` } : undefined}
-    >
-      <div className={stackEnabled ? "sticky top-0 h-screen flex flex-col overflow-hidden" : "flex flex-col"}>
-        <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pt-16">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-4 px-2 gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="w-8 h-px bg-stroke" />
-                <span className="text-xs text-muted uppercase tracking-[0.3em]">
-                  Selected Work
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl text-text-primary leading-[1.1]">
-                Featured <span className="font-display italic">projects</span>
-              </h2>
-            </div>
-
-            {stackEnabled && <div className="hidden md:flex items-center gap-4">
-              <span className="text-sm text-muted tabular-nums">
-                <span className="text-text-primary font-display italic text-2xl mr-1">
-                  {String(active + 1).padStart(2, "0")}
-                </span>
-                / {String(projects.length).padStart(2, "0")}
-              </span>
-            </div>}
-          </div>
-        </div>
-
-        {/* Stacking cards container */}
-        <div className="relative flex-1 max-w-[1200px] w-full mx-auto px-6 md:px-10 lg:px-16 pb-6">
-          <div className={stackEnabled ? "relative w-full h-full px-2" : "relative w-full px-2 flex flex-col gap-6"}>
-            {projects.map((p, i) => (
-              <Card
-                key={p.slug}
-                project={p}
-                index={i}
-                total={projects.length}
-                progress={stackProgress}
-                isActive={active === i}
-                reducedMotion={Boolean(prefersReducedMotion)}
-                stacked={stackEnabled}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Card = ({
+const ProjectCard = ({
   project,
   index,
   total,
+  range,
+  targetScale,
   progress,
-  isActive,
-  reducedMotion,
-  stacked,
 }: {
   project: Project;
   index: number;
   total: number;
-  progress: MotionValue<number>;
-  isActive: boolean;
-  reducedMotion: boolean;
-  stacked: boolean;
+  range: [number, number];
+  targetScale: number;
+  progress: any;
 }) => {
-  const step = 1 / Math.max(1, total - 1);
-  const entryStart = index === 0 ? 0 : (index - 1) * step + step * 0.08;
-  const entryEnd = index === 0 ? 0 : index * step - step * 0.16;
-  const nextEntryStart = index === total - 1
-    ? 1
-    : index * step + step * 0.08;
-  const nextEntryEnd = index === total - 1
-    ? 1
-    : (index + 1) * step - step * 0.16;
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const y = useTransform(
-    progress,
-    index === 0 ? [0, 1] : [entryStart, entryEnd],
-    index === 0 || reducedMotion ? ["0%", "0%"] : ["98%", "0%"]
-  );
-
-  const scaleRange = index === 0
-    ? [nextEntryStart, nextEntryEnd]
-    : index === total - 1
-      ? [entryStart, entryEnd]
-      : [entryStart, entryEnd, nextEntryStart, nextEntryEnd];
-  const scaleValues = index === 0
-    ? [1, 0.955]
-    : index === total - 1
-      ? [0.985, 1]
-      : [0.985, 1, 1, 0.955];
-  const scale = useTransform(progress, scaleRange, scaleValues);
-  const imageScale = useTransform(progress, [0, 1], [1, 1.055]);
-  const cardProgress = useTransform(
-    progress,
-    index === total - 1
-      ? [entryEnd, 1]
-      : [entryEnd, nextEntryEnd],
-    ["0%", "100%"]
-  );
-  const hasLiveSite = Boolean(project.liveUrl);
+  const scale = useTransform(progress, range, [1, targetScale]);
+  const opacity = useTransform(progress, range, [1, index === total - 1 ? 1 : 0.65]);
 
   return (
-    <motion.div
-      style={{
-        y: stacked ? y : 0,
-        scale: stacked ? scale : 1,
-        opacity: 1,
-        zIndex: index + 1,
-        pointerEvents: stacked && !isActive ? "none" : "auto",
-      }}
-      aria-hidden={stacked ? !isActive : undefined}
-      className={stacked ? "absolute inset-x-0 top-0" : "relative w-full"}
+    <div
+      ref={containerRef}
+      className="sticky top-20 md:top-24 flex items-center justify-center py-4"
     >
-      <div className={`bg-surface border border-stroke rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ${stacked ? "h-[min(760px,calc(100vh-175px))]" : "h-auto"}`}>
-        <div className={`grid grid-cols-1 min-h-[420px] ${stacked ? "grid-rows-[clamp(160px,24vh,280px)_minmax(0,1fr)] h-full" : "grid-rows-[minmax(220px,0.7fr)_auto] h-auto"}`}>
-          {/* Image side (top) */}
-          <div className={`relative overflow-hidden ${stacked ? "min-h-0" : "min-h-[220px]"}`}>
-            <motion.img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover origin-center"
-              style={{ scale: imageScale }}
-            />
-            <div
-              className={`absolute inset-0 bg-gradient-to-tr ${project.gradient} opacity-30 mix-blend-overlay`}
-            />
-            
-            {/* Scroll Progress Indicator for Hold Phase */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-20" />
-            <motion.div 
-              className="absolute top-0 left-0 h-1 bg-white/60 z-20 origin-left"
-              style={{ width: cardProgress }}
-            />
-            <div
-              className="absolute inset-0 opacity-20 mix-blend-multiply"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle, #000 1px, transparent 1px)",
-                backgroundSize: "4px 4px",
-              }}
-            />
-          </div>
+      <motion.article
+        style={{
+          scale,
+          opacity,
+          top: `calc(10% + ${index * 24}px)`,
+        }}
+        className="group relative w-full max-w-[1060px] overflow-hidden rounded-3xl border border-white/[0.09] bg-[#0c0c0e]/95 p-6 sm:p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all duration-400 hover:border-white/[0.18]"
+      >
+        {/* Subtle Ambient Accent Glow */}
+        <div
+          className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full blur-[100px] transition-opacity duration-500"
+          style={{ background: project.glowColor }}
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
-          {/* Text side (bottom) */}
-          <div className={`relative px-6 flex flex-col gap-3 bg-surface z-10 ${stacked ? "justify-center py-5 md:py-6" : "py-4"}`}>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 items-center">
+          {/* Left Column: Project Info & Metrics */}
+          <div className="flex flex-col justify-between space-y-6 lg:col-span-7">
             <div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4 text-[10px] md:text-xs text-muted uppercase tracking-[0.2em] md:tracking-[0.25em] [&>span]:whitespace-nowrap">
-                <span>{project.category}</span>
-                <span className="w-1 h-1 rounded-full bg-stroke" />
-                <span>{project.year}</span>
-                <span className="w-1 h-1 rounded-full bg-stroke" />
-                <span className="text-text-primary tabular-nums">
-                  {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+              {/* Category & Meta */}
+              <div className="flex flex-wrap items-center gap-2.5 text-xs text-neutral-400 mb-3">
+                <span className="font-semibold uppercase tracking-widest text-neutral-300">
+                  {project.category}
+                </span>
+                <span className="text-neutral-600">•</span>
+                <span className="font-mono text-neutral-400">{project.year}</span>
+                <span className="text-neutral-600">•</span>
+                <span className="font-mono text-neutral-400">
+                  0{index + 1} / 0{total}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-display italic text-text-primary leading-[1.05] mb-3">
+
+              {/* Award Badge if present */}
+              {project.badge && (
+                <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-300">
+                  <Award className="h-3.5 w-3.5" />
+                  <span>{project.badge}</span>
+                </div>
+              )}
+
+              {/* Title */}
+              <h3 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
                 {project.title}
               </h3>
-              <div className="flex flex-wrap gap-2 mb-3">
+
+              {/* Description */}
+              <p className="mt-3 text-sm leading-relaxed text-neutral-300 sm:text-[14px]">
+                {renderDescription(project.description)}
+              </p>
+            </div>
+
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {project.metrics.map((m) => (
+                <div
+                  key={m.label}
+                  className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3.5 sm:p-4 transition-colors hover:border-white/15 hover:bg-white/[0.04]"
+                >
+                  <span className="font-display text-2xl font-bold italic tracking-tight text-white sm:text-3xl">
+                    {m.value}
+                  </span>
+                  <p className="mt-1 text-xs font-medium text-neutral-200">
+                    {m.label}
+                  </p>
+                  {m.subtext && (
+                    <p className="text-[10px] text-neutral-400 leading-tight mt-0.5">
+                      {m.subtext}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Tech Stack Pills & CTA */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2 border-t border-white/[0.05]">
+              <div className="flex flex-wrap gap-1.5 max-w-md">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs px-3 py-1.5 rounded-full border border-stroke text-muted bg-bg/40"
+                    className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-xs font-medium text-neutral-400"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
-              <p className="text-muted text-sm md:text-base leading-relaxed max-w-2xl mb-3">
-                {renderDescription(project.description, project.accentColor)}
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-end">
-              {/* Highlighted metrics */}
-              {project.metrics ? (
-                <div className="grid grid-cols-2 gap-3 max-w-xl w-full">
-                  {project.metrics.map((m) => (
-                    <div
-                      key={m.label}
-                      className="relative rounded-2xl border border-stroke bg-bg/40 p-3 overflow-hidden group hover:border-white/20 transition-colors"
-                    >
-                      {/* Subtle background glow */}
-                      <div className={`absolute -inset-4 opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500 bg-current ${project.accentColor}`} />
-                      
-                      <div className={`relative text-3xl font-display italic leading-none mb-2 drop-shadow-md ${project.accentColor}`}>
-                        {m.value}
-                      </div>
-                      <div className="relative text-[10px] uppercase tracking-[0.12em] text-text-primary leading-snug">
-                        {m.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div />
+              {project.liveUrl && (
+                <motion.a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2.5 text-xs font-semibold text-blue-200 transition-all duration-300 hover:border-blue-400/60 hover:bg-blue-500/20 hover:text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.25)]"
+                >
+                  <span>View Live Site</span>
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </motion.a>
               )}
-
-              <div className="flex flex-col gap-4 md:items-end h-full justify-end">
-                {hasLiveSite ? (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    tabIndex={!stacked || isActive ? 0 : -1}
-                    className="group relative inline-flex w-full items-center justify-between overflow-hidden rounded-full border border-stroke bg-bg/60 text-text-primary shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent md:w-auto md:min-w-[180px]"
-                  >
-                    <span className="absolute inset-0 rounded-full accent-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <span className="absolute inset-[1px] rounded-full bg-bg/95" />
-                    <div className="relative flex items-center gap-3 px-6 py-4">
-                      <span className="h-2 w-2 rounded-full bg-[#4E85BF]" />
-                      <span className="text-[15px] font-medium tracking-[0.01em] text-text-primary">
-                        View live site
-                      </span>
-                    </div>
-                    <span className="relative mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stroke bg-surface transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:border-white/15">
-                      <svg
-                        className="h-4 w-4 text-muted transition-colors duration-300 group-hover:text-text-primary"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                    </span>
-                  </a>
-                ) : (
-                  <a
-                    href="#"
-                    tabIndex={!stacked || isActive ? 0 : -1}
-                    className="group inline-flex items-center justify-center gap-3 rounded-2xl border border-stroke bg-bg/40 px-6 py-4 text-sm font-medium text-text-primary transition-colors duration-300 hover:border-white/20 hover:bg-bg/70 w-full md:w-auto md:min-w-[200px]"
-                  >
-                    <span>View case study</span>
-                    <svg
-                      className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path d="M7 17L17 7M17 7H7M17 7V17" />
-                    </svg>
-                  </a>
-                )}
-              </div>
             </div>
           </div>
+
+          {/* Right Column: High Quality Preview Image */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/80 shadow-2xl lg:col-span-5 aspect-[16/11]">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="h-full w-full object-cover origin-center"
+            />
+            <div
+              className={`pointer-events-none absolute inset-0 bg-gradient-to-t ${project.gradient}`}
+            />
+          </div>
+        </div>
+      </motion.article>
+    </div>
+  );
+};
+
+const SelectedWorks = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.2,
+  });
+
+  return (
+    <section id="projects" ref={containerRef} className="relative bg-[#09090b] py-20 md:py-28">
+      <div className="relative mx-auto w-full max-w-[1060px] px-6 sm:px-8 md:px-12">
+        {/* Section Header */}
+        <div className="mb-12 md:mb-16">
+          <div className="flex items-center gap-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">
+              Selected Work
+            </span>
+          </div>
+
+          <div className="mt-3 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <h2 className="text-3xl font-semibold tracking-tight text-neutral-100 sm:text-4xl md:text-5xl">
+              Featured <span className="font-display italic text-neutral-300 font-normal">projects.</span>
+            </h2>
+
+            <p className="max-w-xs text-xs leading-relaxed text-neutral-400 sm:text-sm">
+              Production AI tooling, security static analysis, and multi-modal computer vision applications.
+            </p>
+          </div>
+        </div>
+
+        {/* Fluid Stacking Cards Container */}
+        <div className="relative">
+          {projects.map((project, i) => {
+            const targetScale = 1 - (projects.length - i) * 0.04;
+            return (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                index={i}
+                total={projects.length}
+                range={[i * 0.45, 1]}
+                targetScale={targetScale}
+                progress={smoothProgress}
+              />
+            );
+          })}
         </div>
       </div>
-    </motion.div>
+    </section>
   );
 };
 
