@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import Hls from "hls.js";
 import Navbar from "./Navbar";
@@ -105,12 +106,21 @@ const Hero = () => {
           Architecture.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="blur-in flex items-center gap-4">
+        {/* CTA & Social Buttons */}
+        <div className="blur-in flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <ContactButton />
           <ViewResumeButton />
+          <SocialIconButton
+            href="https://github.com/klazhiki"
+            icon={Github}
+            label="GitHub Profile"
+          />
+          <SocialIconButton
+            href="https://www.linkedin.com/in/ethan-joseph/"
+            icon={Linkedin}
+            label="LinkedIn Profile"
+          />
         </div>
-
 
       </div>
 
@@ -124,6 +134,34 @@ const Hero = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const SocialIconButton = ({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+}) => {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      title={label}
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className="group relative inline-flex h-[46px] w-[46px] sm:h-[50px] sm:w-[50px] items-center justify-center overflow-hidden rounded-full border border-white/[0.14] bg-neutral-950/45 text-neutral-300 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),0_10px_35px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/35 hover:bg-white/[0.1] hover:text-white hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.65),0_0_20px_rgba(255,255,255,0.15)]"
+    >
+      {/* Specular hairline top sheen */}
+      <span className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
+      <Icon className="relative z-10 h-4 w-4 sm:h-[18px] sm:w-[18px] transition-transform duration-200 group-hover:scale-110" />
+    </motion.a>
   );
 };
 

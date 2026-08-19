@@ -6,8 +6,8 @@ import Hls from "hls.js";
 const VIDEO_SRC = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
 
 const socials = [
-  { name: "LinkedIn", href: "#" },
-  { name: "GitHub", href: "#" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/ethan-joseph/" },
+  { name: "GitHub", href: "https://github.com/klazhiki" },
 ];
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number];
