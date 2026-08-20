@@ -26,9 +26,9 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    id: "zivko",
+    id: "donemaker",
     role: "Software Engineer Intern",
-    company: "Zivko Online Solutions",
+    company: "DoneMaker",
     period: "May 2026 – August 2026",
     location: "Ontario, Canada",
     type: "Full-Stack Analytics",
