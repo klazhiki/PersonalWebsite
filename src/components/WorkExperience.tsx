@@ -27,7 +27,7 @@ interface Experience {
 const experiences: Experience[] = [
   {
     id: "zivko",
-    role: "Software Developer",
+    role: "Software Engineer Intern",
     company: "Zivko Online Solutions",
     period: "May 2026 – August 2026",
     location: "Ontario, Canada",
