@@ -4,15 +4,15 @@ import { Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import Hls from "hls.js";
 import Navbar from "./Navbar";
+import mcmasterShield from "@/assets/mcmaster-shield.png";
+import donemakerLogo from "@/assets/donemaker-logo.jpg";
 
-const ROLES = ["Software", "Fullstack", "Curious", "Aspiring"];
 const VIDEO_SRC =
   "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [roleIndex, setRoleIndex] = useState(0);
 
   // HLS video setup
   useEffect(() => {
@@ -27,14 +27,6 @@ const Hero = () => {
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = VIDEO_SRC;
     }
-  }, []);
-
-  // Role cycling
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRoleIndex((i) => (i + 1) % ROLES.length);
-    }, 2000);
-    return () => clearInterval(interval);
   }, []);
 
   // GSAP entrance
@@ -90,20 +82,39 @@ const Hero = () => {
           Ethan Joseph
         </h1>
 
-        <p className="blur-in text-lg md:text-xl lg:text-2xl text-muted mb-10">
-          {/^[aeiou]/i.test(ROLES[roleIndex]) ? "An" : "A"}{" "}
-          <span
-            key={roleIndex}
-            className="font-display italic text-text-primary animate-role-fade-in inline-block"
-          >
-            {ROLES[roleIndex]}
-          </span>{" "}
-          Engineer in the making.
-        </p>
+        <div className="blur-in flex flex-col items-center justify-center gap-2 mb-8">
+          <p className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-lg md:text-xl lg:text-2xl text-muted">
+            <span className="font-display italic text-text-primary">
+              Software Engineering
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              @ McMaster
+              <img
+                src={mcmasterShield}
+                alt="McMaster University Shield"
+                className="inline-block h-[18px] sm:h-[21px] md:h-[23px] w-auto object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)] translate-y-[-0.5px]"
+              />
+            </span>
+          </p>
 
-        <p className="blur-in text-sm md:text-base text-muted leading-relaxed max-w-md mb-12">
-          McMaster Engineering 1 Student, AI Driven Systems, Software
-          Architecture.
+          <p className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-base md:text-lg lg:text-xl text-muted">
+            <span className="text-muted/70 text-sm md:text-base">prev.</span>
+            <span className="font-display italic text-text-primary">
+              Software Engineer Intern
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              @ DoneMaker
+              <img
+                src={donemakerLogo}
+                alt="DoneMaker Logo"
+                className="inline-block h-[17px] w-[17px] sm:h-[19px] sm:w-[19px] rounded-full object-cover border border-white/20 drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]"
+              />
+            </span>
+          </p>
+        </div>
+
+        <p className="blur-in text-sm md:text-base text-muted leading-relaxed max-w-lg mb-12">
+          Full-stack and backend engineering focused on applied AI and agentic systems.
         </p>
 
         {/* CTA & Social Buttons */}
